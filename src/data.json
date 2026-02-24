@@ -1,0 +1,352 @@
+[
+  {
+    "id": "evt_001",
+    "eventName": "Tech Conference 2024",
+    "type": "Conference",
+    "img": "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?q=80&w=2912&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-11-15",
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "location": {
+      "venue": "Grand Convention Center",
+      "address": "123 Convention Way",
+      "city": "San Francisco",
+      "state": "CA",
+      "postalCode": "94102",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Tech Events Inc",
+      "email": "info@techevents.com",
+      "phone": "+1 (555) 123-4567"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 299,
+      "earlyBird": 199
+    },
+    "capacity": 500,
+    "availableSpots": 234,
+    "description": "Annual tech conference covering the latest trends in technology, AI, and innovation.",
+    "tags": ["technology", "conference", "networking", "AI", "innovation"],
+    "hosts": ["Alice Johnson", "Bob Smith", "Charlie Davis"],
+    "status": "active",
+    "createdAt": "2024-05-01T10:00:00Z",
+    "updatedAt": "2024-05-15T14:30:00Z"
+  },
+  {
+    "id": "evt_002",
+    "eventName": "Art Expo 2024",
+    "type": "Art Exhibition",
+    "img": "https://images.unsplash.com/photo-1518998053901-5348d3961a04?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-12-20",
+    "startTime": "10:00",
+    "endTime": "18:00",
+    "location": {
+      "venue": "Art Gallery Downtown",
+      "address": "456 Gallery Street",
+      "city": "New York",
+      "state": "NY",
+      "postalCode": "10001",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Downtown Art Gallery",
+      "email": "info@downtownart.com",
+      "phone": "+1 (555) 234-5678"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 25,
+      "earlyBird": 20
+    },
+    "capacity": 300,
+    "availableSpots": 178,
+    "description": "An exhibition featuring contemporary art from local and international artists.",
+    "tags": ["art", "exhibition", "contemporary", "culture", "gallery"],
+    "hosts": ["Dana Lee", "Eli Brown", "Fiona White"],
+    "status": "active",
+    "createdAt": "2024-06-01T09:00:00Z",
+    "updatedAt": "2024-06-20T11:15:00Z"
+  },
+  {
+    "id": "evt_003",
+    "eventName": "Music Festival 2024",
+    "type": "Live Music",
+    "img": "https://images.unsplash.com/photo-1582711012124-a56cf82307a0?q=80&w=2740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-10-25",
+    "startTime": "12:00",
+    "endTime": "23:00",
+    "location": {
+      "venue": "Central Park",
+      "address": "Grant Park, 337 E Randolph St",
+      "city": "Chicago",
+      "state": "IL",
+      "postalCode": "60601",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Chicago Music Events",
+      "email": "info@chicagomusic.com",
+      "phone": "+1 (555) 345-6789"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 89,
+      "earlyBird": 65
+    },
+    "capacity": 5000,
+    "availableSpots": 2341,
+    "description": "A three-day music festival featuring bands and solo artists from various genres.",
+    "tags": ["music", "festival", "live", "outdoor", "bands"],
+    "hosts": ["George Harris", "Hannah Clark", "Ian Martinez"],
+    "status": "active",
+    "createdAt": "2024-05-15T12:00:00Z",
+    "updatedAt": "2024-07-01T16:45:00Z"
+  },
+  {
+    "id": "evt_004",
+    "eventName": "Business Summit 2024",
+    "type": "Business",
+    "img": "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-11-10",
+    "startTime": "08:30",
+    "endTime": "16:30",
+    "location": {
+      "venue": "Downtown Business Center",
+      "address": "789 Business Blvd",
+      "city": "Los Angeles",
+      "state": "CA",
+      "postalCode": "90210",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "LA Business Leaders",
+      "email": "summit@labusiness.com",
+      "phone": "+1 (555) 456-7890"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 450,
+      "earlyBird": 350
+    },
+    "capacity": 200,
+    "availableSpots": 67,
+    "description": "A summit for business leaders to discuss strategies and trends in the industry.",
+    "tags": ["business", "leadership", "networking", "strategy", "professional"],
+    "hosts": ["Jack Wilson", "Kelly Thompson", "Liam Johnson"],
+    "status": "active",
+    "createdAt": "2024-07-01T14:00:00Z",
+    "updatedAt": "2024-08-15T10:30:00Z"
+  },
+  {
+    "id": "evt_005",
+    "eventName": "Health and Wellness Fair 2024",
+    "type": "Health & Wellness",
+    "img": "https://images.unsplash.com/photo-1519056312994-33952f238fac?q=80&w=2762&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-10-22",
+    "startTime": "09:00",
+    "endTime": "17:00",
+    "location": {
+      "venue": "Community Center",
+      "address": "321 Wellness Way",
+      "city": "Miami",
+      "state": "FL",
+      "postalCode": "33101",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Miami Wellness Association",
+      "email": "info@miamiwellness.org",
+      "phone": "+1 (555) 567-8901"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 0
+    },
+    "capacity": 800,
+    "availableSpots": 523,
+    "description": "A fair promoting health and wellness with workshops, screenings, and activities.",
+    "tags": ["health", "wellness", "fitness", "nutrition", "community"],
+    "hosts": ["Megan Taylor", "Nathan Roberts", "Olivia King"],
+    "status": "active",
+    "createdAt": "2024-08-01T11:00:00Z",
+    "updatedAt": "2024-09-10T09:20:00Z"
+  },
+  {
+    "id": "evt_006",
+    "eventName": "Film Festival 2024",
+    "type": "Film & Media",
+    "img": "https://images.unsplash.com/photo-1545630478-cf62cdd247d1?q=80&w=2864&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-11-18",
+    "startTime": "18:00",
+    "endTime": "22:00",
+    "location": {
+      "venue": "City Cinema",
+      "address": "654 Film Street",
+      "city": "Seattle",
+      "state": "WA",
+      "postalCode": "98101",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Seattle Independent Films",
+      "email": "festival@seattlefilms.org",
+      "phone": "+1 (555) 678-9012"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 35,
+      "earlyBird": 25
+    },
+    "capacity": 150,
+    "availableSpots": 89,
+    "description": "A festival showcasing independent films from around the world.",
+    "tags": ["film", "cinema", "independent", "festival", "entertainment"],
+    "hosts": ["Paul Walker", "Quinn Adams", "Rachel Green"],
+    "status": "active",
+    "createdAt": "2024-09-01T13:30:00Z",
+    "updatedAt": "2024-10-05T15:45:00Z"
+  },
+  {
+    "id": "evt_007",
+    "eventName": "Literary Conference 2024",
+    "type": "Literature",
+    "img": "https://images.unsplash.com/photo-1564910443496-5fd2d76b47fa?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-12-05",
+    "startTime": "10:00",
+    "endTime": "16:00",
+    "location": {
+      "venue": "Library Auditorium",
+      "address": "987 Literature Lane",
+      "city": "Boston",
+      "state": "MA",
+      "postalCode": "02101",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Boston Writers Guild",
+      "email": "conference@bostonwriters.org",
+      "phone": "+1 (555) 789-0123"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 75,
+      "earlyBird": 55
+    },
+    "capacity": 250,
+    "availableSpots": 156,
+    "description": "A conference for writers, readers, and publishers to discuss the latest in literature.",
+    "tags": ["literature", "writing", "books", "authors", "publishing"],
+    "hosts": ["Samuel Wright", "Tina Evans", "Ursula Baker"],
+    "status": "active",
+    "createdAt": "2024-10-01T08:45:00Z",
+    "updatedAt": "2024-10-20T12:10:00Z"
+  },
+  {
+    "id": "evt_008",
+    "eventName": "Food and Wine Festival 2024",
+    "type": "Food & Drink",
+    "img": "https://images.unsplash.com/photo-1598306442928-4d90f32c6866?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-10-6",
+    "startTime": "11:00",
+    "endTime": "20:00",
+    "location": {
+      "venue": "Harbor Park",
+      "address": "111 Harbor View Drive",
+      "city": "San Diego",
+      "state": "CA",
+      "postalCode": "92101",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "San Diego Culinary Arts",
+      "email": "festival@sdculinary.com",
+      "phone": "+1 (555) 890-1234"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 65,
+      "earlyBird": 45
+    },
+    "capacity": 1000,
+    "availableSpots": 423,
+    "description": "A festival celebrating gourmet food and fine wines from local and international vendors.",
+    "tags": ["food", "wine", "culinary", "gourmet", "festival"],
+    "hosts": ["Victor Scott", "Wendy Lewis", "Xander Perry"],
+    "status": "active",
+    "createdAt": "2024-08-15T16:20:00Z",
+    "updatedAt": "2024-09-25T14:55:00Z"
+  },
+  {
+    "id": "evt_009",
+    "eventName": "Environmental Summit 2024",
+    "type": "Environment",
+    "img": "https://images.unsplash.com/photo-1569163139599-0f4517e36f51?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-11-28",
+    "startTime": "09:30",
+    "endTime": "17:30",
+    "location": {
+      "venue": "Green Conference Center",
+      "address": "222 Sustainability Street",
+      "city": "Portland",
+      "state": "OR",
+      "postalCode": "97201",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Green Future Oregon",
+      "email": "summit@greenfuture.org",
+      "phone": "+1 (555) 901-2345"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 125,
+      "earlyBird": 95
+    },
+    "capacity": 400,
+    "availableSpots": 267,
+    "description": "A summit focused on environmental issues and sustainable practices.",
+    "tags": ["environment", "sustainability", "climate", "green", "conservation"],
+    "hosts": ["Yara Morgan", "Zane Collins", "Aaron Brooks"],
+    "status": "active",
+    "createdAt": "2024-09-20T10:15:00Z",
+    "updatedAt": "2024-10-30T13:40:00Z"
+  },
+  {
+    "id": "evt_010",
+    "eventName": "Startup Pitch Night 2024",
+    "type": "Startup Pitch",
+    "img": "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2874&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "date": "2025-12-15",
+    "startTime": "18:30",
+    "endTime": "21:30",
+    "location": {
+      "venue": "Innovation Hub",
+      "address": "333 Startup Avenue",
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "country": "USA"
+    },
+    "organizer": {
+      "name": "Austin Startup Network",
+      "email": "pitch@austinstartup.com",
+      "phone": "+1 (555) 012-3456"
+    },
+    "price": {
+      "currency": "SEK",
+      "amount": 20,
+      "earlyBird": 15
+    },
+    "capacity": 120,
+    "availableSpots": 78,
+    "description": "An event where startups pitch their ideas to potential investors and the community.",
+    "tags": ["startup", "pitch", "entrepreneurship", "innovation", "networking"],
+    "hosts": ["Becky Hall", "Chris Jones", "David Wright"],
+    "status": "active",
+    "createdAt": "2024-10-15T17:00:00Z",
+    "updatedAt": "2024-11-01T11:25:00Z"
+  }
+]
+  

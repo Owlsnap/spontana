@@ -1,0 +1,165 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.8) 100%);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 3px solid var(--color-border-white);
+    box-shadow: 0 0 30px rgba(255, 102, 196, 0.1), 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: var(--space-md) var(--space-lg);
+    position: sticky;
+    top: 0;
+    height: 80px;
+    z-index: 100;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%);
+}
+
+.logo {
+    height: 5rem;
+    margin-left: -1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 10px var(--color-accent-glow));
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 20px var(--color-accent-glow));
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.nav-buttons p {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+    font-style: italic;
+}
+
+.nav-button {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: var(--space-sm) var(--space-lg);
+    border: 2px solid var(--color-accent);
+    border-radius: 0;
+    background: transparent;
+    color: var(--color-accent);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+
+.nav-button:first-child {
+    border-color: var(--color-tertiary);
+    color: var(--color-tertiary);
+}
+
+.nav-button:hover {
+    background-color: var(--color-accent);
+    color: var(--color-text-inverse);
+    transform: translateY(-2px) skew(-3deg);
+    box-shadow: 0 0 25px var(--color-accent-glow), 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button:first-child:hover {
+    background-color: var(--color-tertiary);
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 25px var(--color-tertiary-glow), 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px) skew(-3deg);
+}
+
+.language-toggle {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    padding: var(--space-sm) var(--space-md);
+    border: 2px solid var(--color-border-white);
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+}
+
+.language-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(255, 102, 196, 0.3), 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+    .navbar {
+        padding: var(--space-sm) var(--space-md);
+        height: 60px;
+    }
+    
+    .logo {
+        height: 3rem;
+        margin-left: 0;
+    }
+    
+    .nav-buttons {
+        gap: var(--space-sm);
+    }
+    
+    .nav-button {
+        font-size: var(--text-xs);
+        padding: var(--space-xs) var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        padding: var(--space-xs) var(--space-sm);
+        height: 50px;
+    }
+
+    .logo {
+        height: 2.5rem;
+    }
+
+    .nav-button {
+        font-size: var(--text-xs);
+        padding: var(--space-xs) var(--space-sm);
+    }
+}
+
+/* Auth-aware navbar additions */
+.nav-user-email {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-style: italic;
+    max-width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-button-myevents {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-color: var(--color-tertiary);
+    color: var(--color-tertiary);
+}
+
+.nav-button-myevents:hover {
+    background-color: var(--color-tertiary);
+    color: var(--color-text-inverse);
+    box-shadow: 0 0 25px var(--color-tertiary-glow), 0 5px 15px rgba(0, 0, 0, 0.2);
+}

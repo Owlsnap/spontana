@@ -1,0 +1,415 @@
+export const translations = {
+  en: {
+    // Navbar
+    navbar: {
+      login: "Log In",
+      createAccount: "Create Account",
+    },
+
+    // Welcome Page
+    welcome: {
+      liveNow: "🔴 LIVE NOW",
+      activeEventsToday: "ACTIVE EVENTS TODAY",
+      createEvent: "Create Event",
+      discoverEvents: "Discover Events",
+      foundEvents: "{{count}} event",
+      foundEvents_plural: "{{count}} events",
+      noEvents: "Nothing here. Try loosening the filters.",
+      justNow: "Just Now",
+    },
+
+    // Quick Categories
+    categories: {
+      all: "ALL",
+      music: "MUSIC",
+      art: "ART",
+      food: "FOOD",
+      nightlife: "NIGHTLIFE",
+      business: "BUSINESS",
+    },
+
+    // Event Types
+    eventTypes: {
+      allTypes: "All Types",
+      liveMusic: "Live Music",
+      theatre: "Theatre",
+      artExhibition: "Art Exhibition",
+      filmMedia: "Film & Media",
+      nightlife: "Nightlife",
+      festival: "Festival",
+      foodDrink: "Food & Drink",
+      sports: "Sports",
+      family: "Family",
+      conference: "Conference",
+      business: "Business",
+      healthWellness: "Health & Wellness",
+      literature: "Literature",
+      environment: "Environment",
+      startupPitch: "Startup Pitch",
+      buildNight: "Build Night",
+      other: "Other",
+    },
+
+    // Search & Filters
+    search: {
+      placeholder: "Search events, venues...",
+      allPrices: "All Prices",
+      free: "Free",
+      under50: "Under 50 SEK",
+      range50to200: "50 - 200 SEK",
+      over200: "200+ SEK",
+      allDates: "All Dates",
+      today: "Today",
+      thisWeek: "This Week",
+      thisMonth: "This Month",
+      nextMonth: "Next Month",
+      allLocations: "All Locations",
+      clearFilters: "Clear Filters",
+    },
+
+    // Event Card
+    eventCard: {
+      noEventsFound: "Nothing here. Try loosening the filters.",
+      noEventsMessage: "Adjust the filters or add one yourself.",
+      createEvent: "Create Event",
+      spotsLeft: "spots left",
+      free: "Free",
+    },
+
+    // Event Page
+    eventPage: {
+      status: {
+        active: "Active",
+        cancelled: "Cancelled",
+        completed: "Completed",
+      },
+      dateTime: "Date & Time",
+      date: "Date:",
+      startTime: "Start Time:",
+      endTime: "End Time:",
+      location: "Location",
+      organizer: "Organizer",
+      name: "Name:",
+      email: "Email:",
+      phone: "Phone:",
+      priceCapacity: "Price & Capacity",
+      price: "Price:",
+      free: "Free",
+      earlyBird: "Early Bird:",
+      maxAttendees: "Max Attendees:",
+      availableSpots: "Available Spots:",
+      description: "Description",
+      tags: "Tags",
+      hosts: "Hosts",
+      eventInfo: "Event Information",
+      created: "Created:",
+      lastUpdated: "Last Updated:",
+      rsvp: "RSVP",
+      save: "Save",
+      share: "Share",
+    },
+
+    // Create Event
+    createEvent: {
+      title: "Create a New Event",
+      eventName: "Event Name:",
+      category: "Category:",
+      selectCategory: "Select category",
+      date: "Date:",
+      startTime: "Start Time:",
+      endTime: "End Time:",
+      venue: "Venue/Location:",
+      venuePlaceholder: "e.g. Concert Hall, City Park",
+      city: "City:",
+      selectCity: "Select city",
+      address: "Address:",
+      addressPlaceholder: "Street and number",
+      organizer: "Organizer:",
+      email: "Email:",
+      price: "Price (SEK):",
+      pricePlaceholder: "0 for free event",
+      capacity: "Max Attendees:",
+      capacityPlaceholder: "50",
+      description: "Description:",
+      descriptionPlaceholder: "Describe your event...",
+      ticketUrl: "Ticket / Event URL (optional):",
+      ticketUrlPlaceholder: "https://...",
+      ticketUrlNote: "Link to ticket page or event website",
+      hostType: "Host Type:",
+      hostTypeOrganizer: "Organisatör",
+      hostTypePrivate: "Privat värd",
+      imageUrl: "Event Image (optional):",
+      cancel: "Cancel",
+      create: "Create Event",
+      recentEvents: "Recently Created Events:",
+    },
+
+    // Footer
+    footer: {
+      allRightsReserved: "All rights reserved",
+    },
+
+    // Common
+    common: {
+      loading: "Loading...",
+      error: "An error occurred",
+      save: "Save",
+      cancel: "Cancel",
+      delete: "Delete",
+      edit: "Edit",
+      close: "Close",
+    },
+
+    // Auth
+    auth: {
+      loginTitle: "Welcome back.",
+      loginSubtitle: "Stockholm is happening.",
+      signupTitle: "Get in.",
+      signupSubtitle: "Find something tonight.",
+      email: "Email",
+      password: "Password",
+      confirmPassword: "Confirm Password",
+      loginButton: "Log In",
+      signupButton: "Sign Up",
+      logout: "Log Out",
+      loggedOut: "Logged out successfully",
+      myEvents: "My Events",
+      noMyEvents: "You haven't created any events yet.",
+      eventUpdated: "Event updated!",
+      eventDeleted: "Event deleted",
+      undo: "Undo",
+      passwordMismatch: "Passwords do not match",
+      loginSuccess: "You're in.",
+      signupSuccess: "Account created. Check your email to confirm.",
+      noAccount: "New here?",
+      hasAccount: "Already in?",
+    },
+  },
+
+  sv: {
+    // Navbar
+    navbar: {
+      login: "Logga In",
+      createAccount: "Skapa Konto",
+    },
+
+    // Welcome Page
+    welcome: {
+      liveNow: "🔴 LIVE NU",
+      activeEventsToday: "AKTIVA EVENTS IDAG",
+      createEvent: "Skapa Event",
+      discoverEvents: "Upptäck Events",
+      foundEvents: "{{count}} event",
+      foundEvents_plural: "{{count}} events",
+      noEvents: "Ingenting här. Prova att ändra filtren.",
+      justNow: "Just Nu",
+    },
+
+    // Quick Categories
+    categories: {
+      all: "ALLA",
+      music: "MUSIK",
+      art: "KONST",
+      food: "MAT",
+      nightlife: "NATTLIV",
+      business: "BUSINESS",
+    },
+
+    // Event Types
+    eventTypes: {
+      allTypes: "Alla Typer",
+      liveMusic: "Live Musik",
+      theatre: "Teater",
+      artExhibition: "Konstutställning",
+      filmMedia: "Film & Media",
+      nightlife: "Nattliv",
+      festival: "Festival",
+      foodDrink: "Mat & Dryck",
+      sports: "Sport",
+      family: "Familj",
+      conference: "Konferens",
+      business: "Business",
+      healthWellness: "Hälsa & Wellness",
+      literature: "Litteratur",
+      environment: "Miljö",
+      startupPitch: "Startup Pitch",
+      buildNight: "Build Night",
+      other: "Övrigt",
+    },
+
+    // Search & Filters
+    search: {
+      placeholder: "Sök events, platser...",
+      allPrices: "Alla Priser",
+      free: "Gratis",
+      under50: "Under 50 SEK",
+      range50to200: "50 - 200 SEK",
+      over200: "200+ SEK",
+      allDates: "Alla Datum",
+      today: "Idag",
+      thisWeek: "Denna Vecka",
+      thisMonth: "Denna Månad",
+      nextMonth: "Nästa Månad",
+      allLocations: "Alla Platser",
+      clearFilters: "Rensa Filter",
+    },
+
+    // Event Card
+    eventCard: {
+      noEventsFound: "Ingenting här. Prova att ändra filtren.",
+      noEventsMessage: "Ändra filtren eller lägg till ett eget event.",
+      createEvent: "Skapa Event",
+      spotsLeft: "platser kvar",
+      free: "Gratis",
+    },
+
+    // Event Page
+    eventPage: {
+      status: {
+        active: "Aktiv",
+        cancelled: "Inställd",
+        completed: "Genomförd",
+      },
+      dateTime: "Datum & Tid",
+      date: "Datum:",
+      startTime: "Starttid:",
+      endTime: "Sluttid:",
+      location: "Plats",
+      organizer: "Organisatör",
+      name: "Namn:",
+      email: "E-post:",
+      phone: "Telefon:",
+      priceCapacity: "Pris & Kapacitet",
+      price: "Pris:",
+      free: "Gratis",
+      earlyBird: "Early Bird:",
+      maxAttendees: "Max deltagare:",
+      availableSpots: "Lediga platser:",
+      description: "Beskrivning",
+      tags: "Taggar",
+      hosts: "Värdar",
+      eventInfo: "Event Information",
+      created: "Skapad:",
+      lastUpdated: "Senast uppdaterad:",
+      rsvp: "Anmäl dig",
+      save: "Spara",
+      share: "Dela",
+    },
+
+    // Create Event
+    createEvent: {
+      title: "Skapa ett nytt event",
+      eventName: "Eventnamn:",
+      category: "Kategori:",
+      selectCategory: "Välj kategori",
+      date: "Datum:",
+      startTime: "Starttid:",
+      endTime: "Sluttid:",
+      venue: "Plats/Lokal:",
+      venuePlaceholder: "t.ex. Konserthuset, Folkets Park",
+      city: "Stad:",
+      selectCity: "Välj stad",
+      address: "Adress:",
+      addressPlaceholder: "Gata och nummer",
+      organizer: "Organisatör:",
+      email: "E-post:",
+      price: "Pris (SEK):",
+      pricePlaceholder: "0 för gratis event",
+      capacity: "Max antal deltagare:",
+      capacityPlaceholder: "50",
+      description: "Beskrivning:",
+      descriptionPlaceholder: "Beskriv ditt event...",
+      ticketUrl: "Biljett / Event-URL (valfritt):",
+      ticketUrlPlaceholder: "https://...",
+      ticketUrlNote: "Länk till biljettssida eller evenemangssida",
+      hostType: "Värdtyp:",
+      hostTypeOrganizer: "Organisatör",
+      hostTypePrivate: "Privat värd",
+      imageUrl: "Eventbild (valfritt):",
+      cancel: "Avbryt",
+      create: "Skapa Event",
+      recentEvents: "Senast skapade events:",
+    },
+
+    // Footer
+    footer: {
+      allRightsReserved: "Alla rättigheter reserverade",
+    },
+
+    // Common
+    common: {
+      loading: "Laddar...",
+      error: "Ett fel uppstod",
+      save: "Spara",
+      cancel: "Avbryt",
+      delete: "Ta bort",
+      edit: "Redigera",
+      close: "Stäng",
+    },
+
+    // Auth
+    auth: {
+      loginTitle: "Välkommen tillbaka.",
+      loginSubtitle: "Stockholm händer.",
+      signupTitle: "Kom in.",
+      signupSubtitle: "Hitta något ikväll.",
+      email: "E-post",
+      password: "Lösenord",
+      confirmPassword: "Bekräfta Lösenord",
+      loginButton: "Logga In",
+      signupButton: "Registrera",
+      logout: "Logga Ut",
+      loggedOut: "Du är nu utloggad",
+      myEvents: "Mina Events",
+      noMyEvents: "Du har inte skapat några events än.",
+      eventUpdated: "Event uppdaterat!",
+      eventDeleted: "Event borttaget",
+      undo: "Ångra",
+      passwordMismatch: "Lösenorden matchar inte",
+      loginSuccess: "Du är inne.",
+      signupSuccess: "Konto skapat. Kolla din e-post för att bekräfta.",
+      noAccount: "Ny här?",
+      hasAccount: "Redan inne?",
+    },
+  },
+};
+
+// Helper function to get nested translation
+export const getTranslation = (translations, key, params = {}) => {
+  const keys = key.split('.');
+  let value = translations;
+
+  for (const k of keys) {
+    value = value?.[k];
+    if (value === undefined) return key;
+  }
+
+  // Replace parameters like {{count}}
+  if (typeof value === 'string') {
+    return value.replace(/\{\{(\w+)\}\}/g, (match, param) => {
+      return params[param] !== undefined ? params[param] : match;
+    });
+  }
+
+  return value || key;
+};
+
+// Map English event types to translation keys
+export const eventTypeMap = {
+  "Conference": "conference",
+  "Art Exhibition": "artExhibition",
+  "Live Music": "liveMusic",
+  "Business": "business",
+  "Health & Wellness": "healthWellness",
+  "Film & Media": "filmMedia",
+  "Literature": "literature",
+  "Food Festival": "foodFestival",
+  "Environment": "environment",
+  "Startup Pitch": "startupPitch",
+  "Sports": "sports",
+};
+
+// Get event type translation key from English type
+export const getEventTypeKey = (englishType) => {
+  return eventTypeMap[englishType] || englishType;
+};
