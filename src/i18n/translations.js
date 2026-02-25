@@ -147,6 +147,16 @@ export const translations = {
     // Footer
     footer: {
       allRightsReserved: "All rights reserved",
+      discover: "Discover",
+      events: "Events",
+      createEvent: "Create Event",
+      socialMedia: "Social Media",
+      contact: "Contact",
+      location: "Stockholm, Sweden",
+      newsletter: "Newsletter",
+      newsletterText: "Don't miss what's happening.",
+      emailPlaceholder: "Your email",
+      tagline: "Stockholm in your pocket.",
     },
 
     // Common
@@ -345,6 +355,16 @@ export const translations = {
     // Footer
     footer: {
       allRightsReserved: "Alla rättigheter reserverade",
+      discover: "Upptäck",
+      events: "Evenemang",
+      createEvent: "Skapa event",
+      socialMedia: "Sociala Medier",
+      contact: "Kontakt",
+      location: "Stockholm, Sverige",
+      newsletter: "Nyhetsbrev",
+      newsletterText: "Missa inte vad som händer.",
+      emailPlaceholder: "Din email",
+      tagline: "Stockholm i fickan.",
     },
 
     // Common

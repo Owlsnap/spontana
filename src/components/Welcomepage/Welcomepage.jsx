@@ -199,7 +199,7 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
                 {[...Array(4)].map((_, i) => (
                   <span key={i}>
                     {bannerCategories.map(cat => ` • ${cat.toUpperCase()}`).join('')}
-                    {` • 🔴 LIVE NU • `}<strong>{todayEventCount} AKTIVA EVENTS IDAG</strong>
+                    {` • ${t('welcome.liveNow')} • `}<strong>{todayEventCount} {t('welcome.activeEventsToday')}</strong>
                   </span>
                 ))}
               </div>
