@@ -162,11 +162,14 @@
     padding: var(--space-xs) var(--space-sm);
     line-height: 1;
     transition: border-color 0.2s, color 0.2s;
+    box-shadow: none;
 }
 
 .mobile-menu-close:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
+    box-shadow: none;
+    transform: none;
 }
 
 .mobile-menu-item {
@@ -185,12 +188,15 @@
     transition: background 0.2s, border-color 0.2s, color 0.2s;
     text-align: left;
     letter-spacing: 0.02em;
+    box-shadow: none;
 }
 
 .mobile-menu-item:hover {
     background: rgba(255, 102, 196, 0.1);
     border-color: var(--color-accent);
     color: var(--color-accent);
+    box-shadow: none;
+    transform: none;
 }
 
 .mobile-menu-email {

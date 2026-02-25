@@ -3,6 +3,7 @@
 //ska innehålla en sökfunktion som filtrerar eventCards efter användarens input
 
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import "./Navbar.css";
 import spontanaLogo from "../../assets/spontana-logo-nobg.png";
 import { useLanguage } from "../../i18n/LanguageContext";
@@ -75,8 +76,8 @@ const Navbar = () => {
         ☰
       </button>
 
-      {/* Mobile menu overlay */}
-      {menuOpen && (
+      {/* Mobile menu overlay — rendered via portal to escape navbar's clip-path */}
+      {menuOpen && createPortal(
         <div className="mobile-menu-overlay" onClick={() => setMenuOpen(false)}>
           <div className="mobile-menu" onClick={e => e.stopPropagation()}>
             <div className="mobile-menu-header">
@@ -114,7 +115,8 @@ const Navbar = () => {
               </>
             )}
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );
