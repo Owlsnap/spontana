@@ -323,55 +323,104 @@
 }
 
 @media (max-width: 768px) {
+    .upper-section-with-bg {
+        min-height: 45vh;
+    }
+
     .upperWelcomepage {
         flex-direction: column;
         text-align: center;
         gap: var(--space-xl);
-        padding: var(--space-2xl) var(--space-md);
+        padding: var(--space-xl) var(--space-sm);
+        min-height: 45vh;
+        clip-path: none;
     }
-    
+
     .hero-left {
         justify-content: center;
         text-align: center;
     }
-    
+
     .matrix-text {
         justify-content: center;
     }
-    
+
     .hero-title {
-        font-size: clamp(var(--text-xl), 5vw, var(--text-2xl));
+        font-size: clamp(1.4rem, 7vw, 2.2rem);
     }
-    
+
     .quick-categories {
         margin: var(--space-md) var(--space-sm);
         padding: 0 var(--space-sm);
     }
-    
+
     .category-buttons {
         padding: var(--space-sm);
         gap: var(--space-xs);
     }
-    
+
     .quick-btn {
         font-size: 0.7rem;
         padding: var(--space-xs) var(--space-sm);
     }
-    
+
     .hero-actions {
         flex-direction: column;
-        gap: var(--space-md);
+        gap: var(--space-sm);
+        padding: 0 var(--space-sm);
+    }
+
+    .cta-button {
+        width: 100%;
+        justify-content: center;
+        font-size: var(--text-base);
+        padding: var(--space-md) var(--space-lg);
+    }
+
+    .lowerWelcomepage {
+        padding: var(--space-lg) 0 var(--space-2xl);
+    }
+
+    #justNuH3 {
+        font-size: var(--text-xl);
+        padding: 0 var(--space-sm);
     }
 
     /* Rolling Banner Mobile */
     .rolling-banner-container {
-        bottom: -2px; /* Maintain consistent positioning */
+        bottom: -2px;
     }
-    
+
     .banner-content {
         font-size: 0.8rem;
         letter-spacing: 0.1rem;
         padding: 0.8rem 0;
+    }
+
+    .banner-content-live {
+        font-size: 0.7rem;
+        letter-spacing: 0.1rem;
+        padding: 0.3rem 0.6rem;
+        bottom: 3.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .upper-section-with-bg {
+        min-height: 40vh;
+    }
+
+    .upperWelcomepage {
+        min-height: 40vh;
+        padding: var(--space-lg) var(--space-xs);
+    }
+
+    .lowerWelcomepage {
+        padding: var(--space-md) 0 var(--space-xl);
+    }
+
+    #justNuH3 {
+        font-size: var(--text-lg);
     }
 }
 

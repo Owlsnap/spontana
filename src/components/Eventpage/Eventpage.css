@@ -1002,8 +1002,23 @@
 }
 
 @media (max-width: 480px) {
+  .event-hero {
+    min-height: 260px;
+    height: 38vh;
+  }
+
   .event-hero-title {
     font-size: var(--text-xl);
+  }
+
+  .back-arrow-btn {
+    top: var(--space-md);
+    left: var(--space-md);
+    padding: var(--space-sm);
+  }
+
+  .event-hero-content {
+    padding: var(--space-lg) var(--space-md);
   }
 
   .section-title {

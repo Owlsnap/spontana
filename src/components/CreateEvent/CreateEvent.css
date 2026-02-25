@@ -431,16 +431,29 @@
         margin: 20px;
         padding: var(--space-lg);
     }
-    
+
     .form-row {
         grid-template-columns: 1fr;
     }
-    
+
     .form-actions {
         flex-direction: column;
     }
-    
+
     .events-list {
         gap: var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .create-event-container {
+        margin: var(--space-sm);
+        padding: var(--space-md);
+        clip-path: none;
+    }
+
+    .create-event-container h1 {
+        font-size: var(--text-2xl);
+        letter-spacing: 1px;
     }
 }

@@ -2,7 +2,7 @@
 //ska innehålla logo
 //ska innehålla en sökfunktion som filtrerar eventCards efter användarens input
 
-import React from "react";
+import React, { useState } from "react";
 import "./Navbar.css";
 import spontanaLogo from "../../assets/spontana-logo-nobg.png";
 import { useLanguage } from "../../i18n/LanguageContext";
@@ -13,6 +13,7 @@ import { toast } from "sonner";
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
   const { user, signOut, openAuthModal } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   function logoClickHome() {
     window.location.href = "/";
@@ -33,6 +34,8 @@ const Navbar = () => {
   return (
     <div className="navbar">
       <img onClick={logoClickHome} src={spontanaLogo} className="logo" alt="Spontana logo" />
+
+      {/* Desktop nav — hidden on mobile via CSS */}
       <div className="nav-buttons">
         <button
           className="language-toggle"
@@ -66,6 +69,53 @@ const Navbar = () => {
           </>
         )}
       </div>
+
+      {/* Hamburger — visible on mobile only via CSS */}
+      <button className="hamburger-btn" onClick={() => setMenuOpen(true)} aria-label="Open menu">
+        ☰
+      </button>
+
+      {/* Mobile menu overlay */}
+      {menuOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMenuOpen(false)}>
+          <div className="mobile-menu" onClick={e => e.stopPropagation()}>
+            <div className="mobile-menu-header">
+              <button className="mobile-menu-close" onClick={() => setMenuOpen(false)}>✕</button>
+            </div>
+            <button
+              className="mobile-menu-item language-item"
+              onClick={() => {
+                toggleLanguage();
+                toast(language === 'en' ? '🇸🇪 Språk ändrat till svenska' : '🇬🇧 Language changed to English', { duration: 2000 });
+                setMenuOpen(false);
+              }}
+            >
+              {language === 'en' ? '🇸🇪 Svenska' : '🇬🇧 English'}
+            </button>
+            <div className="mobile-menu-divider" />
+            {user ? (
+              <>
+                <span className="mobile-menu-email">{displayEmail || user.email}</span>
+                <Link to="/myevents" className="mobile-menu-item" onClick={() => setMenuOpen(false)}>
+                  {t('auth.myEvents')}
+                </Link>
+                <button className="mobile-menu-item mobile-menu-logout" onClick={() => { handleSignOut(); setMenuOpen(false); }}>
+                  {t('auth.logout')}
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="mobile-menu-item" onClick={() => { openAuthModal('login'); setMenuOpen(false); }}>
+                  {t('navbar.login')}
+                </button>
+                <button className="mobile-menu-item mobile-menu-signup" onClick={() => { openAuthModal('signup'); setMenuOpen(false); }}>
+                  {t('navbar.createAccount')}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

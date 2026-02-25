@@ -172,14 +172,26 @@
     gap: 35px;
     padding: 0 20px;
   }
-  
+
   .footer-bottom {
     flex-direction: column;
     text-align: center;
     padding: 30px 20px 0 20px;
   }
-  
+
   .footer-legal {
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 40px 0 20px 0;
+    margin-top: 40px;
+  }
+
+  .footer-content {
+    padding: 0 var(--space-md);
+    gap: 25px;
   }
 }

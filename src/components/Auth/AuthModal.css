@@ -156,3 +156,11 @@
   background: none;
   transform: none;
 }
+
+@media (max-width: 480px) {
+  .auth-modal {
+    max-width: calc(100vw - 2rem);
+    clip-path: none;
+    margin: 0 1rem;
+  }
+}

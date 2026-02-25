@@ -325,3 +325,10 @@
     flex-direction: column;
   }
 }
+
+@media (max-width: 480px) {
+  .myevents-container {
+    padding: 0 var(--space-sm);
+    margin: var(--space-md) auto;
+  }
+}
