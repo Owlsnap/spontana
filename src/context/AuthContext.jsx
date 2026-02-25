@@ -10,7 +10,7 @@ export function AuthProvider({ children }) {
 
   // Modal control
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [authModalMode, setAuthModalMode] = useState('login'); // 'login' | 'signup'
+  const [authModalMode, setAuthModalMode] = useState('login'); // 'login' | 'signup' | 'forgot' | 'resetPassword'
 
   useEffect(() => {
     if (!supabase) {
@@ -26,9 +26,13 @@ export function AuthProvider({ children }) {
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
+      if (event === 'PASSWORD_RECOVERY') {
+        setAuthModalMode('resetPassword');
+        setIsAuthModalOpen(true);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -53,6 +57,20 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut();
   }
 
+  async function resetPasswordForEmail(email) {
+    if (!supabase) throw new Error('Supabase not configured');
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin,
+    });
+    if (error) throw error;
+  }
+
+  async function updatePassword(newPassword) {
+    if (!supabase) throw new Error('Supabase not configured');
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) throw error;
+  }
+
   function openAuthModal(mode = 'login') {
     setAuthModalMode(mode);
     setIsAuthModalOpen(true);
@@ -69,6 +87,8 @@ export function AuthProvider({ children }) {
     signIn,
     signUp,
     signOut,
+    resetPasswordForEmail,
+    updatePassword,
     isAuthModalOpen,
     authModalMode,
     openAuthModal,
