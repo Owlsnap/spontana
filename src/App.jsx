@@ -6,6 +6,7 @@ import Eventpage from "./components/Eventpage/Eventpage";
 import CreateEvent from "./components/CreateEvent/CreateEvent";
 import MyEvents from "./components/MyEvents/MyEvents";
 import AuthModal from "./components/Auth/AuthModal";
+import CookieBanner from "./components/CookieBanner/CookieBanner";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -86,6 +87,7 @@ function AppContent() {
         }}
       />
       <AuthModal />
+      <CookieBanner />
       <nav>
         <Navbar />
       </nav>
