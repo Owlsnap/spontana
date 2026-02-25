@@ -184,7 +184,7 @@ export default function Eventpage({ events: propEvents }) {
             </span>
             {daysUntil >= 0 && daysUntil <= 7 && (
               <span className="event-urgency-badge">
-                {daysUntil === 0 ? 'TODAY!' : daysUntil === 1 ? 'TOMORROW' : `${daysUntil} DAYS`}
+                {daysUntil === 0 ? t('eventPage.today') : daysUntil === 1 ? t('eventPage.tomorrow') : t('eventPage.daysAway', { count: daysUntil })}
               </span>
             )}
           </div>
@@ -211,7 +211,7 @@ export default function Eventpage({ events: propEvents }) {
             )}
             {event.url && (
               <a href={event.url} target="_blank" rel="noopener noreferrer" className="directions-button">
-                {event.description ? 'View Original / Buy Tickets' : 'View Full Details on Ticketmaster'}
+                {event.description ? t('eventPage.viewOriginal') : t('eventPage.viewFullDetails')}
               </a>
             )}
           </div>
@@ -229,7 +229,7 @@ export default function Eventpage({ events: propEvents }) {
                 {event.location?.country || ''}
               </p>
               <button className="directions-button" onClick={handleGetDirections}>
-                <MapTrifold size={16} weight="duotone" /> Get Directions
+                <MapTrifold size={16} weight="duotone" /> {t('eventPage.getDirections')}
               </button>
             </div>
           </div>
@@ -392,25 +392,25 @@ export default function Eventpage({ events: propEvents }) {
 
           {/* Quick Info Card */}
           <div className="event-quick-info angular-container white-border">
-            <h3 className="quick-info-title">Quick Info</h3>
+            <h3 className="quick-info-title">{t('eventPage.quickInfo')}</h3>
             <div className="quick-info-items">
               <div className="quick-info-item">
-                <span className="info-label">Type</span>
+                <span className="info-label">{t('eventPage.quickInfoType')}</span>
                 <span className="info-value">{event.type}</span>
               </div>
               <div className="quick-info-item">
-                <span className="info-label">Duration</span>
+                <span className="info-label">{t('eventPage.quickInfoDuration')}</span>
                 <span className="info-value">
                   {event.startTime}{event.endTime ? ` - ${event.endTime}` : ''}
                 </span>
               </div>
               <div className="quick-info-item">
-                <span className="info-label">Language</span>
+                <span className="info-label">{t('eventPage.quickInfoLanguage')}</span>
                 <span className="info-value">English, Swedish</span>
               </div>
               {event.createdAt && (
                 <div className="quick-info-item">
-                  <span className="info-label">Created</span>
+                  <span className="info-label">{t('eventPage.quickInfoCreated')}</span>
                   <span className="info-value">
                     {new Date(event.createdAt).toLocaleDateString('sv-SE')}
                   </span>
@@ -446,7 +446,7 @@ export default function Eventpage({ events: propEvents }) {
       <div className="similar-events-section">
         <h2 className="similar-events-title">
           <span className="title-accent"><Sparkle size={20} weight="fill" /></span>
-          Similar Events You Might Like
+          {t('eventPage.similarEvents')}
         </h2>
         <div className="similar-events-grid">
           {allEvents
