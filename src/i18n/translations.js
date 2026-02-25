@@ -16,6 +16,8 @@ export const translations = {
       foundEvents_plural: "{{count}} events",
       noEvents: "Nothing here. Try loosening the filters.",
       justNow: "Just Now",
+      loadMore: "there's more",
+      allLoaded: "— that's everything —",
     },
 
     // Quick Categories
@@ -119,6 +121,20 @@ export const translations = {
       quickInfoLanguage: "Language",
       quickInfoCreated: "Created",
       similarEvents: "Similar Events You Might Like",
+      notFound: "Event Not Found",
+      notFoundMsg: "The event you're looking for doesn't exist.",
+      backToEvents: "Back to Events",
+      noDescription: "No description available.",
+      noDescriptionTicketmaster: "No description is available for this event via the Ticketmaster API.",
+      fillingUp: "Filling up fast!",
+      copyLink: "Copy Link",
+      trending: "Trending",
+      going: "Going",
+      interested: "Interested",
+      views: "Views",
+      linkCopied: "Link copied to clipboard!",
+      openingDirections: "Opening directions in Google Maps",
+      saveSoon: "Save feature coming soon!",
     },
 
     // Create Event
@@ -154,6 +170,14 @@ export const translations = {
       cancel: "Cancel",
       create: "Create Event",
       recentEvents: "Recently Created Events:",
+    },
+
+    // Cookie Banner
+    cookie: {
+      title: "Cookies.",
+      text: "We use them to keep you logged in. No tracking, no ads, no selling your data to anyone.",
+      decline: "No thanks",
+      accept: "Got it",
     },
 
     // Footer
@@ -197,6 +221,7 @@ export const translations = {
       loggedOut: "Logged out successfully",
       myEvents: "My Events",
       noMyEvents: "You haven't created any events yet.",
+      past: "Past",
       eventUpdated: "Event updated!",
       eventDeleted: "Event deleted",
       undo: "Undo",
@@ -236,6 +261,8 @@ export const translations = {
       foundEvents_plural: "{{count}} events",
       noEvents: "Ingenting här. Prova att ändra filtren.",
       justNow: "Just Nu",
+      loadMore: "det finns mer",
+      allLoaded: "— det var allt —",
     },
 
     // Quick Categories
@@ -339,6 +366,20 @@ export const translations = {
       quickInfoLanguage: "Språk",
       quickInfoCreated: "Skapad",
       similarEvents: "Liknande event du kanske gillar",
+      notFound: "Eventet hittades inte",
+      notFoundMsg: "Det eventet du letar efter finns inte.",
+      backToEvents: "Tillbaka till events",
+      noDescription: "Ingen beskrivning tillgänglig.",
+      noDescriptionTicketmaster: "Ingen beskrivning finns tillgänglig för detta event via Ticketmaster API.",
+      fillingUp: "Håller på att fyllas!",
+      copyLink: "Kopiera länk",
+      trending: "Trendande",
+      going: "Åker",
+      interested: "Intresserade",
+      views: "Visningar",
+      linkCopied: "Länk kopierad!",
+      openingDirections: "Öppnar vägbeskrivning i Google Maps",
+      saveSoon: "Sparfunktion kommer snart!",
     },
 
     // Create Event
@@ -374,6 +415,14 @@ export const translations = {
       cancel: "Avbryt",
       create: "Skapa Event",
       recentEvents: "Senast skapade events:",
+    },
+
+    // Cookie Banner
+    cookie: {
+      title: "Cookies.",
+      text: "Vi använder dem för att hålla dig inloggad. Ingen spårning, inga annonser, ingen försäljning av din data.",
+      decline: "Nej tack",
+      accept: "Fattat",
     },
 
     // Footer
@@ -417,6 +466,7 @@ export const translations = {
       loggedOut: "Du är nu utloggad",
       myEvents: "Mina Events",
       noMyEvents: "Du har inte skapat några events än.",
+      past: "Passerat",
       eventUpdated: "Event uppdaterat!",
       eventDeleted: "Event borttaget",
       undo: "Ångra",

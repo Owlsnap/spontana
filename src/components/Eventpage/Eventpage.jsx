@@ -80,10 +80,10 @@ export default function Eventpage({ events: propEvents }) {
     return (
       <div className="eventpage-error">
         <div className="error-content angular-large white-border">
-          <h1>Event Not Found</h1>
-          <p>The event you're looking for doesn't exist.</p>
+          <h1>{t('eventPage.notFound')}</h1>
+          <p>{t('eventPage.notFoundMsg')}</p>
           <Link to="/" className="back-button">
-            <ArrowLeft size={16} weight="bold" /> Back to Events
+            <ArrowLeft size={16} weight="bold" /> {t('eventPage.backToEvents')}
           </Link>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function Eventpage({ events: propEvents }) {
 
     if (platform === 'copy') {
       navigator.clipboard.writeText(eventUrl);
-      toast.success('Link copied to clipboard!');
+      toast.success(t('eventPage.linkCopied'));
     } else {
       window.open(shareUrls[platform], '_blank', 'width=600,height=400');
     }
@@ -129,11 +129,11 @@ export default function Eventpage({ events: propEvents }) {
         .join(', ')
     );
     window.open(`https://www.google.com/maps/search/?api=1&query=${query}`, '_blank');
-    toast.success('Opening directions in Google Maps');
+    toast.success(t('eventPage.openingDirections'));
   };
 
   const handleSave = () => {
-    toast('Save feature coming soon!');
+    toast(t('eventPage.saveSoon'));
   };
 
   const eventInfo = (
@@ -205,8 +205,8 @@ export default function Eventpage({ events: propEvents }) {
             ) : (
               <p className="event-description-text event-description-empty">
                 {event.source === 'ticketmaster'
-                  ? 'No description is available for this event via the Ticketmaster API.'
-                  : 'No description available.'}
+                  ? t('eventPage.noDescriptionTicketmaster')
+                  : t('eventPage.noDescription')}
               </p>
             )}
             {event.url && (
@@ -342,7 +342,7 @@ export default function Eventpage({ events: propEvents }) {
                   ></div>
                 </div>
                 {event.availableSpots && event.availableSpots < event.capacity * 0.2 && (
-                  <div className="capacity-warning"><Lightning size={14} weight="fill" /> Filling up fast!</div>
+                  <div className="capacity-warning"><Lightning size={14} weight="fill" /> {t('eventPage.fillingUp')}</div>
                 )}
               </div>
             )}
@@ -384,7 +384,7 @@ export default function Eventpage({ events: propEvents }) {
                   <WhatsappLogo size={15} weight="fill" /> WhatsApp
                 </button>
                 <button onClick={() => handleShare('copy')} className="share-option">
-                  <LinkIcon size={15} weight="bold" /> Copy Link
+                  <LinkIcon size={15} weight="bold" /> {t('eventPage.copyLink')}
                 </button>
               </div>
             )}
@@ -422,19 +422,19 @@ export default function Eventpage({ events: propEvents }) {
           {/* Social Proof */}
           {event.capacity > 0 && (
             <div className="event-social-proof angular-container white-border">
-              <h3 className="social-proof-title"><Fire size={18} weight="duotone" /> Trending</h3>
+              <h3 className="social-proof-title"><Fire size={18} weight="duotone" /> {t('eventPage.trending')}</h3>
               <div className="social-proof-stats">
                 <div className="stat-item">
                   <div className="stat-number">{event.capacity - (event.availableSpots || 0)}</div>
-                  <div className="stat-label">Going</div>
+                  <div className="stat-label">{t('eventPage.going')}</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-number">{Math.floor(Math.random() * 50) + 10}</div>
-                  <div className="stat-label">Interested</div>
+                  <div className="stat-label">{t('eventPage.interested')}</div>
                 </div>
                 <div className="stat-item">
                   <div className="stat-number">{Math.floor(Math.random() * 100) + 20}</div>
-                  <div className="stat-label">Views</div>
+                  <div className="stat-label">{t('eventPage.views')}</div>
                 </div>
               </div>
             </div>

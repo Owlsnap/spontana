@@ -253,11 +253,11 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
                   className="load-more-btn"
                   onClick={() => setVisibleCount((prev) => prev + EVENTS_PER_PAGE)}
                 >
-                  there's more
+                  {t('welcome.loadMore')}
                 </button>
               )}
               {visibleCount >= filteredEvents.length && filteredEvents.length > EVENTS_PER_PAGE && (
-                <p className="all-events-loaded">— that's everything —</p>
+                <p className="all-events-loaded">{t('welcome.allLoaded')}</p>
               )}
             </>
           )}

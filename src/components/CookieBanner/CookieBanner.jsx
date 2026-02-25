@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useLanguage } from '../../i18n/LanguageContext';
 import './CookieBanner.css';
 
 export default function CookieBanner() {
+  const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -24,14 +26,12 @@ export default function CookieBanner() {
   return (
     <div className="cookie-banner">
       <div className="cookie-content">
-        <span className="cookie-title">Cookies.</span>
-        <span className="cookie-text">
-          We use them to keep you logged in. No tracking, no ads, no selling your data to anyone.
-        </span>
+        <span className="cookie-title">{t('cookie.title')}</span>
+        <span className="cookie-text">{t('cookie.text')}</span>
       </div>
       <div className="cookie-actions">
-        <button className="cookie-btn cookie-decline" onClick={decline}>No thanks</button>
-        <button className="cookie-btn cookie-accept" onClick={accept}>Got it</button>
+        <button className="cookie-btn cookie-decline" onClick={decline}>{t('cookie.decline')}</button>
+        <button className="cookie-btn cookie-accept" onClick={accept}>{t('cookie.accept')}</button>
       </div>
     </div>
   );

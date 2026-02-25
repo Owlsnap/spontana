@@ -262,7 +262,7 @@ export default function MyEvents() {
                     <div className="myevents-name-row">
                       <h3 className="myevents-name">{event.eventName}</h3>
                       {event.date < new Date().toISOString().split('T')[0] && (
-                        <span className="myevents-past-badge">Past</span>
+                        <span className="myevents-past-badge">{t('auth.past')}</span>
                       )}
                     </div>
                     <p className="myevents-meta">
