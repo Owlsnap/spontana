@@ -114,12 +114,14 @@
     clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
     transition: border-color 0.2s;
     line-height: 1;
+    box-shadow: none;
 }
 
 .hamburger-btn:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
     transform: none;
+    box-shadow: none;
 }
 
 /* Mobile menu overlay */
