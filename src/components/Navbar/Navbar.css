@@ -119,6 +119,7 @@
 .hamburger-btn:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
+    transform: none;
 }
 
 /* Mobile menu overlay */
