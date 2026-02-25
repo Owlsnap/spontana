@@ -21,8 +21,8 @@ export const translations = {
     // Quick Categories
     categories: {
       all: "ALL",
-      music: "MUSIC",
-      art: "ART",
+      music: "FILM & MEDIA",
+      art: "EXHIBITION",
       food: "FOOD",
       nightlife: "NIGHTLIFE",
       business: "BUSINESS",
@@ -219,8 +219,8 @@ export const translations = {
     // Quick Categories
     categories: {
       all: "ALLA",
-      music: "MUSIK",
-      art: "KONST",
+      music: "FILM & MEDIA",
+      art: "UTSTÄLLNING",
       food: "MAT",
       nightlife: "NATTLIV",
       business: "BUSINESS",

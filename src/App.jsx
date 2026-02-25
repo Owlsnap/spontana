@@ -44,6 +44,7 @@ function AppContent() {
             .from("events")
             .select("*")
             .eq("status", "active")
+            .gte("date", new Date().toISOString().split("T")[0])
             .order("date", { ascending: true });
 
           if (!error && rows && rows.length > 0) {

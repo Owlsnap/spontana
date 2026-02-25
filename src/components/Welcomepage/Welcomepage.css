@@ -9,7 +9,7 @@
 .upper-section-with-bg {
     position: relative;
     background: url('../assets/bennie-bates-unsplash.jpg') center/cover no-repeat;
-    min-height: 80vh;
+    min-height: 65vh;
 }
 
 .upper-section-with-bg::before {
@@ -51,7 +51,7 @@
 
 .upperWelcomepage {
     padding: var(--space-3xl) var(--space-lg);
-    min-height: 50vh;
+    min-height: 65vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -125,64 +125,6 @@
 
 
 
-.quick-categories {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0;
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid var(--color-border-white);
-    clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
-    position: relative;
-    z-index: 3;
-}
-
-.category-buttons {
-    display: flex;
-    gap: var(--space-lg);
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.quick-btn {
-    padding: var(--space-lg) var(--space-2xl);
-    font-size: var(--text-md);
-    font-weight: 600;
-    border: 2px solid var(--color-border-white);
-    border-radius: 0;
-    border-top: none;
-    background: transparent;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
-    font-family: 'Courier New', monospace;
-    letter-spacing: 0.05em;
-}
-
-.quick-btn:hover {
-    background: var(--color-accent);
-    color: var(--color-background);
-    transform: translateY(-2px);
-    box-shadow: 0 0 15px var(--color-accent-glow);
-}
-
-.quick-btn.active {
-    background: var(--color-accent);
-    color: var(--color-text-inverse);
-    border-color: var(--color-accent);
-    box-shadow: 0 0 20px var(--color-accent-glow);
-    transform: translateY(-1px);
-}
-
-.quick-btn.active:hover {
-    background: var(--color-accent);
-    color: var(--color-text-inverse);
-    transform: translateY(-2px) skew(-1deg);
-    box-shadow: 0 0 25px var(--color-accent-glow);
-}
 
 .location-dropdown {
     padding: var(--space-sm) var(--space-md);

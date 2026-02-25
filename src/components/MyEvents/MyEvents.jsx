@@ -171,7 +171,7 @@ export default function MyEvents() {
       ) : (
         <div className="myevents-list">
           {events.map(event => (
-            <div key={event.id} className="myevents-card">
+            <div key={event.id} className={`myevents-card${event.date < new Date().toISOString().split('T')[0] ? ' myevents-card--past' : ''}`}>
               {editingId === event.id ? (
                 <div className="myevents-edit-form">
                   <div className="edit-row">
@@ -259,7 +259,12 @@ export default function MyEvents() {
                     alt={event.eventName}
                   />
                   <div className="myevents-info">
-                    <h3 className="myevents-name">{event.eventName}</h3>
+                    <div className="myevents-name-row">
+                      <h3 className="myevents-name">{event.eventName}</h3>
+                      {event.date < new Date().toISOString().split('T')[0] && (
+                        <span className="myevents-past-badge">Past</span>
+                      )}
+                    </div>
                     <p className="myevents-meta">
                       {event.date}
                       {event.startTime && ` · ${event.startTime}`}

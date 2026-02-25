@@ -3,7 +3,7 @@
 //ska innehålla login och register knappar
 // efter att användaren valt stad ska användaren kunna se eventCards som är i den staden
 
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useRef } from "react";
 import "./Welcomepage.css";
 import EventCard from "../EventCard/EventCard";
 import SearchFilter from "../SearchFilter/SearchFilter";
@@ -31,6 +31,7 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
   const [filteredEvents, setFilteredEvents] = useState(events);
   const [isLoading, setIsLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(EVENTS_PER_PAGE);
+  const eventsRef = useRef(null);
   const [heroPhraseIndex, setHeroPhraseIndex] = useState(0);
 
   const todayEventCount = useMemo(() => {
@@ -207,53 +208,11 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
 
       </div>
       
-      {/* Quick Category Filter */}
-      <div className="quick-categories">
-        <div className="category-buttons">
-          <button
-            className={`quick-btn ${selectedType === 'All Types' ? 'active' : ''}`}
-            onClick={() => handleClearFilters()}
-          >
-            {t('categories.all')}
-          </button>
-          <button
-            className={`quick-btn ${selectedType === 'Live Music' ? 'active' : ''}`}
-            onClick={() => setSelectedType('Live Music')}
-          >
-            {t('categories.music')}
-          </button>
-          <button
-            className={`quick-btn ${selectedType === 'Art Exhibition' ? 'active' : ''}`}
-            onClick={() => setSelectedType('Art Exhibition')}
-          >
-            {t('categories.art')}
-          </button>
-          <button
-            className={`quick-btn ${selectedType === 'Food & Drink' ? 'active' : ''}`}
-            onClick={() => setSelectedType('Food & Drink')}
-          >
-            {t('categories.food')}
-          </button>
-          <button
-            className={`quick-btn ${selectedType === 'Nightlife' ? 'active' : ''}`}
-            onClick={() => setSelectedType('Nightlife')}
-          >
-            {t('categories.nightlife')}
-          </button>
-          <button
-            className={`quick-btn ${selectedType === 'Business' ? 'active' : ''}`}
-            onClick={() => setSelectedType('Business')}
-          >
-            {t('categories.business')}
-          </button>
-        </div>
-      </div>
-      
       <div className="hero-actions">
         <Link to={"/createevent"} className="cta-button primary">
           {t('welcome.createEvent')}
         </Link>
-        <button className="cta-button secondary">
+        <button className="cta-button secondary" onClick={() => eventsRef.current?.scrollIntoView({ behavior: 'smooth' })}>
           {t('welcome.discoverEvents')}
         </button>
       </div>
@@ -261,7 +220,7 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
 
       {/* Event Cards Section */}
 
-      <div className="lowerWelcomepage">
+      <div className="lowerWelcomepage" ref={eventsRef}>
         {/* Search and Filter Section */}
         <SearchFilter
           searchTerm={searchTerm}
@@ -277,6 +236,7 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
           onClearFilters={handleClearFilters}
           events={events}
         />
+
         <div>
           {!isLoading && filteredEvents.length > 0 && (
             <h3 id="justNuH3">

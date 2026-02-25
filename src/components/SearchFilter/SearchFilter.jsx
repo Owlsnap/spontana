@@ -123,6 +123,27 @@ export default function SearchFilter({
           {t('search.clearFilters')}
         </button>
       </div>
+
+      <div className="category-buttons">
+        <button className={`quick-btn ${selectedType === 'All Types' ? 'active' : ''}`} onClick={onClearFilters}>
+          {t('categories.all')}
+        </button>
+        <button className={`quick-btn ${selectedType === 'Film & Media' ? 'active' : ''}`} onClick={() => setSelectedType('Film & Media')}>
+          {t('categories.music')}
+        </button>
+        <button className={`quick-btn ${selectedType === 'Art Exhibition' ? 'active' : ''}`} onClick={() => setSelectedType('Art Exhibition')}>
+          {t('categories.art')}
+        </button>
+        <button className={`quick-btn ${selectedType === 'Food & Drink' ? 'active' : ''}`} onClick={() => setSelectedType('Food & Drink')}>
+          {t('categories.food')}
+        </button>
+        <button className={`quick-btn ${selectedType === 'Nightlife' ? 'active' : ''}`} onClick={() => setSelectedType('Nightlife')}>
+          {t('categories.nightlife')}
+        </button>
+        <button className={`quick-btn ${selectedType === 'Business' ? 'active' : ''}`} onClick={() => setSelectedType('Business')}>
+          {t('categories.business')}
+        </button>
+      </div>
     </div>
   );
 }
