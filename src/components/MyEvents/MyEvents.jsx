@@ -166,7 +166,10 @@ export default function MyEvents() {
       {events.length === 0 ? (
         <div className="myevents-empty">
           <p>{t('auth.noMyEvents')}</p>
-          <Link to="/createevent" className="myevents-create-link">{t('welcome.createEvent')}</Link>
+          <div className="myevents-empty-actions">
+            <Link to="/createevent" className="myevents-create-link">{t('welcome.createEvent')}</Link>
+            <Link to="/" className="myevents-browse-link">{t('savedEvents.browseEvents')}</Link>
+          </div>
         </div>
       ) : (
         <div className="myevents-list">

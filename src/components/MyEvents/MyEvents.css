@@ -32,6 +32,13 @@
   margin-bottom: 1.5rem;
 }
 
+.myevents-empty-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .myevents-create-link {
   display: inline-block;
   padding: 0.7rem 1.5rem;
@@ -48,6 +55,26 @@
 
 .myevents-create-link:hover {
   background: #ff88d4;
+  box-shadow: 0 0 20px rgba(255, 102, 196, 0.5);
+}
+
+.myevents-browse-link {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: all 0.2s;
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+}
+
+.myevents-browse-link:hover {
+  background: var(--color-accent);
+  color: #000;
   box-shadow: 0 0 20px rgba(255, 102, 196, 0.5);
 }
 
