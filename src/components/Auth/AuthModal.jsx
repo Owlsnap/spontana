@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { X } from '@phosphor-icons/react';
+import mascot from '../../assets/mascot.png';
 import './AuthModal.css';
 
 export default function AuthModal() {
@@ -87,7 +88,8 @@ export default function AuthModal() {
 
   return (
     <div className="auth-backdrop" onClick={closeAuthModal}>
-      <div className="auth-modal angular-container" onClick={(e) => e.stopPropagation()}>
+      <div className="auth-modal-wrapper" onClick={(e) => e.stopPropagation()}>
+      <div className="auth-modal angular-container">
         <button className="auth-close" onClick={closeAuthModal} aria-label={t('common.close')}><X size={18} weight="bold" /></button>
 
         <h2 className="auth-title">
@@ -219,6 +221,9 @@ export default function AuthModal() {
             </button>
           )}
         </p>
+
+      </div>
+        <img src={mascot} alt="Spontana mascot" className="auth-mascot" />
       </div>
     </div>
   );

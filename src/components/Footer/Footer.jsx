@@ -2,6 +2,8 @@ import React from "react";
 import { ArrowRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
+import spontanaLogo from "../../assets/spontana-logo-nobg.png";
+import mascot from "../../assets/mascot.png";
 import "./Footer.css";
 
 const Footer = () => {
@@ -47,10 +49,11 @@ const Footer = () => {
 
       <div className="footer-bottom">
         <div className="footer-brand">
-          <span className="brand-name">SPONTANA</span>
+          <img src={spontanaLogo} alt="Spontana" className="footer-logo" />
           <span className="footer-tagline">{t('footer.tagline')}</span>
           <span className="copyright">©2025 ALL RIGHTS RESERVED</span>
         </div>
+        <img src={mascot} alt="Spontana mascot" className="footer-mascot" />
       </div>
     </footer>
   );

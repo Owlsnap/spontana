@@ -128,12 +128,9 @@
   gap: 5px;
 }
 
-.brand-name {
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 300;
-  font-size: 1.1rem;
-  letter-spacing: 3px;
-  color: white;
+.footer-logo {
+  height: 3.5rem;
+  filter: drop-shadow(0 0 8px var(--color-accent-glow));
 }
 
 .footer-tagline {
@@ -147,6 +144,15 @@
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.4);
   letter-spacing: 1px;
+}
+
+.footer-mascot {
+  width: 220px;
+  height: 220px;
+  object-fit: contain;
+  transform: rotate(6deg) translateY(15px);
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.5));
+  align-self: flex-end;
 }
 
 .footer-legal {
