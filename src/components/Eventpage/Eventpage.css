@@ -701,9 +701,19 @@
 }
 
 .save-btn:hover {
-  color: var(--color-secondary);
-  border-color: var(--color-secondary);
-  box-shadow: 0 0 15px var(--color-secondary-glow);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  box-shadow: 0 0 15px var(--color-accent-glow);
+}
+
+.save-btn--saved {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: rgba(255, 102, 196, 0.1);
+}
+
+.save-btn--saved:hover {
+  background: rgba(255, 102, 196, 0.2);
 }
 
 .share-btn:hover {

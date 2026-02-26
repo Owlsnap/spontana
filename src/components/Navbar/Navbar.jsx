@@ -55,6 +55,9 @@ const Navbar = () => {
             <Link to="/myevents" className="nav-button nav-button-myevents">
               {t('auth.myEvents')}
             </Link>
+            <Link to="/saved" className="nav-button nav-button-saved">
+              {t('savedEvents.title')}
+            </Link>
             <button className="nav-button" onClick={handleSignOut}>
               {t('auth.logout')}
             </button>
@@ -99,6 +102,9 @@ const Navbar = () => {
                 <span className="mobile-menu-email">{displayEmail || user.email}</span>
                 <Link to="/myevents" className="mobile-menu-item" onClick={() => setMenuOpen(false)}>
                   {t('auth.myEvents')}
+                </Link>
+                <Link to="/saved" className="mobile-menu-item" onClick={() => setMenuOpen(false)}>
+                  {t('savedEvents.title')}
                 </Link>
                 <button className="mobile-menu-item mobile-menu-logout" onClick={() => { handleSignOut(); setMenuOpen(false); }}>
                   {t('auth.logout')}

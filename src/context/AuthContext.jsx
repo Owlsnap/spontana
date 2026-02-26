@@ -52,6 +52,15 @@ export function AuthProvider({ children }) {
     return data;
   }
 
+  async function signInWithGoogle() {
+    if (!supabase) throw new Error('Supabase not configured');
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin },
+    });
+    if (error) throw error;
+  }
+
   async function signOut() {
     if (!supabase) return;
     await supabase.auth.signOut();
@@ -86,6 +95,7 @@ export function AuthProvider({ children }) {
     loading,
     signIn,
     signUp,
+    signInWithGoogle,
     signOut,
     resetPasswordForEmail,
     updatePassword,

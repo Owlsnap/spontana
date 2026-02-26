@@ -9,13 +9,15 @@ import { toast } from "sonner";
 import {
   CalendarBlank, Clock, MapPin, MapTrifold,
   Envelope, Phone, Sparkle, Lightning,
-  Ticket, FloppyDisk, Export,
+  Ticket, Heart, Export,
   TwitterLogo, FacebookLogo, LinkedinLogo, WhatsappLogo,
   Link as LinkIcon, Fire, ArrowLeft,
 } from "@phosphor-icons/react";
+import { useSavedEvents } from "../../context/SavedEventsContext";
 
 export default function Eventpage({ events: propEvents }) {
   const { t } = useLanguage();
+  const { isSaved, toggleSave } = useSavedEvents();
   const { name } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
@@ -133,7 +135,7 @@ export default function Eventpage({ events: propEvents }) {
   };
 
   const handleSave = () => {
-    toast(t('eventPage.saveSoon'));
+    toggleSave(event);
   };
 
   const eventInfo = (
@@ -356,9 +358,12 @@ export default function Eventpage({ events: propEvents }) {
             </button>
 
             <div className="action-buttons-row">
-              <button className="action-button save-btn" onClick={handleSave}>
-                <FloppyDisk size={17} weight="duotone" />
-                {t('eventPage.save')}
+              <button
+                className={`action-button save-btn${event && isSaved(event.id) ? ' save-btn--saved' : ''}`}
+                onClick={handleSave}
+              >
+                <Heart size={17} weight={event && isSaved(event.id) ? 'fill' : 'regular'} />
+                {event && isSaved(event.id) ? t('savedEvents.saved') : t('eventPage.save')}
               </button>
               <button
                 className="action-button share-btn"

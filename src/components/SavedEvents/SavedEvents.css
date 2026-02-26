@@ -1,0 +1,104 @@
+.saved-events-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg);
+  min-height: 60vh;
+}
+
+.saved-events-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.saved-events-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: -0.5px;
+  margin: 0;
+}
+
+.saved-title-heart {
+  color: var(--color-accent);
+  filter: drop-shadow(0 0 8px var(--color-accent-glow));
+}
+
+/* Loading skeletons */
+.saved-events-loading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.saved-loading-pulse {
+  height: 140px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: saved-pulse 1.4s ease-in-out infinite;
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+}
+
+@keyframes saved-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* Empty state */
+.saved-events-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-lg);
+  min-height: 400px;
+  text-align: center;
+}
+
+.saved-empty-icon {
+  color: rgba(255, 102, 196, 0.3);
+}
+
+.saved-empty-title {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.saved-empty-msg {
+  font-size: var(--text-base);
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 320px;
+}
+
+.saved-browse-btn {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-xl);
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  letter-spacing: 0.5px;
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  transition: all 0.3s ease;
+}
+
+.saved-browse-btn:hover {
+  background: var(--color-accent);
+  color: var(--color-text-inverse);
+  box-shadow: 0 0 20px var(--color-accent-glow);
+}
+
+@media (max-width: 768px) {
+  .saved-events-page {
+    padding: var(--space-xl) var(--space-sm);
+  }
+
+  .saved-events-title {
+    font-size: var(--text-2xl);
+  }
+}

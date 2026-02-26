@@ -124,6 +124,45 @@
   box-shadow: 0 0 40px var(--color-accent-glow), 0 0 20px var(--color-secondary-glow);
 }
 
+/* Heart save button */
+.heart-btn {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  padding: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+  clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+  box-shadow: none;
+  line-height: 0;
+}
+
+.heart-btn:hover {
+  background: rgba(255, 102, 196, 0.12);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  transform: scale(1.12);
+  box-shadow: 0 0 10px var(--color-accent-glow);
+}
+
+.heart-btn--saved {
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+  background: rgba(255, 102, 196, 0.12);
+}
+
+.heart-btn--saved:hover {
+  background: rgba(255, 102, 196, 0.22);
+  color: #ff44b0;
+}
+
 /* Event meta information (date, location, tags) */
 .event-meta {
   display: flex;

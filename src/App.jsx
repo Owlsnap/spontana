@@ -5,9 +5,11 @@ import Welcomepage from "./components/Welcomepage/Welcomepage";
 import Eventpage from "./components/Eventpage/Eventpage";
 import CreateEvent from "./components/CreateEvent/CreateEvent";
 import MyEvents from "./components/MyEvents/MyEvents";
+import SavedEvents from "./components/SavedEvents/SavedEvents";
 import AuthModal from "./components/Auth/AuthModal";
 import CookieBanner from "./components/CookieBanner/CookieBanner";
 import { AuthProvider, useAuth } from "./context/AuthContext";
+import { SavedEventsProvider } from "./context/SavedEventsContext";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Toaster } from "sonner";
@@ -119,6 +121,14 @@ function AppContent() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/saved"
+            element={
+              <RequireAuth>
+                <SavedEvents />
+              </RequireAuth>
+            }
+          />
         </Routes>
       </main>
       <footer>
@@ -131,7 +141,9 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <SavedEventsProvider>
+        <AppContent />
+      </SavedEventsProvider>
     </AuthProvider>
   );
 }

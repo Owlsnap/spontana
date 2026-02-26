@@ -206,6 +206,20 @@ export const translations = {
       close: "Close",
     },
 
+    // Saved Events
+    savedEvents: {
+      title: "Saved",
+      save: "Save",
+      saved: "Saved",
+      unsave: "Unsave",
+      noSavedEvents: "Nothing saved yet.",
+      noSavedEventsMsg: "Heart an event to save it for later.",
+      browseEvents: "Browse Events",
+      eventSaved: "Event saved",
+      eventUnsaved: "Removed from saved",
+      loginToSave: "Log in to save events",
+    },
+
     // Auth
     auth: {
       loginTitle: "Welcome back.",
@@ -241,6 +255,7 @@ export const translations = {
       resetSuccess: "Password updated. You're in.",
       newPassword: "New Password",
       backToLogin: "Back to login",
+      orContinueWith: "or",
     },
   },
 
@@ -451,6 +466,20 @@ export const translations = {
       close: "Stäng",
     },
 
+    // Saved Events
+    savedEvents: {
+      title: "Sparade",
+      save: "Spara",
+      saved: "Sparad",
+      unsave: "Ta bort",
+      noSavedEvents: "Inget sparat ännu.",
+      noSavedEventsMsg: "Hjärta ett event för att spara det till senare.",
+      browseEvents: "Bläddra events",
+      eventSaved: "Event sparat",
+      eventUnsaved: "Borttaget från sparade",
+      loginToSave: "Logga in för att spara events",
+    },
+
     // Auth
     auth: {
       loginTitle: "Välkommen tillbaka.",
@@ -486,6 +515,7 @@ export const translations = {
       resetSuccess: "Lösenord uppdaterat. Du är inne.",
       newPassword: "Nytt lösenord",
       backToLogin: "Tillbaka till inloggning",
+      orContinueWith: "eller",
     },
   },
 };

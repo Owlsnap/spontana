@@ -9,6 +9,8 @@ import "./EventCard.css";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
 import { slugify } from "../../lib/mapEvent";
+import { Heart } from "@phosphor-icons/react";
+import { useSavedEvents } from "../../context/SavedEventsContext";
 
 
 
@@ -16,6 +18,7 @@ import { slugify } from "../../lib/mapEvent";
 
 export default function EventCard({ events }) {
   const { t } = useLanguage();
+  const { isSaved, toggleSave } = useSavedEvents();
 
   if (!events || events.length === 0) {
     return (
@@ -48,10 +51,23 @@ export default function EventCard({ events }) {
       tags.unshift(event.type.toLowerCase().replace(/\s+/g, ''));
     }
 
+    const saved = isSaved(event.id);
+
     return (
       <Link key={event.id || event.eventName} to={slugify(event.eventName)} className="event-item-link">
         <div className="event-item-wrapper">
           <article className="event-item">
+            <button
+              className={`heart-btn${saved ? ' heart-btn--saved' : ''}`}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                toggleSave(event);
+              }}
+              aria-label={saved ? t('savedEvents.unsave') : t('savedEvents.save')}
+            >
+              <Heart size={18} weight={saved ? 'fill' : 'regular'} />
+            </button>
             <div className="event-content-wrapper">
               <div className="event-meta">
                 <time className="event-date">{formattedDate}</time>

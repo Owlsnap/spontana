@@ -21,7 +21,7 @@ const Footer = () => {
         <div className="footer-section">
           <h4 className="footer-title">{t('footer.socialMedia')}</h4>
           <ul className="footer-links">
-            <li><a href="#" className="social-link">Instagram</a></li>
+            <li><a href="https://www.instagram.com/spontana.app/" target="_blank" rel="noopener noreferrer" className="social-link">Instagram</a></li>
             <li><a href="#" className="social-link">Facebook</a></li>
             <li><a href="#" className="social-link">Twitter</a></li>
           </ul>
