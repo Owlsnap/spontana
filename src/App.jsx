@@ -8,6 +8,7 @@ import MyEvents from "./components/MyEvents/MyEvents";
 import SavedEvents from "./components/SavedEvents/SavedEvents";
 import AuthModal from "./components/Auth/AuthModal";
 import CookieBanner from "./components/CookieBanner/CookieBanner";
+import LaunchBanner from "./components/LaunchBanner/LaunchBanner";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { SavedEventsProvider } from "./context/SavedEventsContext";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
@@ -91,6 +92,7 @@ function AppContent() {
       />
       <AuthModal />
       <CookieBanner />
+      <LaunchBanner />
       <nav>
         <Navbar />
       </nav>

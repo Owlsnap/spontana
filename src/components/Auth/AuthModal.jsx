@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { supabase } from '../../lib/supabase';
 import { X } from '@phosphor-icons/react';
 import mascot from '../../assets/mascot.png';
 import './AuthModal.css';
@@ -18,10 +19,17 @@ export default function AuthModal() {
   const [submitting, setSubmitting] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
-  // Sync mode when parent changes it (e.g. clicking "Log In" vs "Create Account")
+  // Invite code gate
+  const [signupStep, setSignupStep] = useState('invite'); // 'invite' | 'create'
+  const [inviteCode, setInviteCode] = useState('');
+  const [verifying, setVerifying] = useState(false);
+
+  // Sync mode when parent changes it
   useEffect(() => {
     setMode(authModalMode);
     setError('');
+    setSignupStep('invite');
+    setInviteCode('');
   }, [authModalMode, isAuthModalOpen]);
 
   // Lock body scroll while open
@@ -41,6 +49,34 @@ export default function AuthModal() {
     setError('');
     setPassword('');
     setConfirmPassword('');
+    setSignupStep('invite');
+    setInviteCode('');
+  }
+
+  async function handleVerifyCode(e) {
+    e.preventDefault();
+    setError('');
+    setVerifying(true);
+    try {
+      const { data, error: dbError } = await supabase
+        .from('invite_codes')
+        .select('code')
+        .eq('code', inviteCode.trim().toUpperCase())
+        .eq('active', true)
+        .maybeSingle();
+
+      if (dbError) throw dbError;
+      if (!data) {
+        setError(t('auth.inviteCodeInvalid'));
+        return;
+      }
+      setSignupStep('create');
+      setError('');
+    } catch {
+      setError(t('auth.inviteCodeInvalid'));
+    } finally {
+      setVerifying(false);
+    }
   }
 
   async function handleSubmit(e) {
@@ -86,6 +122,8 @@ export default function AuthModal() {
     }
   }
 
+  const showInviteStep = mode === 'signup' && signupStep === 'invite';
+
   return (
     <div className="auth-backdrop" onClick={closeAuthModal}>
       <div className="auth-modal-wrapper" onClick={(e) => e.stopPropagation()}>
@@ -100,71 +138,98 @@ export default function AuthModal() {
         </h2>
         <p className="auth-subtitle">
           {mode === 'login' && t('auth.loginSubtitle')}
-          {mode === 'signup' && t('auth.signupSubtitle')}
+          {mode === 'signup' && signupStep === 'invite' && t('auth.inviteSubtitle')}
+          {mode === 'signup' && signupStep === 'create' && t('auth.signupSubtitle')}
           {mode === 'forgot' && t('auth.forgotSubtitle')}
           {mode === 'resetPassword' && t('auth.resetSubtitle')}
         </p>
 
-        <form onSubmit={handleSubmit} noValidate>
-          {(mode === 'login' || mode === 'signup' || mode === 'forgot') && (
+        {/* Invite code step */}
+        {showInviteStep && (
+          <form onSubmit={handleVerifyCode} noValidate>
             <div className="auth-field">
-              <label htmlFor="auth-email">{t('auth.email')}</label>
+              <label htmlFor="auth-invite">{t('auth.inviteCode')}</label>
               <input
-                id="auth-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="auth-invite"
+                type="text"
+                value={inviteCode}
+                onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
+                placeholder={t('auth.inviteCodePlaceholder')}
                 required
-                autoComplete="email"
                 autoFocus
+                autoComplete="off"
               />
             </div>
-          )}
+            {error && <p className="auth-error">{error}</p>}
+            <button type="submit" className="auth-submit" disabled={verifying || !inviteCode.trim()}>
+              {verifying ? '...' : t('auth.inviteVerify')}
+            </button>
+          </form>
+        )}
 
-          {(mode === 'login' || mode === 'signup' || mode === 'resetPassword') && (
-            <div className="auth-field">
-              <label htmlFor="auth-password">
-                {mode === 'resetPassword' ? t('auth.newPassword') : t('auth.password')}
-              </label>
-              <input
-                id="auth-password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                autoFocus={mode === 'resetPassword'}
-              />
-            </div>
-          )}
-
-          {(mode === 'signup' || mode === 'resetPassword') && (
-            <div className="auth-field">
-              <label htmlFor="auth-confirm">{t('auth.confirmPassword')}</label>
-              <input
-                id="auth-confirm"
-                type="password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                autoComplete="new-password"
-              />
-            </div>
-          )}
-
-          {error && <p className="auth-error">{error}</p>}
-
-          <button type="submit" className="auth-submit" disabled={submitting}>
-            {submitting ? '...' : (
-              mode === 'login' ? t('auth.loginButton') :
-              mode === 'signup' ? t('auth.signupButton') :
-              mode === 'forgot' ? t('auth.forgotButton') :
-              t('auth.resetButton')
+        {/* Normal signup / login / forgot / reset form */}
+        {!showInviteStep && (
+          <form onSubmit={handleSubmit} noValidate>
+            {(mode === 'login' || mode === 'signup' || mode === 'forgot') && (
+              <div className="auth-field">
+                <label htmlFor="auth-email">{t('auth.email')}</label>
+                <input
+                  id="auth-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
+                  autoFocus
+                />
+              </div>
             )}
-          </button>
-        </form>
 
-        {(mode === 'login' || mode === 'signup') && (
+            {(mode === 'login' || mode === 'signup' || mode === 'resetPassword') && (
+              <div className="auth-field">
+                <label htmlFor="auth-password">
+                  {mode === 'resetPassword' ? t('auth.newPassword') : t('auth.password')}
+                </label>
+                <input
+                  id="auth-password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                  autoFocus={mode === 'resetPassword'}
+                />
+              </div>
+            )}
+
+            {(mode === 'signup' || mode === 'resetPassword') && (
+              <div className="auth-field">
+                <label htmlFor="auth-confirm">{t('auth.confirmPassword')}</label>
+                <input
+                  id="auth-confirm"
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                  autoComplete="new-password"
+                />
+              </div>
+            )}
+
+            {error && <p className="auth-error">{error}</p>}
+
+            <button type="submit" className="auth-submit" disabled={submitting}>
+              {submitting ? '...' : (
+                mode === 'login' ? t('auth.loginButton') :
+                mode === 'signup' ? t('auth.signupButton') :
+                mode === 'forgot' ? t('auth.forgotButton') :
+                t('auth.resetButton')
+              )}
+            </button>
+          </form>
+        )}
+
+        {(mode === 'login' || (mode === 'signup' && signupStep === 'create')) && (
           <>
             <div className="auth-divider">
               <span>{t('auth.orContinueWith')}</span>

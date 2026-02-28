@@ -220,12 +220,23 @@ export const translations = {
       loginToSave: "Log in to save events",
     },
 
+    // Launch Banner
+    banner: {
+      badge: "BETA",
+      text: "Spontana is in early access — expect rough edges and rapid changes.",
+    },
+
     // Auth
     auth: {
       loginTitle: "Welcome back.",
       loginSubtitle: "Stockholm is happening.",
       signupTitle: "Get in.",
       signupSubtitle: "Find something tonight.",
+      inviteSubtitle: "Early access only.",
+      inviteCode: "Invite Code",
+      inviteCodePlaceholder: "Enter your code",
+      inviteVerify: "Verify",
+      inviteCodeInvalid: "That code doesn't work. Try again.",
       email: "Email",
       password: "Password",
       confirmPassword: "Confirm Password",
@@ -480,12 +491,23 @@ export const translations = {
       loginToSave: "Logga in för att spara events",
     },
 
+    // Launch Banner
+    banner: {
+      badge: "BETA",
+      text: "Spontana är i tidig åtkomst — räkna med ojämnheter och snabba förändringar.",
+    },
+
     // Auth
     auth: {
       loginTitle: "Välkommen tillbaka.",
       loginSubtitle: "Stockholm händer.",
       signupTitle: "Kom in.",
       signupSubtitle: "Hitta något ikväll.",
+      inviteSubtitle: "Endast tidig åtkomst.",
+      inviteCode: "Inbjudningskod",
+      inviteCodePlaceholder: "Ange din kod",
+      inviteVerify: "Verifiera",
+      inviteCodeInvalid: "Den koden fungerar inte. Försök igen.",
       email: "E-post",
       password: "Lösenord",
       confirmPassword: "Bekräfta Lösenord",
