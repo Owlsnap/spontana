@@ -237,4 +237,9 @@
     clip-path: none;
     margin: 0 1rem;
   }
+
+  .auth-mascot {
+    top: -20px;
+    left: 10px;
+  }
 }

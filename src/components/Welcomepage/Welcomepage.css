@@ -334,6 +334,7 @@
         padding: var(--space-xl) var(--space-sm);
         min-height: 45vh;
         clip-path: none;
+        border: none;
     }
 
     .hero-left {

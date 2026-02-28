@@ -252,6 +252,8 @@
 
     .hamburger-btn {
         display: flex;
+        border: none;
+        background: transparent;
     }
 }
 
