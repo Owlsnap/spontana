@@ -13,7 +13,7 @@
 
 /* Events list container */
 .events-list {
-  max-width: 1100px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0;
   background-color: var(--color-background-subtle);
@@ -350,7 +350,7 @@
 /* Responsive design */
 @media (max-width: 1200px) {
   .events-list {
-    max-width: 800px;
+    max-width: 1100px;
   }
   
   .event-item-wrapper {

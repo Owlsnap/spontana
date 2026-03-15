@@ -11,7 +11,7 @@ import {
   Envelope, Phone, Sparkle, Lightning,
   Ticket, Heart, Export,
   TwitterLogo, FacebookLogo, LinkedinLogo, WhatsappLogo,
-  Link as LinkIcon, Fire, ArrowLeft,
+  Link as LinkIcon, ArrowLeft,
 } from "@phosphor-icons/react";
 import { useSavedEvents } from "../../context/SavedEventsContext";
 
@@ -181,9 +181,6 @@ export default function Eventpage({ events: propEvents }) {
           </div>
 
           <div className="event-status-container">
-            <span className={`event-status-badge ${event.status}`}>
-              {t(`eventPage.status.${event.status}`)}
-            </span>
             {daysUntil >= 0 && daysUntil <= 7 && (
               <span className="event-urgency-badge">
                 {daysUntil === 0 ? t('eventPage.today') : daysUntil === 1 ? t('eventPage.tomorrow') : t('eventPage.daysAway', { count: daysUntil })}
@@ -321,11 +318,11 @@ export default function Eventpage({ events: propEvents }) {
                     </div>
                   )}
                 </>
-              ) : (
+              ) : event.price?.amount === 0 ? (
                 <div className="price-free">
                   <span className="free-badge"><Sparkle size={16} weight="fill" /> {t('eventPage.free')}</span>
                 </div>
-              )}
+              ) : null}
             </div>
 
             {event.capacity > 0 && (
@@ -409,10 +406,6 @@ export default function Eventpage({ events: propEvents }) {
                   {event.startTime}{event.endTime ? ` - ${event.endTime}` : ''}
                 </span>
               </div>
-              <div className="quick-info-item">
-                <span className="info-label">{t('eventPage.quickInfoLanguage')}</span>
-                <span className="info-value">English, Swedish</span>
-              </div>
               {event.createdAt && (
                 <div className="quick-info-item">
                   <span className="info-label">{t('eventPage.quickInfoCreated')}</span>
@@ -424,26 +417,6 @@ export default function Eventpage({ events: propEvents }) {
             </div>
           </div>
 
-          {/* Social Proof */}
-          {event.capacity > 0 && (
-            <div className="event-social-proof angular-container white-border">
-              <h3 className="social-proof-title"><Fire size={18} weight="duotone" /> {t('eventPage.trending')}</h3>
-              <div className="social-proof-stats">
-                <div className="stat-item">
-                  <div className="stat-number">{event.capacity - (event.availableSpots || 0)}</div>
-                  <div className="stat-label">{t('eventPage.going')}</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">{Math.floor(Math.random() * 50) + 10}</div>
-                  <div className="stat-label">{t('eventPage.interested')}</div>
-                </div>
-                <div className="stat-item">
-                  <div className="stat-number">{Math.floor(Math.random() * 100) + 20}</div>
-                  <div className="stat-label">{t('eventPage.views')}</div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

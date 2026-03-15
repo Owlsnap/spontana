@@ -23,6 +23,7 @@ export const translations = {
     // Quick Categories
     categories: {
       all: "ALL",
+      concert: "CONCERT",
       music: "FILM & MEDIA",
       art: "EXHIBITION",
       food: "FOOD",
@@ -294,6 +295,7 @@ export const translations = {
     // Quick Categories
     categories: {
       all: "ALLA",
+      concert: "KONSERT",
       music: "FILM & MEDIA",
       art: "UTSTÄLLNING",
       food: "MAT",

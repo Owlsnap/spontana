@@ -41,7 +41,7 @@ export function dbRowToEvent(row) {
     },
     price: {
       currency: row.price_currency || 'SEK',
-      amount: row.price_amount || 0,
+      amount: row.price_amount ?? null,
       earlyBird: row.price_early_bird || null,
     },
     capacity: row.capacity || 0,

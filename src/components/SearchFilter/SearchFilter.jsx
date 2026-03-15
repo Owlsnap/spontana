@@ -128,6 +128,9 @@ export default function SearchFilter({
         <button className={`quick-btn ${selectedType === 'All Types' ? 'active' : ''}`} onClick={onClearFilters}>
           {t('categories.all')}
         </button>
+        <button className={`quick-btn ${selectedType === 'Live Music' ? 'active' : ''}`} onClick={() => setSelectedType('Live Music')}>
+          {t('categories.concert')}
+        </button>
         <button className={`quick-btn ${selectedType === 'Film & Media' ? 'active' : ''}`} onClick={() => setSelectedType('Film & Media')}>
           {t('categories.music')}
         </button>

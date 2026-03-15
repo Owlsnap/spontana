@@ -185,7 +185,7 @@ button {
   font-weight: 500;
   padding: var(--space-sm) var(--space-lg);
   border: 2px solid var(--color-accent);
-  border-radius: 8px;
+  border-radius: 0;
   background-color: var(--color-accent);
   color: var(--color-text-inverse);
   cursor: pointer;
@@ -195,14 +195,12 @@ button {
   justify-content: center;
   gap: var(--space-xs);
   position: relative;
-  box-shadow: 0 0 20px var(--color-accent-glow);
 }
 
 button:hover {
   background-color: transparent;
   color: var(--color-accent);
   transform: translateY(-2px);
-  box-shadow: 0 0 30px var(--color-accent-glow), 0 5px 20px rgba(255, 102, 196, 0.2);
 }
 
 button:active {

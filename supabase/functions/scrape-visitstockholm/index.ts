@@ -62,7 +62,7 @@ function mapEvent(item: any): any {
     organizer_email: null,
     organizer_phone: null,
     price_currency: "SEK",
-    price_amount: 0,
+    price_amount: null,  // VisitStockholm doesn't provide pricing data
     price_early_bird: null,
     capacity: null,
     available_spots: null,
