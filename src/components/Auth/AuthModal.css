@@ -243,3 +243,16 @@
     left: 10px;
   }
 }
+
+.auth-confirm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-confirm-text {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0;
+}

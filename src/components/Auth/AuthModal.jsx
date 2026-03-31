@@ -8,7 +8,7 @@ import mascot from '../../assets/mascot.png';
 import './AuthModal.css';
 
 export default function AuthModal() {
-  const { isAuthModalOpen, authModalMode, closeAuthModal, openAuthModal, signIn, signUp, signInWithGoogle, resetPasswordForEmail, updatePassword } = useAuth();
+  const { isAuthModalOpen, authModalMode, closeAuthModal, openAuthModal, signIn, signUp, signInWithGoogle, resetPasswordForEmail, updatePassword, resendConfirmationEmail } = useAuth();
   const { t } = useLanguage();
 
   const [mode, setMode] = useState(authModalMode);
@@ -20,9 +20,11 @@ export default function AuthModal() {
   const [googleLoading, setGoogleLoading] = useState(false);
 
   // Invite code gate
-  const [signupStep, setSignupStep] = useState('invite'); // 'invite' | 'create'
+  const [signupStep, setSignupStep] = useState('invite'); // 'invite' | 'create' | 'confirm'
   const [inviteCode, setInviteCode] = useState('');
   const [verifying, setVerifying] = useState(false);
+  const [confirmedEmail, setConfirmedEmail] = useState('');
+  const [resending, setResending] = useState(false);
 
   // Sync mode when parent changes it
   useEffect(() => {
@@ -30,6 +32,7 @@ export default function AuthModal() {
     setError('');
     setSignupStep('invite');
     setInviteCode('');
+    setConfirmedEmail('');
   }, [authModalMode, isAuthModalOpen]);
 
   // Lock body scroll while open
@@ -51,6 +54,7 @@ export default function AuthModal() {
     setConfirmPassword('');
     setSignupStep('invite');
     setInviteCode('');
+    setConfirmedEmail('');
   }
 
   async function handleVerifyCode(e) {
@@ -58,14 +62,10 @@ export default function AuthModal() {
     setError('');
     setVerifying(true);
     try {
-      const { data, error: dbError } = await supabase
-        .from('invite_codes')
-        .select('code')
-        .eq('code', inviteCode.trim().toUpperCase())
-        .eq('active', true)
-        .maybeSingle();
+      const { data, error: rpcError } = await supabase
+        .rpc('verify_invite_code', { p_code: inviteCode.trim().toUpperCase() });
 
-      if (dbError) throw dbError;
+      if (rpcError) throw rpcError;
       if (!data) {
         setError(t('auth.inviteCodeInvalid'));
         return;
@@ -82,6 +82,11 @@ export default function AuthModal() {
   async function handleSubmit(e) {
     e.preventDefault();
     setError('');
+
+    if ((mode === 'signup' || mode === 'resetPassword') && password.length < 8) {
+      setError(t('auth.passwordTooShort'));
+      return;
+    }
 
     if (mode === 'signup' && password !== confirmPassword) {
       setError(t('auth.passwordMismatch'));
@@ -101,8 +106,11 @@ export default function AuthModal() {
         closeAuthModal();
       } else if (mode === 'signup') {
         await signUp(email, password);
-        toast.success(t('auth.signupSuccess'));
-        closeAuthModal();
+        setConfirmedEmail(email);
+        setSignupStep('confirm');
+        setEmail('');
+        setPassword('');
+        setConfirmPassword('');
       } else if (mode === 'forgot') {
         await resetPasswordForEmail(email);
         toast.success(t('auth.forgotSuccess'));
@@ -112,17 +120,32 @@ export default function AuthModal() {
         toast.success(t('auth.resetSuccess'));
         closeAuthModal();
       }
-      setEmail('');
-      setPassword('');
-      setConfirmPassword('');
     } catch (err) {
-      setError(err.message || t('common.error'));
+      const msg = err.message || '';
+      if (msg.toLowerCase().includes('email not confirmed')) {
+        setError(t('auth.emailNotConfirmed'));
+      } else {
+        setError(msg || t('common.error'));
+      }
     } finally {
       setSubmitting(false);
     }
   }
 
+  async function handleResend() {
+    setResending(true);
+    try {
+      await resendConfirmationEmail(confirmedEmail);
+      toast.success(t('auth.resendSuccess'));
+    } catch {
+      toast.error(t('common.error'));
+    } finally {
+      setResending(false);
+    }
+  }
+
   const showInviteStep = mode === 'signup' && signupStep === 'invite';
+  const showConfirmStep = mode === 'signup' && signupStep === 'confirm';
 
   return (
     <div className="auth-backdrop" onClick={closeAuthModal}>
@@ -132,7 +155,8 @@ export default function AuthModal() {
 
         <h2 className="auth-title">
           {mode === 'login' && t('auth.loginTitle')}
-          {mode === 'signup' && t('auth.signupTitle')}
+          {mode === 'signup' && signupStep !== 'confirm' && t('auth.signupTitle')}
+          {mode === 'signup' && signupStep === 'confirm' && t('auth.confirmEmailTitle')}
           {mode === 'forgot' && t('auth.forgotTitle')}
           {mode === 'resetPassword' && t('auth.resetTitle')}
         </h2>
@@ -167,8 +191,30 @@ export default function AuthModal() {
           </form>
         )}
 
+        {/* Email confirmation screen after signup */}
+        {showConfirmStep && (
+          <div className="auth-confirm">
+            <p className="auth-confirm-text">
+              {t('auth.confirmEmailText').replace('{{email}}', confirmedEmail)}
+            </p>
+            <button
+              type="button"
+              className="auth-submit"
+              onClick={handleResend}
+              disabled={resending}
+            >
+              {resending ? '...' : t('auth.resendEmail')}
+            </button>
+            <p className="auth-switch">
+              <button className="auth-switch-btn" onClick={() => switchMode('login')}>
+                {t('auth.backToLogin')}
+              </button>
+            </p>
+          </div>
+        )}
+
         {/* Normal signup / login / forgot / reset form */}
-        {!showInviteStep && (
+        {!showInviteStep && !showConfirmStep && (
           <form onSubmit={handleSubmit} noValidate>
             {(mode === 'login' || mode === 'signup' || mode === 'forgot') && (
               <div className="auth-field">
@@ -229,7 +275,7 @@ export default function AuthModal() {
           </form>
         )}
 
-        {(mode === 'login' || (mode === 'signup' && signupStep === 'create')) && (
+        {(mode === 'login' || (mode === 'signup' && signupStep === 'create' && !showConfirmStep)) && (
           <>
             <div className="auth-divider">
               <span>{t('auth.orContinueWith')}</span>
@@ -259,33 +305,35 @@ export default function AuthModal() {
           </>
         )}
 
-        <p className="auth-switch">
-          {mode === 'login' && (
-            <>
-              <button className="auth-switch-btn" onClick={() => switchMode('forgot')}>
-                {t('auth.forgotPassword')}
-              </button>
-              {'  ·  '}
-              {t('auth.noAccount')}{' '}
-              <button className="auth-switch-btn" onClick={() => switchMode('signup')}>
-                {t('auth.signupButton')}
-              </button>
-            </>
-          )}
-          {mode === 'signup' && (
-            <>
-              {t('auth.hasAccount')}{' '}
+        {!showConfirmStep && (
+          <p className="auth-switch">
+            {mode === 'login' && (
+              <>
+                <button className="auth-switch-btn" onClick={() => switchMode('forgot')}>
+                  {t('auth.forgotPassword')}
+                </button>
+                {'  ·  '}
+                {t('auth.noAccount')}{' '}
+                <button className="auth-switch-btn" onClick={() => switchMode('signup')}>
+                  {t('auth.signupButton')}
+                </button>
+              </>
+            )}
+            {mode === 'signup' && (
+              <>
+                {t('auth.hasAccount')}{' '}
+                <button className="auth-switch-btn" onClick={() => switchMode('login')}>
+                  {t('auth.loginButton')}
+                </button>
+              </>
+            )}
+            {(mode === 'forgot' || mode === 'resetPassword') && (
               <button className="auth-switch-btn" onClick={() => switchMode('login')}>
-                {t('auth.loginButton')}
+                {t('auth.backToLogin')}
               </button>
-            </>
-          )}
-          {(mode === 'forgot' || mode === 'resetPassword') && (
-            <button className="auth-switch-btn" onClick={() => switchMode('login')}>
-              {t('auth.backToLogin')}
-            </button>
-          )}
-        </p>
+            )}
+          </p>
+        )}
 
       </div>
         <img src={mascot} alt="Spontana mascot" className="auth-mascot" />

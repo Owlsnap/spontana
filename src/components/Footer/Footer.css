@@ -60,6 +60,18 @@
   color: var(--color-accent) !important;
 }
 
+.newsletter-success {
+  font-size: 0.9rem;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+.newsletter-error {
+  font-size: 0.8rem;
+  color: #ff4444;
+  margin: 4px 0 0;
+}
+
 .newsletter-text {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.6);

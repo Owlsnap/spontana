@@ -268,6 +268,16 @@ export const translations = {
       newPassword: "New Password",
       backToLogin: "Back to login",
       orContinueWith: "or",
+      confirmEmailTitle: "Check your inbox.",
+      confirmEmailText: "We sent a confirmation link to {{email}}. Click it to activate your account.",
+      resendEmail: "Resend email",
+      resendSuccess: "Confirmation email sent.",
+      emailNotConfirmed: "Please confirm your email before logging in. Check your inbox.",
+      passwordTooShort: "Password must be at least 8 characters.",
+    },
+    footer: {
+      subscribeSuccess: "You're on the list.",
+      subscribeError: "Something went wrong. Try again.",
     },
   },
 
@@ -540,6 +550,16 @@ export const translations = {
       newPassword: "Nytt lösenord",
       backToLogin: "Tillbaka till inloggning",
       orContinueWith: "eller",
+      confirmEmailTitle: "Kolla inkorgen.",
+      confirmEmailText: "Vi skickade en bekräftelselänk till {{email}}. Klicka på den för att aktivera ditt konto.",
+      resendEmail: "Skicka om e-post",
+      resendSuccess: "Bekräftelse-e-post skickad.",
+      emailNotConfirmed: "Bekräfta din e-post innan du loggar in. Kolla inkorgen.",
+      passwordTooShort: "Lösenordet måste vara minst 8 tecken.",
+    },
+    footer: {
+      subscribeSuccess: "Du är med på listan.",
+      subscribeError: "Något gick fel. Försök igen.",
     },
   },
 };

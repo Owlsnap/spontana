@@ -84,6 +84,12 @@ export function AuthProvider({ children }) {
     if (error) throw error;
   }
 
+  async function resendConfirmationEmail(email) {
+    if (!supabase) throw new Error('Supabase not configured');
+    const { error } = await supabase.auth.resend({ type: 'signup', email });
+    if (error) throw error;
+  }
+
   function openAuthModal(mode = 'login') {
     setAuthModalMode(mode);
     setIsAuthModalOpen(true);
@@ -107,6 +113,7 @@ export function AuthProvider({ children }) {
     authModalMode,
     openAuthModal,
     closeAuthModal,
+    resendConfirmationEmail,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

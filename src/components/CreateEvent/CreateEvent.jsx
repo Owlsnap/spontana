@@ -116,7 +116,7 @@ export default function CreateEvent({ events, setEvents }) {
             description: formData.description,
             tags: [formData.type.toLowerCase()],
             hosts: [formData.organizerName],
-            status: "active",
+            status: "pending",
             source: "user",
             hostType: formData.hostType,
             url: formData.url || null,
@@ -135,7 +135,7 @@ export default function CreateEvent({ events, setEvents }) {
         }
 
         // Only reach here on success
-        toast.success(`"${newEvent.eventName}" has been created!`);
+        toast.success(`"${newEvent.eventName}" submitted for review.`);
         setEvents([...events, newEvent]);
         setSubmitting(false);
         navigate('/');

@@ -267,6 +267,9 @@ export default function MyEvents() {
                       {event.date < new Date().toISOString().split('T')[0] && (
                         <span className="myevents-past-badge">{t('auth.past')}</span>
                       )}
+                      {event.status === 'pending' && (
+                        <span className="myevents-pending-badge">Pending review</span>
+                      )}
                     </div>
                     <p className="myevents-meta">
                       {event.date}
