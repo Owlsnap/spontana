@@ -6,6 +6,8 @@ import Eventpage from "./components/Eventpage/Eventpage";
 import CreateEvent from "./components/CreateEvent/CreateEvent";
 import MyEvents from "./components/MyEvents/MyEvents";
 import SavedEvents from "./components/SavedEvents/SavedEvents";
+import Admin from "./components/Admin/Admin";
+import Privacy from "./components/Privacy/Privacy";
 import AuthModal from "./components/Auth/AuthModal";
 import CookieBanner from "./components/CookieBanner/CookieBanner";
 import LaunchBanner from "./components/LaunchBanner/LaunchBanner";
@@ -32,6 +34,22 @@ function RequireAuth({ children }) {
 
   if (loading) return null;
   if (!user) return null;
+  return children;
+}
+
+// Wraps a route so only admins can access it; others are silently redirected home
+function RequireAdmin({ children }) {
+  const { user, loading, isAdmin } = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && (!user || !isAdmin)) {
+      navigate('/', { replace: true });
+    }
+  }, [loading, user, isAdmin]);
+
+  if (loading) return null;
+  if (!user || !isAdmin) return null;
   return children;
 }
 
@@ -131,6 +149,15 @@ function AppContent() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/admin"
+            element={
+              <RequireAdmin>
+                <Admin />
+              </RequireAdmin>
+            }
+          />
+          <Route path="/privacy" element={<Privacy />} />
         </Routes>
       </main>
       <footer>

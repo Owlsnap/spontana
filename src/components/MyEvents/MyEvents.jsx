@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../i18n/LanguageContext';
@@ -13,13 +13,16 @@ const SWEDISH_CITIES = [
 ];
 
 export default function MyEvents() {
-  const { user } = useAuth();
+  const { user, deleteAccount } = useAuth();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState({});
   const [saving, setSaving] = useState(false);
+  const [deletingAccount, setDeletingAccount] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const deleteTimers = useRef({});
 
   useEffect(() => {
@@ -137,6 +140,19 @@ export default function MyEvents() {
     deleteTimers.current[event.id] = setTimeout(() => {
       commitDelete(event.id, undone);
     }, 4500);
+  }
+
+  async function handleDeleteAccount() {
+    setDeletingAccount(true);
+    try {
+      await deleteAccount();
+      toast(t('auth.deleteAccountSuccess'), { duration: 3000 });
+      navigate('/', { replace: true });
+    } catch {
+      toast.error(t('auth.deleteAccountError'));
+      setDeletingAccount(false);
+      setConfirmDelete(false);
+    }
   }
 
   async function commitDelete(eventId, undone) {
@@ -299,6 +315,37 @@ export default function MyEvents() {
           ))}
         </div>
       )}
+
+      <div className="myevents-danger-zone">
+        {!confirmDelete ? (
+          <button
+            className="myevents-delete-account-btn"
+            onClick={() => setConfirmDelete(true)}
+          >
+            {t('auth.deleteAccount')}
+          </button>
+        ) : (
+          <div className="myevents-delete-account-confirm">
+            <p>{t('auth.deleteAccountWarning')}</p>
+            <div className="myevents-delete-account-actions">
+              <button
+                className="myevents-delete-account-cancel"
+                onClick={() => setConfirmDelete(false)}
+                disabled={deletingAccount}
+              >
+                {t('common.cancel')}
+              </button>
+              <button
+                className="myevents-delete-account-confirm-btn"
+                onClick={handleDeleteAccount}
+                disabled={deletingAccount}
+              >
+                {deletingAccount ? '…' : t('auth.deleteAccountConfirm')}
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

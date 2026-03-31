@@ -7,10 +7,21 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
 
   // Modal control
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login'); // 'login' | 'signup' | 'forgot' | 'resetPassword'
+
+  async function loadProfile(userId) {
+    if (!supabase || !userId) { setProfile(null); return; }
+    const { data } = await supabase
+      .from('profiles')
+      .select('role, display_name, organization_name')
+      .eq('id', userId)
+      .single();
+    setProfile(data ?? null);
+  }
 
   useEffect(() => {
     if (!supabase) {
@@ -22,6 +33,7 @@ export function AuthProvider({ children }) {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
+      loadProfile(session?.user?.id);
       setLoading(false);
     });
 
@@ -29,6 +41,7 @@ export function AuthProvider({ children }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
+      loadProfile(session?.user?.id);
       if (event === 'PASSWORD_RECOVERY') {
         setAuthModalMode('resetPassword');
         setIsAuthModalOpen(true);
@@ -99,16 +112,30 @@ export function AuthProvider({ children }) {
     setIsAuthModalOpen(false);
   }
 
+  async function deleteAccount() {
+    if (!supabase) throw new Error('Supabase not configured');
+    const { error } = await supabase.rpc('delete_own_account');
+    if (error) throw error;
+    setUser(null);
+    setSession(null);
+    setProfile(null);
+  }
+
+  const isAdmin = profile?.role === 'admin';
+
   const value = {
     user,
     session,
     loading,
+    profile,
+    isAdmin,
     signIn,
     signUp,
     signInWithGoogle,
     signOut,
     resetPasswordForEmail,
     updatePassword,
+    deleteAccount,
     isAuthModalOpen,
     authModalMode,
     openAuthModal,

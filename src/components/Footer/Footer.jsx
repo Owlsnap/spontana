@@ -36,6 +36,7 @@ const Footer = () => {
           <ul className="footer-links">
             <li><Link to="/">{t('footer.events')}</Link></li>
             <li><Link to="/createevent">{t('footer.createEvent')}</Link></li>
+            <li><Link to="/privacy">{t('footer.privacy')}</Link></li>
           </ul>
         </div>
 
