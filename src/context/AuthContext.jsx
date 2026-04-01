@@ -30,10 +30,10 @@ export function AuthProvider({ children }) {
     }
 
     // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      loadProfile(session?.user?.id);
+      await loadProfile(session?.user?.id);
       setLoading(false);
     });
 
