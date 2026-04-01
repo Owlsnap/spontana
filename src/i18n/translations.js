@@ -68,6 +68,12 @@ export const translations = {
       nextMonth: "Next Month",
       allLocations: "All Locations",
       clearFilters: "Clear Filters",
+      filters: "Filters",
+      eventType: "Event Type",
+      price: "Price",
+      date: "Date",
+      location: "Location",
+      categories: "Categories",
     },
 
     // Event Card
@@ -354,6 +360,12 @@ export const translations = {
       nextMonth: "Nästa Månad",
       allLocations: "Alla Platser",
       clearFilters: "Rensa Filter",
+      filters: "Filter",
+      eventType: "Eventtyp",
+      price: "Pris",
+      date: "Datum",
+      location: "Plats",
+      categories: "Kategorier",
     },
 
     // Event Card

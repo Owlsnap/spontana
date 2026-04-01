@@ -15,11 +15,12 @@
   flex-shrink: 0;
   font-size: 0.65rem;
   font-weight: 700;
+  font-family: var(--font-mono);
   letter-spacing: 0.1em;
   color: #ffc800;
   border: 1px solid rgba(255, 200, 0, 0.4);
-  padding: 0.15rem 0.45rem;
-  clip-path: polygon(0 0, calc(100% - 5px) 0, 100% 5px, 100% 100%, 5px 100%, 0 calc(100% - 5px));
+  border-radius: var(--radius-pill);
+  padding: 0.15rem 0.5rem;
 }
 
 .launch-banner-text {

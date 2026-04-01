@@ -3,7 +3,7 @@ import { ArrowRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
 import { supabase } from "../../lib/supabase";
-import spontanaLogo from "../../assets/spontana-logo-nobg.png";
+import spontanaLogo from "../../assets/spontana-logo-new.svg";
 import mascot from "../../assets/mascot.png";
 import "./Footer.css";
 

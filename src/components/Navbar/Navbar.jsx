@@ -5,7 +5,7 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
 import "./Navbar.css";
-import spontanaLogo from "../../assets/spontana-logo-nobg.png";
+import spontanaLogo from "../../assets/spontana-logo-new.svg";
 import { useLanguage } from "../../i18n/LanguageContext";
 import { useAuth } from "../../context/AuthContext";
 import { Link } from "react-router-dom";
@@ -13,7 +13,7 @@ import { toast } from "sonner";
 
 const Navbar = () => {
   const { t, language, toggleLanguage } = useLanguage();
-  const { user, signOut, openAuthModal } = useAuth();
+  const { user, signOut, openAuthModal, isAdmin } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   function logoClickHome() {
@@ -58,6 +58,11 @@ const Navbar = () => {
             <Link to="/saved" className="nav-button nav-button-saved">
               {t('savedEvents.title')}
             </Link>
+            {isAdmin && (
+              <Link to="/admin" className="nav-button nav-button-admin">
+                Admin
+              </Link>
+            )}
             <button className="nav-button" onClick={handleSignOut}>
               {t('auth.logout')}
             </button>
@@ -106,6 +111,11 @@ const Navbar = () => {
                 <Link to="/saved" className="mobile-menu-item" onClick={() => setMenuOpen(false)}>
                   {t('savedEvents.title')}
                 </Link>
+                {isAdmin && (
+                  <Link to="/admin" className="mobile-menu-item mobile-menu-admin" onClick={() => setMenuOpen(false)}>
+                    Admin
+                  </Link>
+                )}
                 <button className="mobile-menu-item mobile-menu-logout" onClick={() => { handleSignOut(); setMenuOpen(false); }}>
                   {t('auth.logout')}
                 </button>

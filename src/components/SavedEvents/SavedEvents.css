@@ -22,7 +22,6 @@
 
 .saved-title-heart {
   color: var(--color-accent);
-  filter: drop-shadow(0 0 8px var(--color-accent-glow));
 }
 
 /* Loading skeletons */
@@ -34,10 +33,10 @@
 
 .saved-loading-pulse {
   height: 140px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   animation: saved-pulse 1.4s ease-in-out infinite;
-  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
 }
 
 @keyframes saved-pulse {
@@ -57,7 +56,7 @@
 }
 
 .saved-empty-icon {
-  color: rgba(255, 102, 196, 0.3);
+  color: rgba(253, 213, 63, 0.3);
 }
 
 .saved-empty-title {
@@ -77,20 +76,19 @@
 .saved-browse-btn {
   display: inline-block;
   padding: var(--space-sm) var(--space-xl);
-  border: 2px solid var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-pill);
   color: var(--color-accent);
   text-decoration: none;
   font-weight: 600;
   font-size: var(--text-sm);
-  letter-spacing: 0.5px;
-  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-  transition: all 0.3s ease;
+  letter-spacing: 0.04em;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
 .saved-browse-btn:hover {
   background: var(--color-accent);
-  color: var(--color-text-inverse);
-  box-shadow: 0 0 20px var(--color-accent-glow);
+  color: #000;
 }
 
 @media (max-width: 768px) {

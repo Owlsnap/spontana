@@ -33,6 +33,7 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
   const [visibleCount, setVisibleCount] = useState(EVENTS_PER_PAGE);
   const eventsRef = useRef(null);
   const [heroPhraseIndex, setHeroPhraseIndex] = useState(0);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const todayEventCount = useMemo(() => {
     const today = new Date().toISOString().split('T')[0];
@@ -172,95 +173,113 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
     <div className="welcomepage">
       <div className="upper-section-with-bg">
         <div className="upperWelcomepage">
-        <div className="hero-left">
-          <h1 className="hero-title decode-text">
-            {HERO_PHRASES[heroPhraseIndex].split(' ').map((word, wordIndex) => (
-              <span key={wordIndex} className="hero-word">
-                {word.split('').map((letter, letterIndex) => (
-                  <span
-                    key={letterIndex}
-                    className="matrix-letter decode-letter"
-                    data-target={letter}
-                  >
-                    {letter}
-                  </span>
-                ))}
-              </span>
-            ))}
-          </h1>
-        </div>
+          <div className="hero-left">
+            <h1 className="hero-title decode-text">
+              {HERO_PHRASES[heroPhraseIndex].split(' ').map((word, wordIndex) => (
+                <span key={wordIndex} className="hero-word">
+                  {word.split('').map((letter, letterIndex) => (
+                    <span
+                      key={letterIndex}
+                      className="matrix-letter decode-letter"
+                      data-target={letter}
+                    >
+                      {letter}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </h1>
+          </div>
           <div className="banner-content-live">
             {t('welcome.liveNow')} • {todayEventCount} {t('welcome.activeEventsToday')}
           </div>
-           {/* Continuous Rolling Banner */}
-          <div className="rolling-banner-container">
-            <div className="rolling-banner">
-              <div className="banner-content">
-                {[...Array(4)].map((_, i) => (
-                  <span key={i}>
-                    {bannerCategories.map(cat => ` • ${cat.toUpperCase()}`).join('')}
-                    {` • ${t('welcome.liveNow')} • `}<strong>{todayEventCount} {t('welcome.activeEventsToday')}</strong>
-                  </span>
-                ))}
-              </div>
+          <div className="hero-actions">
+            <Link to={"/createevent"} className="cta-button primary">
+              {t('welcome.createEvent')}
+            </Link>
+            <button className="cta-button secondary" onClick={() => eventsRef.current?.scrollIntoView({ behavior: 'smooth' })}>
+              {t('welcome.discoverEvents')}
+            </button>
           </div>
         </div>
 
-      </div>
-      
-      <div className="hero-actions">
-        <Link to={"/createevent"} className="cta-button primary">
-          {t('welcome.createEvent')}
-        </Link>
-        <button className="cta-button secondary" onClick={() => eventsRef.current?.scrollIntoView({ behavior: 'smooth' })}>
-          {t('welcome.discoverEvents')}
-        </button>
-      </div>
+        {/* Continuous Rolling Banner — full width, outside constrained content box */}
+        <div className="rolling-banner-container">
+          <div className="rolling-banner">
+            <div className="banner-content">
+              {[...Array(4)].map((_, i) => (
+                <span key={i}>
+                  {bannerCategories.map(cat => ` • ${cat.toUpperCase()}`).join('')}
+                  {` • ${t('welcome.liveNow')} • `}<strong>{todayEventCount} {t('welcome.activeEventsToday')}</strong>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Event Cards Section */}
 
       <div className="lowerWelcomepage" ref={eventsRef}>
-        {/* Search and Filter Section */}
-        <SearchFilter
-          searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
-          selectedType={selectedType}
-          setSelectedType={setSelectedType}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
-          dateFilter={dateFilter}
-          setDateFilter={setDateFilter}
-          selectedLocation={selectedLocation}
-          setSelectedLocation={setSelectedLocation}
-          onClearFilters={handleClearFilters}
-          events={events}
-        />
+        {/* Mobile filter toggle */}
+        <button className="filter-toggle-btn" onClick={() => setSidebarOpen(true)}>
+          <svg width="14" height="14" viewBox="0 0 15 15" fill="none">
+            <path d="M1 2h13M3 7h9M5 12h5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          {t('search.filters')}
+        </button>
 
-        <div>
-          {!isLoading && filteredEvents.length > 0 && (
-            <h3 id="justNuH3">
-              {`${t(filteredEvents.length === 1 ? 'welcome.foundEvents' : 'welcome.foundEvents_plural', { count: filteredEvents.length })}:`}
-            </h3>
+        <div className="events-layout">
+          {/* Sidebar overlay (mobile) */}
+          {sidebarOpen && (
+            <div className="sidebar-overlay" onClick={() => setSidebarOpen(false)} />
           )}
-          {isLoading ? (
-            <EventCardSkeleton count={5} />
-          ) : (
-            <>
-              <EventCard events={filteredEvents.slice(0, visibleCount)} />
-              {visibleCount < filteredEvents.length && (
-                <button
-                  className="load-more-btn"
-                  onClick={() => setVisibleCount((prev) => prev + EVENTS_PER_PAGE)}
-                >
-                  {t('welcome.loadMore')}
-                </button>
-              )}
-              {visibleCount >= filteredEvents.length && filteredEvents.length > EVENTS_PER_PAGE && (
-                <p className="all-events-loaded">{t('welcome.allLoaded')}</p>
-              )}
-            </>
-          )}
+
+          {/* Filter sidebar */}
+          <aside className={`filter-sidebar${sidebarOpen ? ' open' : ''}`}>
+            <SearchFilter
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              dateFilter={dateFilter}
+              setDateFilter={setDateFilter}
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
+              onClearFilters={handleClearFilters}
+              onClose={() => setSidebarOpen(false)}
+              events={events}
+            />
+          </aside>
+
+          {/* Events main */}
+          <div className="events-main">
+            {!isLoading && filteredEvents.length > 0 && (
+              <h3 id="justNuH3">
+                {`${t(filteredEvents.length === 1 ? 'welcome.foundEvents' : 'welcome.foundEvents_plural', { count: filteredEvents.length })}:`}
+              </h3>
+            )}
+            {isLoading ? (
+              <EventCardSkeleton count={5} />
+            ) : (
+              <>
+                <EventCard events={filteredEvents.slice(0, visibleCount)} />
+                {visibleCount < filteredEvents.length && (
+                  <button
+                    className="load-more-btn"
+                    onClick={() => setVisibleCount((prev) => prev + EVENTS_PER_PAGE)}
+                  >
+                    {t('welcome.loadMore')}
+                  </button>
+                )}
+                {visibleCount >= filteredEvents.length && filteredEvents.length > EVENTS_PER_PAGE && (
+                  <p className="all-events-loaded">{t('welcome.allLoaded')}</p>
+                )}
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

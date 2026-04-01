@@ -25,14 +25,14 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 102, 196, 0.1) 50%,
+    rgba(253, 213, 63, 0.1) 50%,
     transparent 100%
   );
   animation: slide 1.5s ease-in-out infinite;
 }
 
 .skeleton.button {
-  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+  border-radius: var(--radius-lg);
   border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -72,7 +72,7 @@
   padding: var(--space-lg);
   display: flex;
   gap: var(--space-lg);
-  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  border-radius: var(--radius-lg);
   margin-bottom: var(--space-lg);
   animation: pulse-skeleton 2s ease-in-out infinite;
 }
@@ -111,7 +111,7 @@
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;
-  border-radius: 8px;
+  border-radius: 3px;
 }
 
 /* ===========================
@@ -172,7 +172,7 @@
   -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(255, 255, 255, 0.2);
   padding: var(--space-2xl);
-  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  border-radius: var(--radius-lg);
 }
 
 .eventpage-skeleton-sidebar {
@@ -189,8 +189,7 @@
   -webkit-backdrop-filter: blur(20px);
   border: 2px solid rgba(255, 255, 255, 0.2);
   padding: var(--space-2xl);
-  clip-path: polygon(0 0, calc(100% - 30px) 0, 100% 30px, 100% 100%, 30px 100%, 0 calc(100% - 30px));
-  box-shadow: 0 0 30px var(--color-accent-glow);
+  border-radius: var(--radius-lg);
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
@@ -204,7 +203,7 @@
   border: 2px solid rgba(255, 255, 255, 0.2);
   padding: var(--space-xl);
   margin-bottom: var(--space-2xl);
-  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+  border-radius: var(--radius-lg);
 }
 
 .search-filter-skeleton-inputs {

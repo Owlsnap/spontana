@@ -3,13 +3,13 @@
   bottom: 1.5rem;
   left: 1.5rem;
   z-index: 999;
-  background: linear-gradient(135deg, rgba(15, 15, 15, 0.97) 0%, rgba(25, 25, 25, 0.97) 100%);
-  border: 1px solid var(--color-border);
+  background: #111111;
+  border: 1px solid var(--color-border-white);
   border-left: 2px solid var(--color-accent);
-  box-shadow: 0 0 30px rgba(255, 102, 196, 0.15), 0 8px 32px rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
   padding: 1rem 1.25rem;
   max-width: 380px;
-  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 0 100%);
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
@@ -24,6 +24,7 @@
 .cookie-title {
   font-size: 0.8rem;
   font-weight: 700;
+  font-family: var(--font-mono);
   color: var(--color-accent);
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -43,42 +44,41 @@
 .cookie-btn {
   font-size: 0.78rem;
   font-weight: 600;
+  font-family: var(--font-mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   padding: 0.45rem 0.9rem;
   cursor: pointer;
-  transition: all 0.2s;
-  border-radius: 0;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
   box-shadow: none;
 }
 
 .cookie-accept {
   background: var(--color-accent);
   border: 1px solid var(--color-accent);
-  color: #000;
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+  color: #fff;
 }
 
 .cookie-accept:hover {
-  background: #ff88d4;
-  border-color: #ff88d4;
-  color: #000;
-  transform: translateY(-1px);
-  box-shadow: 0 0 16px rgba(255, 102, 196, 0.4);
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: #fff;
+  transform: none;
+  box-shadow: none;
 }
 
 .cookie-decline {
   background: transparent;
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 }
 
 .cookie-decline:hover {
-  border-color: var(--color-text-secondary);
-  color: var(--color-text-primary);
+  border-color: var(--color-border-white);
+  color: var(--color-text-secondary);
   background: transparent;
-  transform: translateY(-1px);
+  transform: none;
   box-shadow: none;
 }
 

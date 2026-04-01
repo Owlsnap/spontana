@@ -70,7 +70,7 @@
 }
 
 .privacy-section a {
-  color: var(--color-accent, #ff66c4);
+  color: var(--color-accent);
   text-decoration: none;
 }
 

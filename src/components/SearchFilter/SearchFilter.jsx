@@ -14,11 +14,11 @@ export default function SearchFilter({
   selectedLocation,
   setSelectedLocation,
   onClearFilters,
+  onClose,
   events
 }) {
   const { t } = useLanguage();
 
-  // Event types in English (matches data.json structure)
   const eventTypes = [
     { value: "All Types", label: t('eventTypes.allTypes') },
     { value: "Live Music", label: t('eventTypes.liveMusic') },
@@ -56,7 +56,6 @@ export default function SearchFilter({
     { label: t('search.nextMonth'), value: "nextmonth" }
   ];
 
-  // Extract unique cities from events (normalized to title case for deduplication)
   const availableCities = [
     "all",
     ...new Set(
@@ -65,19 +64,48 @@ export default function SearchFilter({
     )
   ];
 
+  const categoryButtons = [
+    { value: "All Types", label: t('categories.all') },
+    { value: "Live Music", label: t('categories.concert') },
+    { value: "Film & Media", label: t('categories.music') },
+    { value: "Art Exhibition", label: t('categories.art') },
+    { value: "Food & Drink", label: t('categories.food') },
+    { value: "Nightlife", label: t('categories.nightlife') },
+    { value: "Business", label: t('categories.business') },
+  ];
+
+  const hasActiveFilters = searchTerm || selectedType !== "All Types" || priceRange !== "all" || dateFilter !== "all" || selectedLocation !== "all";
+
   return (
     <div className="search-filter-container">
-      <div className="search-section">
-        <input
-          type="text"
-          placeholder={t('search.placeholder')}
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input"
-        />
+      {/* Mobile close button */}
+      {onClose && (
+        <button className="sidebar-close-btn" onClick={onClose} aria-label="Close filters">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+        </button>
+      )}
+
+      {/* Search */}
+      <div className="sidebar-search-section">
+        <div className="sidebar-search-wrap">
+          <svg className="sidebar-search-icon" width="13" height="13" viewBox="0 0 15 15" fill="none">
+            <path d="M10 6.5C10 8.433 8.433 10 6.5 10C4.567 10 3 8.433 3 6.5C3 4.567 4.567 3 6.5 3C8.433 3 10 4.567 10 6.5ZM9.364 10.071C8.561 10.639 7.57 11 6.5 11C4.015 11 2 8.985 2 6.5C2 4.015 4.015 2 6.5 2C8.985 2 11 4.015 11 6.5C11 7.57 10.639 8.561 10.071 9.364L13.354 12.646C13.549 12.842 13.549 13.158 13.354 13.354C13.158 13.549 12.842 13.549 12.646 13.354L9.364 10.071Z" fill="currentColor" fillRule="evenodd" clipRule="evenodd"/>
+          </svg>
+          <input
+            type="text"
+            placeholder={t('search.placeholder')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
       </div>
 
-      <div className="filter-section">
+      {/* Event Type */}
+      <div className="sidebar-section">
+        <p className="sidebar-section-label">{t('search.eventType')}</p>
         <select
           value={selectedType}
           onChange={(e) => setSelectedType(e.target.value)}
@@ -87,66 +115,77 @@ export default function SearchFilter({
             <option key={type.value} value={type.value}>{type.label}</option>
           ))}
         </select>
+      </div>
 
-        <select
-          value={priceRange}
-          onChange={(e) => setPriceRange(e.target.value)}
-          className="filter-select"
-        >
+      {/* Price */}
+      <div className="sidebar-section">
+        <p className="sidebar-section-label">{t('search.price')}</p>
+        <div className="sidebar-option-list">
           {priceRanges.map(range => (
-            <option key={range.value} value={range.value}>{range.label}</option>
+            <button
+              key={range.value}
+              className={`sidebar-option-btn ${priceRange === range.value ? 'active' : ''}`}
+              onClick={() => setPriceRange(range.value)}
+            >
+              {range.label}
+            </button>
           ))}
-        </select>
+        </div>
+      </div>
 
-        <select
-          value={dateFilter}
-          onChange={(e) => setDateFilter(e.target.value)}
-          className="filter-select"
-        >
+      {/* Date */}
+      <div className="sidebar-section">
+        <p className="sidebar-section-label">{t('search.date')}</p>
+        <div className="sidebar-option-list">
           {dateFilters.map(date => (
-            <option key={date.value} value={date.value}>{date.label}</option>
+            <button
+              key={date.value}
+              className={`sidebar-option-btn ${dateFilter === date.value ? 'active' : ''}`}
+              onClick={() => setDateFilter(date.value)}
+            >
+              {date.label}
+            </button>
           ))}
-        </select>
+        </div>
+      </div>
 
+      {/* Location */}
+      <div className="sidebar-section">
+        <p className="sidebar-section-label">{t('search.location')}</p>
         <select
           value={selectedLocation}
           onChange={(e) => setSelectedLocation(e.target.value)}
-          className="filter-select location-filter"
+          className="filter-select"
         >
           <option value="all">{t('search.allLocations')}</option>
           {availableCities.slice(1).map(city => (
             <option key={city} value={city}>{city}</option>
           ))}
         </select>
+      </div>
 
+      {/* Categories */}
+      <div className="sidebar-section">
+        <p className="sidebar-section-label">{t('search.categories')}</p>
+        <div className="category-buttons">
+          {categoryButtons.map(cat => (
+            <button
+              key={cat.value}
+              className={`quick-btn ${selectedType === cat.value || (cat.value === 'All Types' && selectedType === 'All Types') ? 'active' : ''}`}
+              onClick={() => cat.value === 'All Types' ? onClearFilters() : setSelectedType(cat.value)}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Clear filters */}
+      {hasActiveFilters && (
         <button onClick={onClearFilters} className="clear-filters-btn">
           {t('search.clearFilters')}
         </button>
-      </div>
-
-      <div className="category-buttons">
-        <button className={`quick-btn ${selectedType === 'All Types' ? 'active' : ''}`} onClick={onClearFilters}>
-          {t('categories.all')}
-        </button>
-        <button className={`quick-btn ${selectedType === 'Live Music' ? 'active' : ''}`} onClick={() => setSelectedType('Live Music')}>
-          {t('categories.concert')}
-        </button>
-        <button className={`quick-btn ${selectedType === 'Film & Media' ? 'active' : ''}`} onClick={() => setSelectedType('Film & Media')}>
-          {t('categories.music')}
-        </button>
-        <button className={`quick-btn ${selectedType === 'Art Exhibition' ? 'active' : ''}`} onClick={() => setSelectedType('Art Exhibition')}>
-          {t('categories.art')}
-        </button>
-        <button className={`quick-btn ${selectedType === 'Food & Drink' ? 'active' : ''}`} onClick={() => setSelectedType('Food & Drink')}>
-          {t('categories.food')}
-        </button>
-        <button className={`quick-btn ${selectedType === 'Nightlife' ? 'active' : ''}`} onClick={() => setSelectedType('Nightlife')}>
-          {t('categories.nightlife')}
-        </button>
-        <button className={`quick-btn ${selectedType === 'Business' ? 'active' : ''}`} onClick={() => setSelectedType('Business')}>
-          {t('categories.business')}
-        </button>
-      </div>
+      )}
     </div>
   );
 }
