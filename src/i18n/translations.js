@@ -195,6 +195,8 @@ export const translations = {
       newsletterText: "Don't miss what's happening.",
       emailPlaceholder: "Your email",
       tagline: "Stockholm in your pocket.",
+      subscribeSuccess: "You're on the list.",
+      subscribeError: "Something went wrong. Try again.",
     },
 
     // Common
@@ -280,10 +282,6 @@ export const translations = {
       deleteAccountConfirm: "Yes, delete my account",
       deleteAccountSuccess: "Account deleted.",
       deleteAccountError: "Something went wrong. Email hello@spontana.app if this keeps happening.",
-    },
-    footer: {
-      subscribeSuccess: "You're on the list.",
-      subscribeError: "Something went wrong. Try again.",
     },
   },
 
@@ -483,6 +481,8 @@ export const translations = {
       newsletterText: "Missa inte vad som händer.",
       emailPlaceholder: "Din email",
       tagline: "Stockholm i fickan.",
+      subscribeSuccess: "Du är med på listan.",
+      subscribeError: "Något gick fel. Försök igen.",
     },
 
     // Common
@@ -568,10 +568,6 @@ export const translations = {
       deleteAccountConfirm: "Ja, ta bort mitt konto",
       deleteAccountSuccess: "Kontot är borttaget.",
       deleteAccountError: "Något gick fel. Maila hello@spontana.app om det fortsätter.",
-    },
-    footer: {
-      subscribeSuccess: "Du är med på listan.",
-      subscribeError: "Något gick fel. Försök igen.",
     },
   },
 };

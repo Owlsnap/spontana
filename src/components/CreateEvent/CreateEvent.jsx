@@ -82,8 +82,21 @@ export default function CreateEvent({ events, setEvents }) {
         }
     };
 
+    function validate() {
+        const today = new Date().toISOString().split('T')[0];
+        if (formData.date < today) return 'Event date cannot be in the past.';
+        if (formData.endTime && formData.startTime && formData.endTime <= formData.startTime)
+            return 'End time must be after start time.';
+        return null;
+    }
+
     async function handleSubmit(event) {
         event.preventDefault();
+        const validationError = validate();
+        if (validationError) {
+            toast.error(validationError);
+            return;
+        }
         setSubmitting(true);
 
         const newEvent = {
