@@ -331,6 +331,28 @@ export default function Eventpage({ events: propEvents }) {
         <div className="event-sidebar">
           {/* Action Card */}
           <div className="event-action-card angular-large white-border cyberpunk-glow">
+            {event.source === 'user' && (
+              <div className="price-section">
+                {event.price?.amount > 0 ? (
+                  <>
+                    <div className="price-main">
+                      <span className="price-amount">{event.price.amount}</span>
+                      <span className="price-currency">{event.price.currency}</span>
+                    </div>
+                    {event.price.earlyBird && (
+                      <div className="price-early-bird">
+                        <span className="early-bird-label">{t('eventPage.earlyBird')}</span>
+                        <span className="early-bird-price">{event.price.earlyBird} {event.price.currency}</span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="price-free">
+                    <span className="free-badge"><Sparkle size={16} weight="fill" /> {t('eventPage.free')}</span>
+                  </div>
+                )}
+              </div>
+            )}
 
             {event.capacity > 0 && (
               <div className="capacity-section">

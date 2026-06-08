@@ -103,7 +103,12 @@ export default function EventCard({ events, trendingIds = new Set() }) {
                   {event.startTime && (
                     <span className="event-time">{event.startTime}</span>
                   )}
-
+                  {event.source === 'user' && event.price?.amount > 0 && (
+                    <span className="event-price">{event.price.amount} {event.price.currency}</span>
+                  )}
+                  {event.source === 'user' && event.price?.amount === 0 && (
+                    <span className="event-free">{t('eventCard.free')}</span>
+                  )}
                   {event.availableSpots && (
                     <span className="event-spots">{event.availableSpots} {t('eventCard.spotsLeft')}</span>
                   )}
