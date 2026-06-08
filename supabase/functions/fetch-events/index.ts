@@ -38,7 +38,7 @@ function mapTicketmasterEvent(tm: any): any {
 
   // Convert currency — Ticketmaster may return EUR for Swedish events
   let priceCurrency = priceRange?.currency || "SEK";
-  let priceAmount: number | null = priceRange ? Math.round(priceRange.min || 0) : null;
+  let priceAmount: number | null = priceRange?.min != null ? Math.round(priceRange.min) : null;
   if (priceCurrency === "EUR" && priceAmount !== null) {
     priceAmount = Math.round(priceAmount * 11.5); // approximate EUR→SEK
     priceCurrency = "SEK";
