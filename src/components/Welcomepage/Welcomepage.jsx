@@ -21,7 +21,7 @@ const HERO_PHRASES = [
   "GET OUT TONIGHT",
 ];
 
-const Welcomepage = ({ events, loading: externalLoading }) => {
+const Welcomepage = ({ events, loading: externalLoading, trendingIds = new Set() }) => {
   const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("All Types");
@@ -269,7 +269,7 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
               <EventCardSkeleton count={5} />
             ) : (
               <>
-                <EventCard events={filteredEvents.slice(0, visibleCount)} />
+                <EventCard events={filteredEvents.slice(0, visibleCount)} trendingIds={trendingIds} />
                 {visibleCount < filteredEvents.length && (
                   <button
                     className="load-more-btn"

@@ -54,6 +54,7 @@ export function dbRowToEvent(row) {
     lat: row.lat || null,
     lng: row.lng || null,
     hostType: row.host_type || null,
+    viewCount: row.view_count ?? 0,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };

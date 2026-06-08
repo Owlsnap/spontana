@@ -56,24 +56,30 @@ function RequireAdmin({ children }) {
 function AppContent() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [trendingIds, setTrendingIds] = useState(new Set());
 
   useEffect(() => {
     async function fetchEvents() {
       if (supabase) {
         try {
-          const { data: rows, error } = await supabase
-            .from("events")
-            .select("*")
-            .eq("status", "active")
-            .gte("date", (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })())
-            .order("date", { ascending: true });
+          const [eventsResult, trendingResult] = await Promise.all([
+            supabase
+              .from("events")
+              .select("*")
+              .eq("status", "active")
+              .gte("date", (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })())
+              .order("date", { ascending: true }),
+            supabase.rpc("get_trending_events", { min_views: 3, hours_back: 48 }),
+          ]);
 
-          if (!error && rows && rows.length > 0) {
-            setEvents(rows.map(dbRowToEvent));
-            setLoading(false);
-            return;
+          if (!eventsResult.error && eventsResult.data && eventsResult.data.length > 0) {
+            setEvents(eventsResult.data.map(dbRowToEvent));
           }
-          if (error) throw error;
+          if (eventsResult.error) throw eventsResult.error;
+
+          if (!trendingResult.error && trendingResult.data) {
+            setTrendingIds(new Set(trendingResult.data.map(r => r.event_id)));
+          }
         } catch {
           toast.error("Could not load events. Check your connection and try again.");
         }
@@ -118,7 +124,7 @@ function AppContent() {
           <Route
             path="/"
             index
-            element={<Welcomepage events={events} loading={loading} />}
+            element={<Welcomepage events={events} loading={loading} trendingIds={trendingIds} />}
           />
           <Route
             path="event/:id"

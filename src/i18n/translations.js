@@ -83,6 +83,7 @@ export const translations = {
       createEvent: "Create Event",
       spotsLeft: "spots left",
       free: "Free",
+      trending: "Trending",
     },
 
     // Event Page
@@ -375,6 +376,7 @@ export const translations = {
       createEvent: "Skapa Event",
       spotsLeft: "platser kvar",
       free: "Gratis",
+      trending: "Trendar",
     },
 
     // Event Page

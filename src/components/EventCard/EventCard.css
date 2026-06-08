@@ -245,6 +245,31 @@
   border: 1px solid rgba(61, 250, 255, 0.25);
 }
 
+/* Badges row (host type + trending) */
+.event-badges {
+  display: flex;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-xs);
+}
+
+/* Trending badge */
+.trending-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 102, 196, 0.12);
+  color: var(--color-secondary, #ff66c4);
+  border: 1px solid rgba(255, 102, 196, 0.35);
+}
+
 /* Host type badge */
 .host-type-badge {
   display: inline-block;

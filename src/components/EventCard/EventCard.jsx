@@ -8,14 +8,14 @@ import React from "react";
 import "./EventCard.css";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
-import { Heart } from "@phosphor-icons/react";
+import { Heart, TrendUp } from "@phosphor-icons/react";
 import { useSavedEvents } from "../../context/SavedEventsContext";
 
 
 
 
 
-export default function EventCard({ events }) {
+export default function EventCard({ events, trendingIds = new Set() }) {
   const { t } = useLanguage();
   const { isSaved, toggleSave } = useSavedEvents();
 
@@ -51,6 +51,7 @@ export default function EventCard({ events }) {
     }
 
     const saved = isSaved(event.id);
+    const trending = trendingIds.has(String(event.id));
 
     return (
       <Link key={event.id || event.eventName} to={`event/${event.id}`} className="event-item-link">
@@ -81,11 +82,18 @@ export default function EventCard({ events }) {
               </div>
               
               <div className="event-content">
-                {event.source === 'user' && event.hostType && (
-                  <span className={`host-type-badge host-type-${event.hostType}`}>
-                    {event.hostType === 'organizer' ? t('createEvent.hostTypeOrganizer') : t('createEvent.hostTypePrivate')}
-                  </span>
-                )}
+                <div className="event-badges">
+                  {event.source === 'user' && event.hostType && (
+                    <span className={`host-type-badge host-type-${event.hostType}`}>
+                      {event.hostType === 'organizer' ? t('createEvent.hostTypeOrganizer') : t('createEvent.hostTypePrivate')}
+                    </span>
+                  )}
+                  {trending && (
+                    <span className="trending-badge">
+                      <TrendUp size={12} weight="bold" /> {t('eventCard.trending')}
+                    </span>
+                  )}
+                </div>
                 <h3 className="event-title">{event.eventName}</h3>
                 <p className="event-description">
                   {event.description}

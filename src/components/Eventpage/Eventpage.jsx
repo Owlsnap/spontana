@@ -10,11 +10,12 @@ import { toast } from "sonner";
 import {
   CalendarBlank, Clock, MapPin, MapTrifold,
   Envelope, Phone, Sparkle, Lightning,
-  Ticket, Heart, Export,
+  Ticket, Heart, Export, Eye,
   TwitterLogo, FacebookLogo, LinkedinLogo, WhatsappLogo,
   Link as LinkIcon, ArrowLeft,
 } from "@phosphor-icons/react";
 import { useSavedEvents } from "../../context/SavedEventsContext";
+
 
 export default function Eventpage({ events: propEvents }) {
   const { t } = useLanguage();
@@ -67,6 +68,20 @@ export default function Eventpage({ events: propEvents }) {
 
     loadEvent();
   }, [id, propEvents]);
+
+  // Track view once per session per event (debounced via sessionStorage)
+  useEffect(() => {
+    if (!id || !supabase) return;
+    const key = `viewed_${id}`;
+    const lastViewed = sessionStorage.getItem(key);
+    const thirtyMin = 30 * 60 * 1000;
+    if (lastViewed && Date.now() - Number(lastViewed) < thirtyMin) return;
+
+    sessionStorage.setItem(key, String(Date.now()));
+    supabase.functions.invoke("track-view", {
+      body: { event_id: id },
+    }).catch(() => {});
+  }, [id]);
 
   // Show skeleton while loading
   if (isLoading) {
@@ -418,6 +433,15 @@ export default function Eventpage({ events: propEvents }) {
                   {event.startTime}{event.endTime ? ` - ${event.endTime}` : ''}
                 </span>
               </div>
+              {event.viewCount > 0 && (
+                <div className="quick-info-item">
+                  <span className="info-label">
+                    <Eye size={13} weight="duotone" style={{ verticalAlign: 'middle', marginRight: 3 }} />
+                    {t('eventPage.views')}
+                  </span>
+                  <span className="info-value">{event.viewCount.toLocaleString('sv-SE')}</span>
+                </div>
+              )}
               {event.createdAt && (
                 <div className="quick-info-item">
                   <span className="info-label">{t('eventPage.quickInfoCreated')}</span>
