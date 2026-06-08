@@ -152,6 +152,9 @@ Deno.serve(async (req) => {
 
     if (error) throw new Error(`Supabase insert error: ${error.message}`);
 
+    const hcUrl = Deno.env.get("HEALTHCHECKS_FETCH_EVENTS_URL");
+    if (hcUrl) await fetch(hcUrl).catch(() => {});
+
     return new Response(
       JSON.stringify({
         message: `Successfully synced ${mapped.length} events from Ticketmaster`,

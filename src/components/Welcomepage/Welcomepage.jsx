@@ -36,8 +36,9 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const todayEventCount = useMemo(() => {
-    const today = new Date().toISOString().split('T')[0];
-    return events.filter(e => e.date === today).length;
+    const d = new Date();
+    const todayLocal = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    return events.filter(e => e.date === todayLocal || e.date?.startsWith(todayLocal)).length;
   }, [events]);
 
   const bannerCategories = useMemo(() => {
@@ -79,22 +80,25 @@ const Welcomepage = ({ events, loading: externalLoading }) => {
       });
     }
 
-    // Filter by date
+    // Filter by date — all comparisons use local midnight to avoid UTC drift
     if (dateFilter !== "all") {
+      const startOfToday = new Date();
+      startOfToday.setHours(0, 0, 0, 0);
+      const weekFromNow = new Date(startOfToday.getTime() + 7 * 24 * 60 * 60 * 1000);
+      const monthFromNow = new Date(startOfToday.getFullYear(), startOfToday.getMonth() + 1, startOfToday.getDate());
+      const nextMonthFromNow = new Date(startOfToday.getFullYear(), startOfToday.getMonth() + 2, startOfToday.getDate());
+
       filtered = filtered.filter(event => {
-        const eventDate = new Date(event.date);
-        const today = new Date();
-        const weekFromNow = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
-        const monthFromNow = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
-        const nextMonthFromNow = new Date(today.getFullYear(), today.getMonth() + 2, today.getDate());
+        // Parse date as local by appending T00:00:00 (avoids UTC-midnight shift)
+        const eventDate = new Date(`${event.date?.slice(0, 10)}T00:00:00`);
 
         switch (dateFilter) {
           case "today":
-            return eventDate.toDateString() === today.toDateString();
+            return eventDate.toDateString() === startOfToday.toDateString();
           case "thisweek":
-            return eventDate >= today && eventDate <= weekFromNow;
+            return eventDate >= startOfToday && eventDate <= weekFromNow;
           case "thismonth":
-            return eventDate >= today && eventDate <= monthFromNow;
+            return eventDate >= startOfToday && eventDate <= monthFromNow;
           case "nextmonth":
             return eventDate >= monthFromNow && eventDate <= nextMonthFromNow;
           default:

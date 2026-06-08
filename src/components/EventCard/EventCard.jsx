@@ -8,7 +8,6 @@ import React from "react";
 import "./EventCard.css";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
-import { slugify } from "../../lib/mapEvent";
 import { Heart } from "@phosphor-icons/react";
 import { useSavedEvents } from "../../context/SavedEventsContext";
 
@@ -54,7 +53,7 @@ export default function EventCard({ events }) {
     const saved = isSaved(event.id);
 
     return (
-      <Link key={event.id || event.eventName} to={slugify(event.eventName)} className="event-item-link">
+      <Link key={event.id || event.eventName} to={`event/${event.id}`} className="event-item-link">
         <div className="event-item-wrapper">
           <article className="event-item">
             <button

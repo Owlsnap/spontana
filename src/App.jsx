@@ -16,8 +16,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 import { SavedEventsProvider } from "./context/SavedEventsContext";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { Toaster } from "sonner";
-import data from "./data.json";
+import { Toaster, toast } from "sonner";
 import { supabase } from "./lib/supabase";
 import { dbRowToEvent } from "./lib/mapEvent";
 
@@ -66,7 +65,7 @@ function AppContent() {
             .from("events")
             .select("*")
             .eq("status", "active")
-            .gte("date", new Date().toISOString().split("T")[0])
+            .gte("date", (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })())
             .order("date", { ascending: true });
 
           if (!error && rows && rows.length > 0) {
@@ -74,13 +73,12 @@ function AppContent() {
             setLoading(false);
             return;
           }
+          if (error) throw error;
         } catch {
-          // Supabase unreachable, fall through to data.json
+          toast.error("Could not load events. Check your connection and try again.");
         }
       }
 
-      // Fallback to local data
-      setEvents(data);
       setLoading(false);
     }
 
@@ -123,7 +121,7 @@ function AppContent() {
             element={<Welcomepage events={events} loading={loading} />}
           />
           <Route
-            path=":name"
+            path="event/:id"
             element={<Eventpage events={events} />}
           />
           <Route

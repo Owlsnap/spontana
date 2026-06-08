@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import "./Eventpage.css";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
 import EventpageSkeleton from "../Skeleton/EventpageSkeleton";
 import { supabase } from "../../lib/supabase";
-import { dbRowToEvent, slugify } from "../../lib/mapEvent";
+import { dbRowToEvent } from "../../lib/mapEvent";
 import { toast } from "sonner";
 import {
   CalendarBlank, Clock, MapPin, MapTrifold,
@@ -18,10 +19,9 @@ import { useSavedEvents } from "../../context/SavedEventsContext";
 export default function Eventpage({ events: propEvents }) {
   const { t } = useLanguage();
   const { isSaved, toggleSave } = useSavedEvents();
-  const { name } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const [event, setEvent] = useState(null);
-  const [allEvents, setAllEvents] = useState(propEvents || []);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -33,32 +33,27 @@ export default function Eventpage({ events: propEvents }) {
 
       // First try from props
       if (propEvents && propEvents.length > 0) {
-        const found = propEvents.find((e) => slugify(e.eventName) === name);
+        const found = propEvents.find((e) => String(e.id) === id);
         if (found) {
           setEvent(found);
-          setAllEvents(propEvents);
           setIsLoading(false);
           return;
         }
       }
 
-      // Then try Supabase — fetch all active events and match by slug
+      // Then try Supabase — fetch single event by id
       if (supabase) {
         try {
-          const { data: allRows, error } = await supabase
+          const { data: row, error } = await supabase
             .from("events")
             .select("*")
-            .eq("status", "active");
+            .eq("id", id)
+            .single();
 
-          if (!error && allRows) {
-            const mapped = allRows.map(dbRowToEvent);
-            const found = mapped.find((e) => slugify(e.eventName) === name);
-            if (found) {
-              setEvent(found);
-              setAllEvents(mapped);
-              setIsLoading(false);
-              return;
-            }
+          if (!error && row) {
+            setEvent(dbRowToEvent(row));
+            setIsLoading(false);
+            return;
           }
         } catch {
           // Supabase unreachable
@@ -71,7 +66,7 @@ export default function Eventpage({ events: propEvents }) {
     }
 
     loadEvent();
-  }, [name, propEvents]);
+  }, [id, propEvents]);
 
   // Show skeleton while loading
   if (isLoading) {
@@ -138,8 +133,25 @@ export default function Eventpage({ events: propEvents }) {
     toggleSave(event);
   };
 
+  const canonicalUrl = `https://spontana.app/event/${event.id}`;
+  const ogImage = event.img || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop";
+
   const eventInfo = (
     <div key={event.eventName} className="eventpage">
+      <Helmet>
+        <title>{event.eventName} — Spontana</title>
+        <meta name="description" content={event.description || `${event.eventName} at ${event.location?.venue || 'Stockholm'}`} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:title" content={event.eventName} />
+        <meta property="og:description" content={event.description || `${event.eventName} at ${event.location?.venue || 'Stockholm'}`} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:type" content="event" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={event.eventName} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
+
       {/* Hero Section with Event Image */}
       <div className="event-hero">
         <div className="event-hero-image-container">
@@ -427,7 +439,7 @@ export default function Eventpage({ events: propEvents }) {
           {t('eventPage.similarEvents')}
         </h2>
         <div className="similar-events-grid">
-          {allEvents
+          {(propEvents || [])
             .filter(e =>
               e.id !== event.id &&
               (e.type === event.type || e.location?.city === event.location?.city)
@@ -436,7 +448,7 @@ export default function Eventpage({ events: propEvents }) {
             .map(similarEvent => (
               <Link
                 key={similarEvent.id}
-                to={`/${slugify(similarEvent.eventName)}`}
+                to={`/event/${similarEvent.id}`}
                 className="similar-event-card angular-container white-border"
               >
                 <img
