@@ -5,70 +5,28 @@
   overflow-x: hidden;
 }
 
-/* Hero section — full bleed with background image */
+/* Hero section — full bleed, dark with a faint yellow glow behind the carousel */
 .upper-section-with-bg {
   position: relative;
-  background: url('../../assets/bennie-bates-unsplash.jpg') center/cover no-repeat;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 55%, rgba(253, 213, 63, 0.06), transparent 70%),
+    var(--color-background);
   min-height: 65vh;
-}
-
-/* Dark overlay */
-.upper-section-with-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1;
 }
 
 /* Hero content box */
 .upperWelcomepage {
-  padding: var(--space-3xl) var(--space-xl);
+  padding: var(--space-2xl) var(--space-xl) calc(var(--space-2xl) + 36px);
   min-height: 65vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-xl);
-  max-width: 900px;
+  gap: var(--space-lg);
+  max-width: 1400px;
   position: relative;
   z-index: 2;
   margin: 0 auto;
-}
-
-.hero-left {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.hero-title {
-  font-size: clamp(2rem, 6vw, 5rem);
-  font-weight: 700;
-  margin: 0;
-  letter-spacing: 0.04em;
-  line-height: 1.1;
-  font-family: var(--font-heading);
-  color: var(--color-text-primary);
-}
-
-.decode-text {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4em;
-  justify-content: center;
-}
-
-.hero-word {
-  display: flex;
-  gap: 0.02em;
-}
-
-.decode-letter {
-  color: var(--color-text-primary);
-  display: inline-block;
-  font-weight: 700;
 }
 
 /* LIVE badge */
@@ -314,12 +272,8 @@
 
   .upperWelcomepage {
     min-height: 50vh;
-    padding: var(--space-xl) var(--space-md);
+    padding: var(--space-xl) var(--space-md) calc(var(--space-xl) + 32px);
     gap: var(--space-lg);
-  }
-
-  .hero-title {
-    font-size: clamp(1.5rem, 8vw, 2.5rem);
   }
 
   .hero-actions {
@@ -388,7 +342,7 @@
 
   .upperWelcomepage {
     min-height: 40vh;
-    padding: var(--space-lg) var(--space-sm);
+    padding: var(--space-lg) var(--space-sm) calc(var(--space-lg) + 32px);
   }
 
   .lowerWelcomepage {

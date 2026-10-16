@@ -10,16 +10,10 @@ import SearchFilter from "../SearchFilter/SearchFilter";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
 import EventCardSkeleton from "../Skeleton/EventCardSkeleton";
+import HeroCarousel from "../HeroCarousel/HeroCarousel";
 
 
 const EVENTS_PER_PAGE = 12;
-
-const HERO_PHRASES = [
-  "FIND YOUR NIGHT",
-  "SOMETHING IS ON",
-  "STOCKHOLM LIVES",
-  "GET OUT TONIGHT",
-];
 
 const Welcomepage = ({ events, loading: externalLoading, trendingIds = new Set() }) => {
   const { t } = useLanguage();
@@ -32,7 +26,6 @@ const Welcomepage = ({ events, loading: externalLoading, trendingIds = new Set()
   const [isLoading, setIsLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(EVENTS_PER_PAGE);
   const eventsRef = useRef(null);
-  const [heroPhraseIndex, setHeroPhraseIndex] = useState(0);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const todayEventCount = useMemo(() => {
@@ -129,41 +122,6 @@ const Welcomepage = ({ events, loading: externalLoading, trendingIds = new Set()
     }
   }, [externalLoading]);
 
-  // Decode animation — runs on mount and on each hero phrase change
-  useEffect(() => {
-    const letters = document.querySelectorAll('.decode-letter');
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
-    const allIntervals = [];
-
-    letters.forEach((letter, index) => {
-      const target = letter.getAttribute('data-target');
-      let iterations = 0;
-      const maxIterations = 2 + Math.floor(index / 2);
-
-      const interval = setInterval(() => {
-        if (iterations < maxIterations) {
-          letter.textContent = characters[Math.floor(Math.random() * characters.length)];
-          iterations++;
-        } else {
-          letter.textContent = target;
-          clearInterval(interval);
-        }
-      }, 30 + index * 10);
-
-      allIntervals.push(interval);
-    });
-
-    return () => allIntervals.forEach(clearInterval);
-  }, [heroPhraseIndex]);
-
-  // Cycle hero phrases every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeroPhraseIndex(prev => (prev + 1) % HERO_PHRASES.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
   const handleClearFilters = () => {
     setSearchTerm("");
     setSelectedType("All Types");
@@ -177,26 +135,10 @@ const Welcomepage = ({ events, loading: externalLoading, trendingIds = new Set()
     <div className="welcomepage">
       <div className="upper-section-with-bg">
         <div className="upperWelcomepage">
-          <div className="hero-left">
-            <h1 className="hero-title decode-text">
-              {HERO_PHRASES[heroPhraseIndex].split(' ').map((word, wordIndex) => (
-                <span key={wordIndex} className="hero-word">
-                  {word.split('').map((letter, letterIndex) => (
-                    <span
-                      key={letterIndex}
-                      className="matrix-letter decode-letter"
-                      data-target={letter}
-                    >
-                      {letter}
-                    </span>
-                  ))}
-                </span>
-              ))}
-            </h1>
-          </div>
           <div className="banner-content-live">
             {t('welcome.liveNow')} • {todayEventCount} {t('welcome.activeEventsToday')}
           </div>
+          {!isLoading && <HeroCarousel events={events} />}
           <div className="hero-actions">
             <Link to={"/createevent"} className="cta-button primary">
               {t('welcome.createEvent')}
