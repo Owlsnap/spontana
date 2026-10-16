@@ -6,6 +6,7 @@ import { useLanguage } from "../../i18n/LanguageContext";
 import EventpageSkeleton from "../Skeleton/EventpageSkeleton";
 import { supabase } from "../../lib/supabase";
 import { dbRowToEvent } from "../../lib/mapEvent";
+import { buildEventSeo } from "../../lib/eventSeo";
 import { toast } from "sonner";
 import {
   CalendarBlank, Clock, MapPin, MapTrifold,
@@ -148,23 +149,23 @@ export default function Eventpage({ events: propEvents }) {
     toggleSave(event);
   };
 
-  const canonicalUrl = `https://spontana.app/event/${event.id}`;
-  const ogImage = event.img || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop";
+  const seo = buildEventSeo(event);
 
   const eventInfo = (
     <div key={event.eventName} className="eventpage">
       <Helmet>
-        <title>{event.eventName} — Spontana</title>
-        <meta name="description" content={event.description || `${event.eventName} at ${event.location?.venue || 'Stockholm'}`} />
-        <link rel="canonical" href={canonicalUrl} />
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <link rel="canonical" href={seo.canonicalUrl} />
         <meta property="og:title" content={event.eventName} />
-        <meta property="og:description" content={event.description || `${event.eventName} at ${event.location?.venue || 'Stockholm'}`} />
-        <meta property="og:image" content={ogImage} />
-        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:image" content={seo.image} />
+        <meta property="og:url" content={seo.canonicalUrl} />
         <meta property="og:type" content="event" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={event.eventName} />
-        <meta name="twitter:image" content={ogImage} />
+        <meta name="twitter:image" content={seo.image} />
+        <script type="application/ld+json">{seo.jsonLd}</script>
       </Helmet>
 
       {/* Hero Section with Event Image */}

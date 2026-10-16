@@ -1,3 +1,10 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "functions": {
+    "api/event.js": { "includeFiles": "dist/index.html" }
+  },
+  "rewrites": [
+    { "source": "/event/:id", "destination": "/api/event?id=:id" },
+    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }
