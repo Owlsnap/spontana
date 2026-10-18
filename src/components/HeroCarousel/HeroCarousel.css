@@ -1,10 +1,13 @@
 .hero-carousel {
-  --card-w: clamp(150px, 20vw, 230px);
+  /* Height matches the original 3:4 cards; width is stretched to make them wider */
+  --card-h: calc(clamp(150px, 20vw, 230px) * 4 / 3);
+  --card-w: calc(var(--card-h) * 0.9);
   /* Camera height: more negative looks further down onto the ring, so back cards peek over the front ones */
   --camera-y: -60%;
   position: relative;
   width: 100%;
-  height: calc(var(--card-w) * 4 / 3 + var(--space-2xl) + var(--space-xl));
+  /* Extra bottom room: the front card scales up as it comes toward the camera */
+  height: calc(var(--card-h) + var(--space-2xl) * 2 + var(--space-xl));
   perspective: 1400px;
   perspective-origin: 50% var(--camera-y);
   touch-action: pan-y;
@@ -38,7 +41,7 @@
   top: calc(var(--space-2xl) / 2 + var(--space-xl));
   left: calc(50% - var(--card-w) / 2);
   width: var(--card-w);
-  aspect-ratio: 3 / 4;
+  height: var(--card-h);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border-white);
   background: var(--color-background-elevated);

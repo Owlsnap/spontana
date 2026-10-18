@@ -14,7 +14,7 @@
 }
 
 .logo {
-  height: 3.75rem;
+  height: 2rem;
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
@@ -293,7 +293,7 @@
   }
 
   .logo {
-    height: 3rem;
+    height: 2.25rem;
   }
 
   .nav-buttons {
