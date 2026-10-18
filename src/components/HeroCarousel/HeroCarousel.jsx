@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./HeroCarousel.css";
+import { lastDay } from "../../lib/eventDates";
 
 const MAX_CARDS = 14;
 const BASE_SPEED = 0.35;      // cards per second when idle
@@ -26,7 +27,7 @@ function pickEvents(events) {
   const byType = new Map();
   for (const e of events) {
     if (!e.img || !e.eventName) continue;
-    if (e.date && e.date.slice(0, 10) < today) continue;
+    if (e.date && lastDay(e) < today) continue;
     const type = e.type || "Other";
     if (!byType.has(type)) byType.set(type, []);
     byType.get(type).push(e);

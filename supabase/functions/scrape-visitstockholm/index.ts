@@ -52,6 +52,7 @@ function mapEvent(item: any): any {
     type: mapCategory(item.category?.title ?? item.categories?.[0] ?? ""),
     img,
     date: item.startDate ?? null,
+    end_date: item.endDate && item.endDate > item.startDate ? item.endDate : null,
     start_time: null,  // not in API response
     end_time: null,
     venue: item.venueName ?? null,

@@ -7,6 +7,7 @@ import EventpageSkeleton from "../Skeleton/EventpageSkeleton";
 import { supabase } from "../../lib/supabase";
 import { dbRowToEvent } from "../../lib/mapEvent";
 import { buildEventSeo } from "../../lib/eventSeo";
+import { localToday, parseLocalDate, isOngoing, isMultiDay, formatEventDates } from "../../lib/eventDates";
 import { toast } from "sonner";
 import {
   CalendarBlank, Clock, MapPin, MapTrifold,
@@ -108,11 +109,12 @@ export default function Eventpage({ events: propEvents }) {
 
   // Calendar days until event, in local time. new Date("YYYY-MM-DD") parses as
   // UTC midnight, which made tonight's events read as "tomorrow" after 00:00.
-  const [y, m, d] = String(event.date).split('-').map(Number);
-  const eventDate = new Date(y, m - 1, d);
-  const now = new Date();
-  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const daysUntil = Math.round((eventDate - todayMidnight) / (1000 * 60 * 60 * 24));
+  const today = localToday();
+  const daysUntil = Math.round((parseLocalDate(event.date) - parseLocalDate(today)) / (1000 * 60 * 60 * 24));
+  const ongoing = isOngoing(event, today);
+  const dateText = formatEventDates(event, locale, isMultiDay(event)
+    ? { day: 'numeric', month: 'long', year: 'numeric' }
+    : { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
   const timeRange = event.startTime
     ? `${event.startTime}${event.endTime ? ` - ${event.endTime}` : ''}`
@@ -220,7 +222,7 @@ export default function Eventpage({ events: propEvents }) {
           <div className="event-hero-meta">
             <div className="event-meta-item">
               <span className="meta-icon"><CalendarBlank size={18} weight="duotone" /></span>
-              <span className="meta-text">{eventDate.toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <span className="meta-text">{dateText}</span>
             </div>
             {timeRange && (
               <div className="event-meta-item">
@@ -237,7 +239,9 @@ export default function Eventpage({ events: propEvents }) {
           </div>
 
           <div className="event-status-container">
-            {daysUntil >= 0 && daysUntil <= 7 && (
+            {ongoing ? (
+              <span className="event-urgency-badge">{t('eventPage.ongoing')}</span>
+            ) : daysUntil >= 0 && daysUntil <= 7 && (
               <span className="event-urgency-badge">
                 {daysUntil === 0 ? t('eventPage.today') : daysUntil === 1 ? t('eventPage.tomorrow') : t('eventPage.daysAway', { count: daysUntil })}
               </span>
@@ -515,7 +519,7 @@ export default function Eventpage({ events: propEvents }) {
                 <div className="similar-event-content">
                   <h3 className="similar-event-title">{similarEvent.eventName}</h3>
                   <p className="similar-event-meta">
-                    {new Date(`${similarEvent.date}T00:00`).toLocaleDateString(locale)}
+                    {formatEventDates(similarEvent, locale, { day: "numeric", month: "short" })}
                     {(similarEvent.location?.venue || similarEvent.location?.city) && ` • ${similarEvent.location.venue || similarEvent.location.city}`}
                   </p>
                   <span className="similar-event-tag">{similarEvent.type}</span>

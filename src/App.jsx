@@ -19,6 +19,7 @@ import { useState, useEffect } from "react";
 import { Toaster, toast } from "sonner";
 import { supabase } from "./lib/supabase";
 import { dbRowToEvent } from "./lib/mapEvent";
+import { localToday, compareByNextDay } from "./lib/eventDates";
 
 // Wraps a route so unauthenticated users are redirected and the auth modal opens
 function RequireAuth({ children }) {
@@ -67,13 +68,13 @@ function AppContent() {
               .from("events")
               .select("*")
               .eq("status", "active")
-              .gte("date", (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })())
+              .or(`date.gte.${localToday()},end_date.gte.${localToday()}`)
               .order("date", { ascending: true }),
             supabase.rpc("get_trending_events", { min_views: 3, hours_back: 48 }),
           ]);
 
           if (!eventsResult.error && eventsResult.data && eventsResult.data.length > 0) {
-            setEvents(eventsResult.data.map(dbRowToEvent));
+            setEvents(eventsResult.data.map(dbRowToEvent).sort((a, b) => compareByNextDay(a, b)));
           }
           if (eventsResult.error) throw eventsResult.error;
 

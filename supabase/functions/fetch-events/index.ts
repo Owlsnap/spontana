@@ -52,6 +52,7 @@ function mapTicketmasterEvent(tm: any): any {
     type,
     img,
     date: tm.dates?.start?.localDate || null,
+    end_date: tm.dates?.end?.localDate && tm.dates.end.localDate > tm.dates?.start?.localDate ? tm.dates.end.localDate : null,
     start_time: tm.dates?.start?.localTime?.slice(0, 5) || null,
     end_time: null,
     venue: venue?.name || null,

@@ -6,6 +6,7 @@ import path from 'node:path';
 import { selectEvents } from './_supabase.js';
 import { dbRowToEvent } from '../src/lib/mapEvent.js';
 import { buildEventSeo } from '../src/lib/eventSeo.js';
+import { lastDay, isMultiDay } from '../src/lib/eventDates.js';
 
 let templateCache;
 
@@ -46,7 +47,8 @@ function headTags(event, seo) {
 }
 
 function bodySummary(event) {
-  const when = [event.date, event.startTime].filter(Boolean).join(' ');
+  const days = isMultiDay(event) ? `${event.date} – ${lastDay(event)}` : event.date;
+  const when = [days, event.startTime].filter(Boolean).join(' ');
   const where = [event.location.venue, event.location.address, event.location.city].filter(Boolean).join(', ');
   return `<main style="max-width:720px;margin:0 auto;padding:16px;color:#fff;font-family:sans-serif">
       <h1>${escapeHtml(event.eventName)}</h1>

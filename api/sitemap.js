@@ -5,7 +5,8 @@ import { SITE_URL } from '../src/lib/eventSeo.js';
 const PAGE_SIZE = 1000; // PostgREST max rows per request
 
 async function upcomingEvents() {
-  const query = `select=id,updated_at&status=eq.active&date=gte.${stockholmToday()}&order=date.asc,id.asc`;
+  const today = stockholmToday();
+  const query = `select=id,updated_at&status=eq.active&or=(date.gte.${today},end_date.gte.${today})&order=date.asc,id.asc`;
   const rows = [];
   for (let from = 0; ; from += PAGE_SIZE) {
     const page = await selectEvents(query, { range: `${from}-${from + PAGE_SIZE - 1}` });

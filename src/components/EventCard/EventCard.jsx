@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
 import { Heart, TrendUp } from "@phosphor-icons/react";
 import { useSavedEvents } from "../../context/SavedEventsContext";
+import { formatEventDates } from "../../lib/eventDates";
 
 
 
@@ -34,12 +35,9 @@ export default function EventCard({ events, trendingIds = new Set() }) {
   }
 
   const eventItems = events.map((event) => {
-    const eventDate = new Date(event.date);
-    const formattedDate = eventDate.toLocaleDateString('sv-SE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
+    const formattedDate = event.date
+      ? formatEventDates(event, 'sv-SE', { day: '2-digit', month: '2-digit', year: 'numeric' })
+      : '';
     
     // Create tags array
     const tags = [];

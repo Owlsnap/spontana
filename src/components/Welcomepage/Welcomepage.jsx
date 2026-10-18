@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
 import EventCardSkeleton from "../Skeleton/EventCardSkeleton";
 import HeroCarousel from "../HeroCarousel/HeroCarousel";
+import { localToday, toDateKey, runsBetween } from "../../lib/eventDates";
 
 
 const EVENTS_PER_PAGE = 12;
@@ -29,9 +30,8 @@ const Welcomepage = ({ events, loading: externalLoading, trendingIds = new Set()
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const todayEventCount = useMemo(() => {
-    const d = new Date();
-    const todayLocal = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    return events.filter(e => e.date === todayLocal || e.date?.startsWith(todayLocal)).length;
+    const today = localToday();
+    return events.filter(e => runsBetween(e, today, today)).length;
   }, [events]);
 
   const bannerCategories = useMemo(() => {
@@ -81,23 +81,17 @@ const Welcomepage = ({ events, loading: externalLoading, trendingIds = new Set()
       const monthFromNow = new Date(startOfToday.getFullYear(), startOfToday.getMonth() + 1, startOfToday.getDate());
       const nextMonthFromNow = new Date(startOfToday.getFullYear(), startOfToday.getMonth() + 2, startOfToday.getDate());
 
-      filtered = filtered.filter(event => {
-        // Parse date as local by appending T00:00:00 (avoids UTC-midnight shift)
-        const eventDate = new Date(`${event.date?.slice(0, 10)}T00:00:00`);
+      const today = toDateKey(startOfToday);
+      const ranges = {
+        today: [today, today],
+        thisweek: [today, toDateKey(weekFromNow)],
+        thismonth: [today, toDateKey(monthFromNow)],
+        nextmonth: [toDateKey(monthFromNow), toDateKey(nextMonthFromNow)],
+      };
 
-        switch (dateFilter) {
-          case "today":
-            return eventDate.toDateString() === startOfToday.toDateString();
-          case "thisweek":
-            return eventDate >= startOfToday && eventDate <= weekFromNow;
-          case "thismonth":
-            return eventDate >= startOfToday && eventDate <= monthFromNow;
-          case "nextmonth":
-            return eventDate >= monthFromNow && eventDate <= nextMonthFromNow;
-          default:
-            return true;
-        }
-      });
+      // Multi-day events match if any of their days falls in the range
+      const range = ranges[dateFilter];
+      if (range) filtered = filtered.filter(event => runsBetween(event, range[0], range[1]));
     }
 
     // Filter by location

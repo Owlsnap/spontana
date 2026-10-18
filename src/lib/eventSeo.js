@@ -4,6 +4,8 @@
  * Takes an event in component format (see dbRowToEvent).
  */
 
+import { lastDay, isMultiDay } from './eventDates.js';
+
 export const SITE_URL = 'https://spontana.app';
 const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop';
 
@@ -45,7 +47,9 @@ export function buildEventSeo(event) {
     name: event.eventName,
     description: truncate(event.description, 1000) || undefined,
     startDate: isoDateTime(event.date, event.startTime),
-    endDate: event.endTime ? isoDateTime(event.date, event.endTime) : undefined,
+    endDate: event.endTime
+      ? isoDateTime(lastDay(event), event.endTime)
+      : isMultiDay(event) ? lastDay(event) : undefined,
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     location: {

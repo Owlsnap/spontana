@@ -24,6 +24,7 @@ export function dbRowToEvent(row) {
     type: row.type || '',
     img: row.img || '',
     date: row.date || '',
+    endDate: row.end_date || '',
     startTime: row.start_time || '',
     endTime: row.end_time || '',
     location: {
