@@ -19,7 +19,8 @@ import { useSavedEvents } from "../../context/SavedEventsContext";
 
 
 export default function Eventpage({ events: propEvents }) {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const locale = language === 'en' ? 'en-GB' : 'sv-SE';
   const { isSaved, toggleSave } = useSavedEvents();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -27,7 +28,9 @@ export default function Eventpage({ events: propEvents }) {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  window.scrollTo(0, 0);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
 
   useEffect(() => {
     async function loadEvent() {
@@ -103,10 +106,23 @@ export default function Eventpage({ events: propEvents }) {
     );
   }
 
-  // Calculate days until event
-  const eventDate = new Date(event.date);
-  const today = new Date();
-  const daysUntil = Math.ceil((eventDate - today) / (1000 * 60 * 60 * 24));
+  // Calendar days until event, in local time. new Date("YYYY-MM-DD") parses as
+  // UTC midnight, which made tonight's events read as "tomorrow" after 00:00.
+  const [y, m, d] = String(event.date).split('-').map(Number);
+  const eventDate = new Date(y, m - 1, d);
+  const now = new Date();
+  const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const daysUntil = Math.round((eventDate - todayMidnight) / (1000 * 60 * 60 * 24));
+
+  const timeRange = event.startTime
+    ? `${event.startTime}${event.endTime ? ` - ${event.endTime}` : ''}`
+    : '';
+  const venueName = event.location?.venue || event.venue || event.location?.address || '';
+  const venueLine = [venueName, event.location?.city].filter(Boolean).join(', ');
+
+  const similarEvents = (propEvents || [])
+    .filter(e => e.id !== event.id && e.type && e.type === event.type)
+    .slice(0, 3);
 
   // Calculate percentage of spots filled
   const spotsFilled = event.capacity
@@ -115,7 +131,8 @@ export default function Eventpage({ events: propEvents }) {
 
   // Share functionality
   const handleShare = (platform) => {
-    const eventUrl = window.location.href;
+    const rawUrl = window.location.href;
+    const eventUrl = encodeURIComponent(rawUrl);
     const eventTitle = encodeURIComponent(event.eventName);
 
     const shareUrls = {
@@ -123,12 +140,13 @@ export default function Eventpage({ events: propEvents }) {
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${eventUrl}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${eventUrl}`,
       whatsapp: `https://wa.me/?text=${eventTitle}%20${eventUrl}`,
-      copy: eventUrl
     };
 
     if (platform === 'copy') {
-      navigator.clipboard.writeText(eventUrl);
-      toast.success(t('eventPage.linkCopied'));
+      Promise.resolve()
+        .then(() => navigator.clipboard.writeText(rawUrl))
+        .then(() => toast.success(t('eventPage.linkCopied')))
+        .catch(() => toast.error(t('eventPage.linkCopyFailed')));
     } else {
       window.open(shareUrls[platform], '_blank', 'width=600,height=400');
     }
@@ -202,16 +220,20 @@ export default function Eventpage({ events: propEvents }) {
           <div className="event-hero-meta">
             <div className="event-meta-item">
               <span className="meta-icon"><CalendarBlank size={18} weight="duotone" /></span>
-              <span className="meta-text">{new Date(event.date).toLocaleDateString('sv-SE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <span className="meta-text">{eventDate.toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
             </div>
-            <div className="event-meta-item">
-              <span className="meta-icon"><Clock size={18} weight="duotone" /></span>
-              <span className="meta-text">{event.startTime}{event.endTime ? ` - ${event.endTime}` : ''}</span>
-            </div>
-            <div className="event-meta-item">
-              <span className="meta-icon"><MapPin size={18} weight="duotone" /></span>
-              <span className="meta-text">{event.location?.venue || event.venue}{event.location?.city ? `, ${event.location.city}` : ''}</span>
-            </div>
+            {timeRange && (
+              <div className="event-meta-item">
+                <span className="meta-icon"><Clock size={18} weight="duotone" /></span>
+                <span className="meta-text">{timeRange}</span>
+              </div>
+            )}
+            {venueLine && (
+              <div className="event-meta-item">
+                <span className="meta-icon"><MapPin size={18} weight="duotone" /></span>
+                <span className="meta-text">{venueLine}</span>
+              </div>
+            )}
           </div>
 
           <div className="event-status-container">
@@ -250,11 +272,15 @@ export default function Eventpage({ events: propEvents }) {
               {t('eventPage.location')}
             </h2>
             <div className="location-details">
-              <h3 className="venue-name">{event.location?.venue || ''}</h3>
+              {venueName && <h3 className="venue-name">{venueName}</h3>}
               <p className="venue-address">
-                {event.location?.address || ''}<br />
-                {event.location?.city || ''}{event.location?.state ? `, ${event.location.state}` : ''} {event.location?.postalCode || ''}<br />
-                {event.location?.country || ''}
+                {[
+                  venueName !== event.location?.address && event.location?.address,
+                  [event.location?.city, event.location?.postalCode].filter(Boolean).join(' '),
+                  event.location?.country,
+                ].filter(Boolean).map((line, i) => (
+                  <React.Fragment key={i}>{i > 0 && <br />}{line}</React.Fragment>
+                ))}
               </p>
               <button className="directions-button" onClick={handleGetDirections}>
                 <MapTrifold size={16} weight="duotone" /> {t('eventPage.getDirections')}
@@ -435,26 +461,26 @@ export default function Eventpage({ events: propEvents }) {
                 <span className="info-label">{t('eventPage.quickInfoType')}</span>
                 <span className="info-value">{event.type}</span>
               </div>
-              <div className="quick-info-item">
-                <span className="info-label">{t('eventPage.quickInfoDuration')}</span>
-                <span className="info-value">
-                  {event.startTime}{event.endTime ? ` - ${event.endTime}` : ''}
-                </span>
-              </div>
+              {timeRange && (
+                <div className="quick-info-item">
+                  <span className="info-label">{t('eventPage.quickInfoDuration')}</span>
+                  <span className="info-value">{timeRange}</span>
+                </div>
+              )}
               {event.viewCount > 0 && (
                 <div className="quick-info-item">
                   <span className="info-label">
                     <Eye size={13} weight="duotone" style={{ verticalAlign: 'middle', marginRight: 3 }} />
                     {t('eventPage.views')}
                   </span>
-                  <span className="info-value">{event.viewCount.toLocaleString('sv-SE')}</span>
+                  <span className="info-value">{event.viewCount.toLocaleString(locale)}</span>
                 </div>
               )}
               {event.createdAt && (
                 <div className="quick-info-item">
                   <span className="info-label">{t('eventPage.quickInfoCreated')}</span>
                   <span className="info-value">
-                    {new Date(event.createdAt).toLocaleDateString('sv-SE')}
+                    {new Date(event.createdAt).toLocaleDateString(locale)}
                   </span>
                 </div>
               )}
@@ -465,19 +491,14 @@ export default function Eventpage({ events: propEvents }) {
       </div>
 
       {/* Similar Events Section */}
+      {similarEvents.length > 0 && (
       <div className="similar-events-section">
         <h2 className="similar-events-title">
           <span className="title-accent"><Sparkle size={20} weight="fill" /></span>
           {t('eventPage.similarEvents')}
         </h2>
         <div className="similar-events-grid">
-          {(propEvents || [])
-            .filter(e =>
-              e.id !== event.id &&
-              (e.type === event.type || e.location?.city === event.location?.city)
-            )
-            .slice(0, 3)
-            .map(similarEvent => (
+          {similarEvents.map(similarEvent => (
               <Link
                 key={similarEvent.id}
                 to={`/event/${similarEvent.id}`}
@@ -494,7 +515,8 @@ export default function Eventpage({ events: propEvents }) {
                 <div className="similar-event-content">
                   <h3 className="similar-event-title">{similarEvent.eventName}</h3>
                   <p className="similar-event-meta">
-                    {new Date(similarEvent.date).toLocaleDateString('sv-SE')} • {similarEvent.location?.city || ''}
+                    {new Date(`${similarEvent.date}T00:00`).toLocaleDateString(locale)}
+                    {(similarEvent.location?.venue || similarEvent.location?.city) && ` • ${similarEvent.location.venue || similarEvent.location.city}`}
                   </p>
                   <span className="similar-event-tag">{similarEvent.type}</span>
                 </div>
@@ -502,6 +524,7 @@ export default function Eventpage({ events: propEvents }) {
             ))}
         </div>
       </div>
+      )}
     </div>
   );
 
