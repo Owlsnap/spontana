@@ -48,7 +48,7 @@ function mapEvent(item: any): any {
     id: `vs_${item.id}`,
     source: "visitstockholm",
     source_id: String(item.id),
-    event_name: item.title ?? "Untitled Event",
+    event_name: decodeEntities(item.title ?? "Untitled Event"),
     type: mapCategory(item.category?.title ?? item.categories?.[0] ?? ""),
     img,
     date: item.startDate ?? null,
@@ -116,8 +116,25 @@ function buildTags(item: any): string[] {
   return [...new Set(raw.map((t: string) => t.toLowerCase()))];
 }
 
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ",
+  ndash: "–", mdash: "—", hellip: "…", rsquo: "’", lsquo: "‘",
+  rdquo: "”", ldquo: "“", aring: "å", Aring: "Å", auml: "ä",
+  Auml: "Ä", ouml: "ö", Ouml: "Ö", eacute: "é", Eacute: "É",
+};
+
+function decodeEntities(text: string): string {
+  return text.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, code: string) => {
+    if (code[0] === "#") {
+      const n = code[1].toLowerCase() === "x" ? parseInt(code.slice(2), 16) : parseInt(code.slice(1), 10);
+      return Number.isFinite(n) ? String.fromCodePoint(n) : match;
+    }
+    return NAMED_ENTITIES[code] ?? match;
+  });
+}
+
 function stripHtml(html: string): string {
-  return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  return decodeEntities(html.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
 }
 
 Deno.serve(async (req) => {

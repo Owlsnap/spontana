@@ -612,6 +612,9 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-sm);
+  box-sizing: border-box;
+  text-align: center;
+  text-decoration: none;
 }
 
 .cta-button-primary:hover {

@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import {
   CalendarBlank, Clock, MapPin, MapTrifold,
   Envelope, Phone, Sparkle, Lightning,
-  Ticket, Heart, Export, Eye,
+  ArrowSquareOut, Heart, Export, Eye,
   TwitterLogo, FacebookLogo, LinkedinLogo, WhatsappLogo,
   Link as LinkIcon, ArrowLeft,
 } from "@phosphor-icons/react";
@@ -151,6 +151,12 @@ export default function Eventpage({ events: propEvents }) {
 
   const seo = buildEventSeo(event);
 
+  // We don't sell tickets — the CTA always links out, so name where it goes
+  const outbound = {
+    ticketmaster: { label: t('eventPage.outboundTicketmaster') },
+    visitstockholm: { label: t('eventPage.outboundVisitStockholm') },
+  }[event.source] || { label: t('eventPage.outboundOrganizer') };
+
   const eventInfo = (
     <div key={event.eventName} className="eventpage">
       <Helmet>
@@ -235,11 +241,6 @@ export default function Eventpage({ events: propEvents }) {
                   ? t('eventPage.noDescriptionTicketmaster')
                   : t('eventPage.noDescription')}
               </p>
-            )}
-            {event.url && (
-              <a href={event.url} target="_blank" rel="noopener noreferrer" className="directions-button">
-                {event.description ? t('eventPage.viewOriginal') : t('eventPage.viewFullDetails')}
-              </a>
             )}
           </div>
 
@@ -376,13 +377,17 @@ export default function Eventpage({ events: propEvents }) {
               </div>
             )}
 
-            <button
-              className="cta-button-primary"
-              onClick={() => event.url && window.open(event.url, '_blank')}
-            >
-              <span className="cta-icon"><Ticket size={18} weight="duotone" /></span>
-              {event.url ? t('eventPage.rsvp') : t('eventPage.rsvp')}
-            </button>
+            {event.url && (
+              <a
+                href={event.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cta-button-primary"
+              >
+                {outbound.label}
+                <span className="cta-icon"><ArrowSquareOut size={18} weight="bold" /></span>
+              </a>
+            )}
 
             <div className="action-buttons-row">
               <button
