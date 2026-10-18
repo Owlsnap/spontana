@@ -401,7 +401,7 @@ export default function Eventpage({ events: propEvents }) {
                     style={{ width: `${spotsFilled}%` }}
                   ></div>
                 </div>
-                {event.availableSpots && event.availableSpots < event.capacity * 0.2 && (
+                {event.availableSpots > 0 && event.availableSpots <event.capacity * 0.2 && (
                   <div className="capacity-warning"><Lightning size={14} weight="fill" /> {t('eventPage.fillingUp')}</div>
                 )}
               </div>
