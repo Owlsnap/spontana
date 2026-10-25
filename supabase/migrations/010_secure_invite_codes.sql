@@ -3,8 +3,10 @@
 
 DROP POLICY IF EXISTS "Invite codes are publicly readable" ON invite_codes;
 DROP POLICY IF EXISTS "Public can read invite codes" ON invite_codes;
+DROP POLICY IF EXISTS "Anyone can verify invite codes" ON invite_codes; -- the actual name from 008
 
 -- Only service role retains direct access
+DROP POLICY IF EXISTS "Service role can manage invite codes" ON invite_codes;
 CREATE POLICY "Service role can manage invite codes"
   ON invite_codes FOR ALL
   USING (auth.role() = 'service_role');

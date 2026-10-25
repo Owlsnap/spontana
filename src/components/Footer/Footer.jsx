@@ -8,7 +8,7 @@ import mascot from "../../assets/mascot.png";
 import "./Footer.css";
 
 const Footer = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState('idle'); // 'idle' | 'submitting' | 'success' | 'error'
 
@@ -17,10 +17,10 @@ const Footer = () => {
     if (!newsletterEmail.trim() || newsletterStatus === 'submitting') return;
     setNewsletterStatus('submitting');
     try {
+      // RPC upserts, so re-subscribing after an unsubscribe works
       const { error } = await supabase
-        .from('newsletter_subscribers')
-        .insert({ email: newsletterEmail.trim().toLowerCase() });
-      if (error && error.code !== '23505') throw error; // 23505 = unique violation (already subscribed)
+        .rpc('subscribe_newsletter', { p_email: newsletterEmail.trim(), p_language: language });
+      if (error) throw error;
       setNewsletterStatus('success');
       setNewsletterEmail('');
     } catch {

@@ -139,19 +139,25 @@ Deno.serve(async (req) => {
     // Map and deduplicate recurring events
     const mapped = deduplicateEvents(tmEvents.map(mapTicketmasterEvent));
 
-    // Delete all existing Ticketmaster rows first, then insert fresh deduplicated set
+    // Upsert keeps row identity stable, so saved_events (ON DELETE CASCADE) and
+    // created_at survive the nightly sync. Then remove rows that left the feed.
+    const { error } = await supabase
+      .from("events")
+      .upsert(
+        mapped.map((e) => ({ ...e, updated_at: new Date().toISOString() })),
+        { onConflict: "source,source_id", ignoreDuplicates: false }
+      );
+
+    if (error) throw new Error(`Supabase upsert error: ${error.message}`);
+
+    const currentIds = mapped.map((e) => `"${e.id}"`).join(",");
     const { error: deleteError } = await supabase
       .from("events")
       .delete()
-      .eq("source", "ticketmaster");
+      .eq("source", "ticketmaster")
+      .not("id", "in", `(${currentIds})`);
 
     if (deleteError) throw new Error(`Supabase delete error: ${deleteError.message}`);
-
-    const { error } = await supabase
-      .from("events")
-      .insert(mapped);
-
-    if (error) throw new Error(`Supabase insert error: ${error.message}`);
 
     const hcUrl = Deno.env.get("HEALTHCHECKS_FETCH_EVENTS_URL");
     if (hcUrl) await fetch(hcUrl).catch(() => {});

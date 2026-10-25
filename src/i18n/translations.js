@@ -291,6 +291,19 @@ export const translations = {
       deleteAccountConfirm: "Yes, delete my account",
       deleteAccountSuccess: "Account deleted.",
       deleteAccountError: "Something went wrong. Email hello@spontana.app if this keeps happening.",
+      digestOptIn: "Send me a weekly pick of what's on. Unsubscribe anytime.",
+    },
+
+    // Email preferences (linked from emails)
+    emailPrefs: {
+      title: "Email settings.",
+      subtitle: "For {{email}}",
+      reminders: "Reminders for saved events",
+      remindersHint: "The day before. Only events you saved.",
+      digest: "Weekly digest",
+      digestHint: "New and upcoming events in Stockholm. Thursdays.",
+      saved: "Saved.",
+      invalid: "This link doesn't work anymore. Use the one in your latest email.",
     },
   },
 
@@ -586,6 +599,19 @@ export const translations = {
       deleteAccountConfirm: "Ja, ta bort mitt konto",
       deleteAccountSuccess: "Kontot är borttaget.",
       deleteAccountError: "Något gick fel. Maila hello@spontana.app om det fortsätter.",
+      digestOptIn: "Skicka mig veckans tips på vad som händer. Avsluta när du vill.",
+    },
+
+    // Email preferences (linked from emails)
+    emailPrefs: {
+      title: "E-postinställningar.",
+      subtitle: "För {{email}}",
+      reminders: "Påminnelser om sparade events",
+      remindersHint: "Dagen innan. Bara events du har sparat.",
+      digest: "Veckobrev",
+      digestHint: "Nya och kommande events i Stockholm. Torsdagar.",
+      saved: "Sparat.",
+      invalid: "Den här länken fungerar inte längre. Använd den i ditt senaste mejl.",
     },
   },
 };

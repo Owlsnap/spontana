@@ -1,0 +1,70 @@
+.emailprefs-container {
+  max-width: 32rem;
+  min-height: 50vh;
+  margin: 0 auto;
+  padding: var(--space-lg);
+}
+
+.emailprefs-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 2rem 0 0.5rem;
+  color: var(--color-text-primary);
+}
+
+.emailprefs-text {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 2rem;
+  overflow-wrap: anywhere;
+}
+
+.emailprefs-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--color-border-white);
+  margin-bottom: 2rem;
+}
+
+.emailprefs-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border-white);
+  cursor: pointer;
+}
+
+.emailprefs-label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.emailprefs-hint {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
+}
+
+.emailprefs-row input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.emailprefs-link {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  transition: color 0.15s;
+}
+
+.emailprefs-link:hover {
+  color: var(--color-accent);
+}

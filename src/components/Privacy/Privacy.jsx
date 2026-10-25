@@ -22,8 +22,10 @@ export default function Privacy() {
           <h2>What we collect</h2>
           <ul>
             <li>
-              <strong>Email address</strong> — when you create an account. Used to log you in
-              and send account-related emails (confirmation, password reset). Nothing else.
+              <strong>Email address</strong> — when you create an account. Used to log you in,
+              send account emails (confirmation, password reset, a welcome note), confirm events
+              you submit, and remind you the day before events you've saved. Reminders can be
+              turned off from any reminder email. The weekly digest is only sent if you opt in.
             </li>
             <li>
               <strong>Events you create</strong> — stored so they appear on the platform.
@@ -35,7 +37,7 @@ export default function Privacy() {
             </li>
             <li>
               <strong>Newsletter email</strong> — if you subscribe via the footer form.
-              Used only to send the newsletter. Unsubscribe any time by emailing us.
+              Used only to send the newsletter. Unsubscribe any time with the link in every email.
             </li>
             <li>
               <strong>Session cookies</strong> — Supabase (our backend) sets a session cookie
@@ -66,6 +68,13 @@ export default function Privacy() {
             <li>
               <strong>Vercel</strong> — frontend hosting. Processes request logs briefly
               for CDN purposes. <a href="https://vercel.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Vercel privacy policy</a>.
+            </li>
+            <li>
+              <strong>n8n</strong> — runs our email automations. Receives your email address
+              and the event details an email is about. <a href="https://n8n.io/legal/privacy/" target="_blank" rel="noopener noreferrer">n8n privacy policy</a>.
+            </li>
+            <li>
+              <strong>Resend</strong> — delivers our emails. <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Resend privacy policy</a>.
             </li>
           </ul>
           <p>No other parties have access to your data.</p>

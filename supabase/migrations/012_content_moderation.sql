@@ -15,6 +15,7 @@ BEGIN
 END;
 $$;
 
+DROP TRIGGER IF EXISTS enforce_user_event_pending ON events;
 CREATE TRIGGER enforce_user_event_pending
   BEFORE INSERT ON events
   FOR EACH ROW
