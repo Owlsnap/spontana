@@ -26,8 +26,9 @@ export default function EmailPreferences() {
     })();
   }, [token]);
 
-  async function toggle(key) {
-    const next = { ...prefs, [key]: !prefs[key] };
+  async function toggle(key, successMessage = t('emailPrefs.saved')) {
+    // Turning the digest on also confirms an unconfirmed newsletter address
+    const next = { ...prefs, [key]: !prefs[key], confirmed: prefs.confirmed || (key === 'digest' && !prefs.digest) };
     setPrefs(next);
     const { error } = await supabase.rpc('set_email_preferences', {
       p_token: token,
@@ -38,7 +39,7 @@ export default function EmailPreferences() {
       setPrefs(prefs);
       toast.error(t('common.error'));
     } else {
-      toast.success(t('emailPrefs.saved'));
+      toast.success(successMessage);
     }
   }
 
@@ -50,6 +51,19 @@ export default function EmailPreferences() {
         <h1 className="emailprefs-title">{t('emailPrefs.title')}</h1>
         <p className="emailprefs-text">{t('emailPrefs.invalid')}</p>
         <Link to="/" className="emailprefs-link">← Spontana</Link>
+      </div>
+    );
+  }
+
+  // Double opt-in: confirmation is an explicit click, never the page load
+  if (!prefs.confirmed) {
+    return (
+      <div className="emailprefs-container">
+        <h1 className="emailprefs-title">{t('emailPrefs.confirmTitle')}</h1>
+        <p className="emailprefs-text">{t('emailPrefs.confirmText', { email: prefs.email })}</p>
+        <button type="button" className="emailprefs-confirm" onClick={() => toggle('digest', t('emailPrefs.confirmed'))}>
+          {t('emailPrefs.confirmButton')}
+        </button>
       </div>
     );
   }

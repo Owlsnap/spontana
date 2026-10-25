@@ -204,7 +204,7 @@ export const translations = {
       newsletterText: "Don't miss what's happening.",
       emailPlaceholder: "Your email",
       tagline: "Stockholm in your pocket.",
-      subscribeSuccess: "You're on the list.",
+      subscribeSuccess: "Almost. Check your inbox and confirm.",
       subscribeError: "Something went wrong. Try again.",
     },
 
@@ -304,6 +304,10 @@ export const translations = {
       digestHint: "New and upcoming events in Stockholm. Thursdays.",
       saved: "Saved.",
       invalid: "This link doesn't work anymore. Use the one in your latest email.",
+      confirmTitle: "One click left.",
+      confirmText: "Confirm the weekly digest for {{email}}. Thursdays, nothing else.",
+      confirmButton: "Confirm",
+      confirmed: "Confirmed. See you Thursday.",
     },
   },
 
@@ -512,7 +516,7 @@ export const translations = {
       newsletterText: "Missa inte vad som händer.",
       emailPlaceholder: "Din email",
       tagline: "Stockholm i fickan.",
-      subscribeSuccess: "Du är med på listan.",
+      subscribeSuccess: "Nästan. Kolla inkorgen och bekräfta.",
       subscribeError: "Något gick fel. Försök igen.",
     },
 
@@ -612,6 +616,10 @@ export const translations = {
       digestHint: "Nya och kommande events i Stockholm. Torsdagar.",
       saved: "Sparat.",
       invalid: "Den här länken fungerar inte längre. Använd den i ditt senaste mejl.",
+      confirmTitle: "Ett klick kvar.",
+      confirmText: "Bekräfta veckobrevet för {{email}}. Torsdagar, inget annat.",
+      confirmButton: "Bekräfta",
+      confirmed: "Bekräftat. Vi ses på torsdag.",
     },
   },
 };

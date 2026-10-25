@@ -4,7 +4,7 @@ Three workflows, sending through Resend:
 
 | Workflow | Trigger | Sends |
 |---|---|---|
-| `transactional-emails.json` | Webhook, called by Postgres triggers (`018_email_automations.sql`) | Welcome (on email confirmation), event received, event approved |
+| `transactional-emails.json` | Webhook, called by Postgres triggers (`018_email_automations.sql`) | Welcome (on email confirmation), event received, event approved, newsletter confirmation (double opt-in, `019`) |
 | `saved-event-reminders.json` | Daily 09:00 Stockholm | One email per user listing their saved events happening tomorrow |
 | `weekly-digest.json` | Thursdays 16:00 Stockholm | New + upcoming events, to opted-in users and newsletter subscribers |
 
