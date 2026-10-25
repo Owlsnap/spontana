@@ -6,12 +6,12 @@ import { useLanguage } from '../../i18n/LanguageContext';
 import './EmailPreferences.css';
 
 // Linked from every email as /email-preferences?token=...
-// ?unsubscribe=digest turns the digest off on arrival (one click from the email footer).
+// Changes only happen on an explicit toggle: email link scanners open URLs (some run JS),
+// so nothing may be changed just by loading the page.
 export default function EmailPreferences() {
   const { t } = useLanguage();
   const [params] = useSearchParams();
   const token = params.get('token');
-  const unsubscribe = params.get('unsubscribe');
 
   const [prefs, setPrefs] = useState(null);
   const [status, setStatus] = useState('loading'); // 'loading' | 'ready' | 'invalid'
@@ -21,19 +21,10 @@ export default function EmailPreferences() {
     (async () => {
       const { data, error } = await supabase.rpc('get_email_preferences', { p_token: token });
       if (error || !data) { setStatus('invalid'); return; }
-
-      if (unsubscribe === 'digest' && data.digest) {
-        await supabase.rpc('set_email_preferences', { p_token: token, p_reminders: null, p_digest: false });
-        data.digest = false;
-      }
-      if (unsubscribe === 'reminders' && data.reminders) {
-        await supabase.rpc('set_email_preferences', { p_token: token, p_reminders: false, p_digest: null });
-        data.reminders = false;
-      }
       setPrefs(data);
       setStatus('ready');
     })();
-  }, [token, unsubscribe]);
+  }, [token]);
 
   async function toggle(key) {
     const next = { ...prefs, [key]: !prefs[key] };
