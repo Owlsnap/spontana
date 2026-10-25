@@ -8,6 +8,7 @@ import MyEvents from "./components/MyEvents/MyEvents";
 import SavedEvents from "./components/SavedEvents/SavedEvents";
 import Admin from "./components/Admin/Admin";
 import Privacy from "./components/Privacy/Privacy";
+import EmailPreferences from "./components/EmailPreferences/EmailPreferences";
 import NotFound from "./components/NotFound/NotFound";
 import AuthModal from "./components/Auth/AuthModal";
 import CookieBanner from "./components/CookieBanner/CookieBanner";
@@ -164,6 +165,7 @@ function AppContent() {
             }
           />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/email-preferences" element={<EmailPreferences />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>

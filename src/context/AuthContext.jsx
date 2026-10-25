@@ -58,12 +58,16 @@ export function AuthProvider({ children }) {
     return data;
   }
 
-  async function signUp(email, password) {
+  // language + email_digest land in user metadata; create_profile_for_new_user copies them to profiles
+  async function signUp(email, password, { language = 'sv', emailDigest = false } = {}) {
     if (!supabase) throw new Error('Supabase not configured');
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: { emailRedirectTo: window.location.origin },
+      options: {
+        emailRedirectTo: window.location.origin,
+        data: { language, email_digest: emailDigest },
+      },
     });
     if (error) throw error;
     return data;

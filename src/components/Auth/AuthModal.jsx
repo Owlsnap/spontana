@@ -9,12 +9,13 @@ import './AuthModal.css';
 
 export default function AuthModal() {
   const { isAuthModalOpen, authModalMode, closeAuthModal, openAuthModal, signIn, signUp, signInWithGoogle, resetPasswordForEmail, updatePassword, resendConfirmationEmail } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [mode, setMode] = useState(authModalMode);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [emailDigest, setEmailDigest] = useState(false);
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
@@ -105,7 +106,7 @@ export default function AuthModal() {
         toast.success(t('auth.loginSuccess'));
         closeAuthModal();
       } else if (mode === 'signup') {
-        await signUp(email, password);
+        await signUp(email, password, { language, emailDigest });
         setConfirmedEmail(email);
         setSignupStep('confirm');
         setEmail('');
@@ -260,6 +261,17 @@ export default function AuthModal() {
                   autoComplete="new-password"
                 />
               </div>
+            )}
+
+            {mode === 'signup' && (
+              <label className="auth-checkbox">
+                <input
+                  type="checkbox"
+                  checked={emailDigest}
+                  onChange={(e) => setEmailDigest(e.target.checked)}
+                />
+                <span>{t('auth.digestOptIn')}</span>
+              </label>
             )}
 
             {error && <p className="auth-error">{error}</p>}

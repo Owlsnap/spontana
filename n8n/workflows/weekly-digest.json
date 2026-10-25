@@ -1,0 +1,224 @@
+{
+  "name": "Spontana · Weekly digest",
+  "nodes": [
+    {
+      "id": "node-9",
+      "name": "Thursdays 16:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 16 * * 4"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-10",
+      "name": "Get digest events",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        240,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://wqubexjnvhyunajfmvwp.supabase.co/rest/v1/rpc/get_digest_events",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{ \"p_limit\": 6 }",
+        "options": {}
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "",
+          "name": "Spontana Supabase (service role)"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000
+    },
+    {
+      "id": "node-11",
+      "name": "Get recipients",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://wqubexjnvhyunajfmvwp.supabase.co/rest/v1/rpc/get_digest_recipients",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ p_ref: $now.setZone('Europe/Stockholm').toFormat(\"kkkk-'W'WW\") }) }}",
+        "options": {}
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "",
+          "name": "Spontana Supabase (service role)"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000
+    },
+    {
+      "id": "node-12",
+      "name": "Build digest emails",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        720,
+        0
+      ],
+      "parameters": {
+        "jsCode": "\n// ── Config ──\nconst SITE = 'https://spontana.app';\nconst FROM = 'Spontana <hello@spontana.app>'; // must be on a domain verified in Resend\n\n// ── Helpers ──\nconst esc = (s) => String(s ?? '').replace(/[&<>\"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '\"': '&quot;', \"'\": '&#39;' }[c]));\nconst prefsUrl = (token, unsubscribe) =>\n  SITE + '/email-preferences?token=' + encodeURIComponent(token || '') + (unsubscribe ? '&unsubscribe=' + unsubscribe : '');\nconst eventUrl = (id) => SITE + '/event/' + encodeURIComponent(id);\nconst fmtDate = (d, lang) => d\n  ? new Date(d + 'T12:00:00Z').toLocaleDateString(lang === 'en' ? 'en-GB' : 'sv-SE', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Stockholm' })\n  : '';\nconst when = (e, lang) => [fmtDate(e.date, lang), e.start_time].filter(Boolean).join(' · ');\n\nconst button = (href, label) =>\n  '<a href=\"' + esc(href) + '\" style=\"display:inline-block;background:#FDD53F;color:#0a0a0a;font-weight:700;text-decoration:none;padding:12px 22px;border-radius:6px;font-size:14px;letter-spacing:.04em;text-transform:uppercase\">' + esc(label) + '</a>';\n\nconst eventCard = (e, lang) =>\n  '<a href=\"' + esc(eventUrl(e.id)) + '\" style=\"display:block;text-decoration:none;color:#F5F5F0;background:#141414;border:1px solid #2a2a2a;border-radius:8px;overflow:hidden;margin:0 0 14px\">' +\n    (e.img ? '<img src=\"' + esc(e.img) + '\" alt=\"\" width=\"520\" style=\"display:block;width:100%;max-width:520px;height:auto;border:0\">' : '') +\n    '<div style=\"padding:14px 16px\">' +\n      '<div style=\"font-size:17px;font-weight:700;line-height:1.3;margin:0 0 4px\">' + esc(e.name) + '</div>' +\n      '<div style=\"font-size:13px;color:#888880\">' + esc([when(e, lang), e.venue].filter(Boolean).join(' · ')) + '</div>' +\n    '</div>' +\n  '</a>';\n\nconst layout = ({ heading, body, footer }) =>\n  '<!doctype html><html><body style=\"margin:0;padding:0;background:#0a0a0a\">' +\n  '<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"background:#0a0a0a\"><tr><td align=\"center\" style=\"padding:32px 16px\">' +\n  '<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"max-width:520px;font-family:Inter,Helvetica,Arial,sans-serif;color:#F5F5F0\">' +\n    '<tr><td style=\"padding:0 0 28px;font-size:20px;font-weight:800;letter-spacing:.02em;color:#FDD53F\">SPONTANA</td></tr>' +\n    '<tr><td style=\"font-size:26px;font-weight:700;line-height:1.2;padding:0 0 14px\">' + heading + '</td></tr>' +\n    '<tr><td style=\"font-size:15px;line-height:1.6;color:#d0d0c8\">' + body + '</td></tr>' +\n    '<tr><td style=\"padding:32px 0 0;font-size:12px;line-height:1.5;color:#555550;border-top:1px solid #1e1e1e\">' + footer + '</td></tr>' +\n  '</table></td></tr></table></body></html>';\n\nconst link = (href, label) => '<a href=\"' + esc(href) + '\" style=\"color:#888880\">' + esc(label) + '</a>';\n\nconst COPY = {\n  sv: {\n    subject: 'Veckan i Stockholm',\n    heading: 'Veckan i Stockholm.',\n    intro: 'Det här är vad som händer. Resten är upp till dig.',\n    fresh: 'Nytt på Spontana',\n    upcoming: 'Händer i veckan',\n    all: 'Se allt',\n    footer: 'Du får det här för att du bad om det.',\n    off: 'Avsluta veckobrevet',\n  },\n  en: {\n    subject: 'This week in Stockholm',\n    heading: 'This week in Stockholm.',\n    intro: \"Here's what's on. The rest is up to you.\",\n    fresh: 'New on Spontana',\n    upcoming: 'Happening this week',\n    all: 'See everything',\n    footer: \"You're getting this because you asked for it.\",\n    off: 'Unsubscribe',\n  },\n};\n\nconst content = $('Get digest events').first().json;\nconst fresh = content.new || [];\nconst upcoming = content.upcoming || [];\nif (!fresh.length && !upcoming.length) return [];\n\nconst section = (title, evs, lang) => evs.length\n  ? '<div style=\"font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#FDD53F;padding:22px 0 12px\">' + esc(title) + '</div>' +\n    evs.map((e) => eventCard(e, lang)).join('')\n  : '';\n\nreturn $input.all().filter(({ json }) => json.email).map(({ json }) => {\n  const lang = json.language === 'en' ? 'en' : 'sv';\n  const c = COPY[lang];\n  const unsub = prefsUrl(json.email_token, 'digest');\n  const html = layout({\n    heading: esc(c.heading),\n    body: '<p>' + esc(c.intro) + '</p>' +\n      section(c.fresh, fresh, lang) +\n      section(c.upcoming, upcoming, lang) +\n      '<p style=\"padding:12px 0 0\">' + button(SITE, c.all) + '</p>',\n    footer: esc(c.footer) + ' ' + link(unsub, c.off),\n  });\n  return {\n    json: {\n      from: FROM,\n      to: json.email,\n      subject: c.subject,\n      html,\n      headers: { 'List-Unsubscribe': '<' + unsub + '>' },\n    },\n  };\n});\n"
+      }
+    },
+    {
+      "id": "node-13",
+      "name": "Send via Resend",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ from: $json.from, to: [$json.to], subject: $json.subject, html: $json.html, headers: $json.headers || {} }) }}",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1,
+              "batchInterval": 600
+            }
+          }
+        }
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "",
+          "name": "Resend API"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "node-14",
+      "name": "Log sent",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://wqubexjnvhyunajfmvwp.supabase.co/rest/v1/rpc/log_emails_sent",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ p_kind: 'digest', p_recipient: $('Build digest emails').item.json.to, p_refs: [$now.setZone('Europe/Stockholm').toFormat(\"kkkk-'W'WW\")] }) }}",
+        "options": {}
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "",
+          "name": "Spontana Supabase (service role)"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000
+    }
+  ],
+  "connections": {
+    "Thursdays 16:00": {
+      "main": [
+        [
+          {
+            "node": "Get digest events",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get digest events": {
+      "main": [
+        [
+          {
+            "node": "Get recipients",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get recipients": {
+      "main": [
+        [
+          {
+            "node": "Build digest emails",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build digest emails": {
+      "main": [
+        [
+          {
+            "node": "Send via Resend",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send via Resend": {
+      "main": [
+        [
+          {
+            "node": "Log sent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Stockholm",
+    "saveDataErrorExecution": "all"
+  },
+  "pinData": {}
+}
