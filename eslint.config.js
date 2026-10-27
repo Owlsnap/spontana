@@ -36,7 +36,7 @@ export default [
   },
   {
     // Vercel serverless functions run on Node
-    files: ['api/**/*.js'],
+    files: ['api/**/*.js', 'vitest.config.js'],
     languageOptions: { globals: globals.node },
   },
 ]
