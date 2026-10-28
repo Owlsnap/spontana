@@ -28,10 +28,15 @@ BEGIN
     RETURN NEW;
   END IF;
 
+  -- delete_own_account() (014) deletes the auth.users row, and the FK's
+  -- ON DELETE SET NULL (005) runs as an UPDATE with the user's JWT still set.
+  -- Clearing created_by is allowed only once that user is actually gone.
   IF NEW.status IS DISTINCT FROM OLD.status
      OR NEW.source IS DISTINCT FROM OLD.source
      OR NEW.source_id IS DISTINCT FROM OLD.source_id
-     OR NEW.created_by IS DISTINCT FROM OLD.created_by
+     OR (NEW.created_by IS DISTINCT FROM OLD.created_by
+         AND NOT (NEW.created_by IS NULL
+                  AND NOT EXISTS (SELECT 1 FROM auth.users WHERE id = OLD.created_by)))
      OR NEW.view_count IS DISTINCT FROM OLD.view_count
      OR NEW.id IS DISTINCT FROM OLD.id
      OR NEW.created_at IS DISTINCT FROM OLD.created_at THEN

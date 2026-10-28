@@ -81,5 +81,20 @@ INSERT INTO results SELECT 'service role keeps source/status, can count views',
   format('%s/%s/%s', source, status, view_count)
 FROM events WHERE id = 'vs_test';
 
+-- ── Owner deletes their account (014) ─────────────────────────
+-- The FK's ON DELETE SET NULL is an UPDATE under the user's JWT; the guard must let it through.
+SET LOCAL ROLE authenticated;
+SELECT set_config('request.jwt.claims', '{"sub":"11111111-1111-1111-1111-111111111111","role":"authenticated"}', true);
+DO $$ BEGIN
+  PERFORM delete_own_account();
+  INSERT INTO results VALUES ('owner can delete account with events', true, 'deleted');
+EXCEPTION WHEN raise_exception THEN
+  INSERT INTO results VALUES ('owner can delete account with events', false, SQLERRM);
+END $$;
+RESET ROLE;
+INSERT INTO results SELECT 'events survive account delete, unowned',
+  count(*) = 2 AND bool_and(created_by IS NULL), count(*)::text || ' rows'
+FROM events WHERE id IN ('t_own', 't_fake');
+
 SELECT CASE WHEN passed THEN 'PASS' ELSE 'FAIL' END AS result, check_name, detail FROM results;
 ROLLBACK;

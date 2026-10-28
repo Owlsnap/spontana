@@ -15,7 +15,7 @@ Current state after migration 021. Update this file in the same PR as any migrat
 
 | Table | Purpose | Key columns | RLS summary |
 |---|---|---|---|
-| `events` | All events, every source | `id TEXT PK`, `source` (`ticketmaster`/`visitstockholm`/`user`), `source_id`, `UNIQUE(source, source_id)`, `created_by → auth.users`, `status` (`active`/`pending`/`rejected`), `date`, `end_date`, `view_count`, `host_type` | anon+auth SELECT; auth INSERT own (max 10/24h, 011); owner UPDATE/DELETE; admin UPDATE/DELETE any (013) |
+| `events` | All events, every source | `id TEXT PK`, `source` (`ticketmaster`/`visitstockholm`/`user`), `source_id`, `UNIQUE(source, source_id)`, `created_by → auth.users`, `status` (`active`/`pending`/`rejected`), `date`, `end_date`, `view_count`, `host_type` | anon+auth SELECT; auth INSERT own (max 10/24h, 011); owner UPDATE/DELETE; admin UPDATE/DELETE any (020) |
 | `profiles` | One per auth user | `id → auth.users`, `role` (`user`/`organizer`/`admin`), `language` (`sv`/`en`), `email_reminders` (default true), `email_digest` (default false), `email_token UUID` | own SELECT/UPDATE; admin SELECT all; role change blocked for non-admins (017) |
 | `saved_events` | User bookmarks | `user_id`, `event_id → events ON DELETE CASCADE`, `UNIQUE(user_id, event_id)` | own SELECT/INSERT/DELETE |
 | `event_views` | Raw view log | `event_id`, `user_id`, `viewed_at` | written only by the `track-view` edge function |
@@ -28,7 +28,7 @@ Cascade warning: deleting an `events` row deletes its `saved_events`. Ingestion 
 ## Triggers
 
 - `enforce_user_event_pending` (012): BEFORE INSERT on events. `source = 'user'` sets `status = 'pending'`.
-- `enforce_event_column_guard` (021): BEFORE INSERT OR UPDATE on events, skipped for admins and the service role. On insert it forces `source = 'user'`, `status = 'pending'`, `created_by = auth.uid()`, `view_count = 0`. On update it rejects changes to `status`, `source`, `source_id`, `created_by`, `view_count`, `id`, `created_at`.
+- `enforce_event_column_guard` (021): BEFORE INSERT OR UPDATE on events, skipped for admins and the service role. On insert it forces `source = 'user'`, `status = 'pending'`, `created_by = auth.uid()`, `view_count = 0`. On update it rejects changes to `status`, `source`, `source_id`, `created_by`, `view_count`, `id`, `created_at`, except `created_by` going to NULL once that user is deleted (the FK cascade from `delete_own_account()`).
 - `on_auth_user_created` (013, replaced in 018): creates the profile row.
 - `enforce_profile_role_lock` (017): BEFORE UPDATE OF role on profiles.
 - `on_auth_user_email_confirmed`, `notify_user_event_insert`, `notify_user_event_status` (018): push to n8n through `notify_n8n()` → `pg_net`. They do nothing until the Vault secret `n8n_webhook_url` exists.
