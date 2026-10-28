@@ -19,4 +19,4 @@ Read the full diff, then the full files it touches when the diff alone isn't eno
 
 Report findings most severe first, each with `file:line`, what goes wrong, and a concrete fix. Split them into **must fix** and **worth considering**. Leave out style nits that ESLint would catch. If nothing is found, say so, and list what you checked.
 
-For a PR number with `--comment` in the arguments, post the findings with `gh pr review <n> --comment --body-file <file>`.
+For a PR number with `--comment` in the arguments, post the findings with `gh pr comment <n> --edit-last --create-if-none --body-file -` and the body in a `<<'EOF'` heredoc. CI only allows `gh pr comment` and no file writes, and `--edit-last` updates the previous review instead of stacking a new one.
