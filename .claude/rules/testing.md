@@ -14,4 +14,4 @@ paths:
 - A bug fix comes with a test that fails without the fix.
 - Name tests by behavior: `it('keeps a missing spot count null instead of 0')`.
 - No network in unit tests. Ingestion parsers get a saved HTML/JSON fixture.
-- Database behavior (RLS, triggers) isn't unit-tested yet. Verify it with SQL against the local Supabase stack (`supabase-migrations` skill) and paste the queries into the PR description.
+- Database behavior (RLS, triggers): SQL scripts in `supabase/tests/`, run against the local stack after `supabase db reset`. Each script runs in one transaction, ends with `ROLLBACK`, and prints a PASS/FAIL row per check. Test as anon, as another user, as the owner, as an admin, and as the service role. See `event_moderation.sql`.

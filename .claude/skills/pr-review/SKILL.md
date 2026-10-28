@@ -10,7 +10,7 @@ Target: $ARGUMENTS if it's a PR number (`gh pr diff <n>`), otherwise `git diff m
 
 Read the full diff, then the full files it touches when the diff alone isn't enough context. Check, in this order:
 
-1. **Security** (`.claude/rules/security.md`): new tables without RLS; UPDATE policies that leave privileged columns writable; `SECURITY DEFINER` without `search_path` or input checks; service-role keys or secrets in client code or migrations; publicly callable functions that spend quota; unescaped user content in `api/` HTML.
+1. **Security** (`.claude/rules/security.md`): new tables without RLS; UPDATE policies that leave privileged columns writable (new `events` columns missing from `guard_event_columns`); policies querying `profiles` directly instead of `is_admin()`; `SECURITY DEFINER` without `search_path` or input checks; service-role keys or secrets in client code or migrations; publicly callable functions that spend quota; unescaped user content in `api/` HTML.
 2. **Data safety:** deletes on `events` (cascades into `saved_events`); migrations editing already-pushed files; ingestion treating an empty fetch as success; column changes not reflected in `mapEvent.js`.
 3. **Correctness:** dates parsed as UTC; `supabase` used without a null guard; optimistic updates without rollback; missing loading/empty/error states.
 4. **Copy:** hard-coded strings; keys missing in `en` or `sv`; tone off-brand (`copy.md`).

@@ -9,7 +9,7 @@ paths:
 
 # Schema map
 
-Current state after migration 019. Update this file in the same PR as any migration that changes it.
+Current state after migration 021. Update this file in the same PR as any migration that changes it.
 
 ## Tables
 
@@ -27,7 +27,8 @@ Cascade warning: deleting an `events` row deletes its `saved_events`. Ingestion 
 
 ## Triggers
 
-- `enforce_user_event_pending` (012): BEFORE INSERT on events. `source = 'user'` sets `status = 'pending'`. INSERT only, so an UPDATE can still change status (see `security.md`).
+- `enforce_user_event_pending` (012): BEFORE INSERT on events. `source = 'user'` sets `status = 'pending'`.
+- `enforce_event_column_guard` (021): BEFORE INSERT OR UPDATE on events, skipped for admins and the service role. On insert it forces `source = 'user'`, `status = 'pending'`, `created_by = auth.uid()`, `view_count = 0`. On update it rejects changes to `status`, `source`, `source_id`, `created_by`, `view_count`, `id`, `created_at`.
 - `on_auth_user_created` (013, replaced in 018): creates the profile row.
 - `enforce_profile_role_lock` (017): BEFORE UPDATE OF role on profiles.
 - `on_auth_user_email_confirmed`, `notify_user_event_insert`, `notify_user_event_status` (018): push to n8n through `notify_n8n()` → `pg_net`. They do nothing until the Vault secret `n8n_webhook_url` exists.
@@ -36,6 +37,7 @@ Cascade warning: deleting an `events` row deletes its `saved_events`. Ingestion 
 
 | Function | Caller | Purpose |
 |---|---|---|
+| `is_admin()` | authenticated, policies | role check without profiles RLS recursion (020) |
 | `verify_invite_code(code)` | anon | check a code without exposing the table |
 | `delete_own_account()` | authenticated | GDPR self-delete |
 | `increment_view_count(event_id)`, `get_trending_events(...)` | edge fn / anon | views, trending row |
