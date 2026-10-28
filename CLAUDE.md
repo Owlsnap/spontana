@@ -60,7 +60,6 @@ Supabase CLI on this machine: `C:\Users\ASUS\AppData\Local\supabase\supabase.exe
 
 ## Known debt
 
-- **Open security bug:** the owner UPDATE policy (005) doesn't limit columns, so a user can set their own event to `status = 'active'` and skip moderation. Needs a BEFORE UPDATE guard like 017's.
 - `npm run lint` fails on existing code (mostly `react/prop-types`, unused vars). CI reports it without blocking. Don't add new lint errors in files you touch.
 - `002_cron_jobs.sql` calls edge functions with the anon key, so anyone can trigger a sync. Planned fix: shared-secret header.
 - Each ingestion function has its own upsert/cleanup logic. A shared `_shared/ingest.ts` is planned before more sources are added.
