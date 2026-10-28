@@ -34,6 +34,10 @@ jobs:
             Read CLAUDE.md and the .claude/rules/ files that apply to the changed paths.
             Changes under supabase/migrations/ get the most scrutiny: walk through what an
             attacker holding only the anon key, or a logged-in non-admin, can do after the migration.
-            Post the result as one PR comment. Don't approve or request changes.
+            Post the result as one PR comment, passing the body on stdin so no file is needed:
+              gh pr comment ${{ github.event.pull_request.number }} --edit-last --create-if-none --body-file - <<'EOF'
+              ...
+              EOF
+            --edit-last keeps one review comment per PR across pushes. Don't approve or request changes.
           claude_args: |
             --allowedTools "Read,Grep,Glob,Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr comment:*),Bash(git diff:*),Bash(git log:*)"
